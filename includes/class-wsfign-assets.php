@@ -119,14 +119,17 @@ class WSFIGN_Assets {
 				),
 			),
 			'i18n'   => array(
-				'mapLabel'      => __( 'Map', 'wsform-ign' ),
-				'placeAtCenter' => __( 'Place the marker at the center of the map', 'wsform-ign' ),
-				'locateMe'      => __( 'Center on my location', 'wsform-ign' ),
-				'locateError'   => __( 'Your location could not be determined.', 'wsform-ign' ),
-				'tilesError'    => __( 'The map background is unavailable right now. You can still send this form.', 'wsform-ign' ),
+				'mapLabel'          => __( 'Map', 'wsform-ign' ),
+				'hintMouse'         => __( 'Click the map to place the point.', 'wsform-ign' ),
+				'hintTouch'         => __( 'Tap the map to place the point. Use two fingers to move the map.', 'wsform-ign' ),
+				'placeAtCenter'     => __( 'Place the point at the center', 'wsform-ign' ),
+				'locateMe'          => __( 'Center on my location', 'wsform-ign' ),
+				'locateError'       => __( 'Your location could not be determined.', 'wsform-ign' ),
+				'tilesError'        => __( 'The map background is unavailable right now. You can still send this form.', 'wsform-ign' ),
+				'markerPlaced'      => __( 'Point placed.', 'wsform-ign' ),
 				/* translators: 1: latitude, 2: longitude. */
-				'markerPlaced'  => __( 'Marker placed at latitude %1$s, longitude %2$s.', 'wsform-ign' ),
-				'markerCleared' => __( 'Marker removed.', 'wsform-ign' ),
+				'markerCoordinates' => __( 'Latitude %1$s, longitude %2$s.', 'wsform-ign' ),
+				'markerCleared'     => __( 'Point removed.', 'wsform-ign' ),
 			),
 		);
 	}

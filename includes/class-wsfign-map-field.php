@@ -95,7 +95,7 @@ class WSFIGN_Map_Field {
 			'mask_field_attributes'       => array( 'class', 'required', 'aria_describedby', 'aria_labelledby', 'aria_label', 'custom_attributes', 'hidden_bypass' ),
 			'mask_field_label'            => '<label id="#label_id" for="#id"#attributes>#label</label>',
 			'mask_field_label_attributes' => array( 'class' ),
-			'mask_help_append'            => '#help_append_separator<a href="#" data-action="wsfign-map-clear">#text_reset</a>',
+			'mask_help_append'            => '<span class="wsfign-map-clear">#help_append_separator<a href="#" data-action="wsfign-map-clear">#text_clear</a></span>',
 			'mask_help_append_separator'  => '<br />',
 			'fieldsets'                   => self::get_fieldsets(),
 		);
@@ -151,7 +151,7 @@ class WSFIGN_Map_Field {
 					),
 					array(
 						'label'     => __( 'Labels', 'wsform-ign' ),
-						'meta_keys' => array( 'text_reset' ),
+						'meta_keys' => array( 'text_clear' ),
 					),
 					array(
 						'label'     => __( 'Restrictions', 'wsform-ign' ),
