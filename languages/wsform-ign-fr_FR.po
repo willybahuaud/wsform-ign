@@ -192,57 +192,57 @@ msgstr "Chercher l'adresse au clic sur la carte"
 msgid "When the visitor places the marker, this field and its mapped fields receive the nearest address."
 msgstr "Quand le visiteur pose le marqueur, ce champ et ses champs liés reçoivent l'adresse la plus proche."
 
-#: includes/class-wsfign-assets.php:89
+#: includes/class-wsfign-assets.php:92
 msgid "Address suggestions"
 msgstr "Suggestions d'adresse"
 
-#: includes/class-wsfign-assets.php:90
+#: includes/class-wsfign-assets.php:93
 msgid "1 suggestion available. Use the arrow keys to browse."
 msgstr "1 suggestion disponible. Utilisez les flèches pour la parcourir."
 
 #. translators: %d: number of suggestions.
-#: includes/class-wsfign-assets.php:92
+#: includes/class-wsfign-assets.php:95
 #, php-format
 msgid "%d suggestions available. Use the arrow keys to browse."
 msgstr "%d suggestions disponibles. Utilisez les flèches pour les parcourir."
 
-#: includes/class-wsfign-assets.php:93
+#: includes/class-wsfign-assets.php:96
 msgid "No suggestion. You can keep typing your address."
 msgstr "Aucune suggestion. Vous pouvez continuer à saisir votre adresse."
 
-#: includes/class-wsfign-assets.php:94
+#: includes/class-wsfign-assets.php:97
 msgid "Address suggestions are unavailable right now. You can type your address by hand."
 msgstr "Les suggestions d'adresse sont indisponibles pour le moment. Vous pouvez saisir votre adresse à la main."
 
-#: includes/class-wsfign-assets.php:95
+#: includes/class-wsfign-assets.php:98
 msgid "No address found at this location."
 msgstr "Aucune adresse trouvée à cet endroit."
 
-#: includes/class-wsfign-assets.php:109
+#: includes/class-wsfign-assets.php:112
 #: includes/class-wsfign-map-field.php:231
 msgid "IGN map"
 msgstr "Plan IGN"
 
-#: includes/class-wsfign-assets.php:115
+#: includes/class-wsfign-assets.php:118
 #: includes/class-wsfign-map-field.php:235
 msgid "Aerial photos"
 msgstr "Photos aériennes"
 
-#: includes/class-wsfign-assets.php:122
+#: includes/class-wsfign-assets.php:127
 #: includes/class-wsfign-map-field.php:70
 #: includes/class-wsfign-map-field.php:116
 msgid "Map"
 msgstr "Carte"
 
-#: includes/class-wsfign-assets.php:126
+#: includes/class-wsfign-assets.php:129
 msgid "Center on my location"
 msgstr "Centrer sur ma position"
 
-#: includes/class-wsfign-assets.php:127
+#: includes/class-wsfign-map-field.php:288
 msgid "Your location could not be determined."
 msgstr "Votre position n'a pas pu être déterminée."
 
-#: includes/class-wsfign-assets.php:128
+#: includes/class-wsfign-map-field.php:287
 msgid "The map background is unavailable right now. You can still send this form."
 msgstr "Le fond de carte est indisponible pour le moment. Vous pouvez quand même envoyer ce formulaire."
 
@@ -314,19 +314,19 @@ msgstr "Sélecteur de fond de carte"
 msgid "Zoom buttons"
 msgstr "Boutons de zoom"
 
-#: includes/class-wsfign-map-field.php:283
+#: includes/class-wsfign-map-field.php:336
 msgid "Title"
 msgstr "Titre"
 
-#: includes/class-wsfign-map-field.php:287
+#: includes/class-wsfign-map-field.php:340
 msgid "Text shown when hovering the marker."
 msgstr "Texte affiché au survol du marqueur."
 
-#: includes/class-wsfign-map-field.php:290
+#: includes/class-wsfign-map-field.php:343
 msgid "Icon URL"
 msgstr "URL de l'icône"
 
-#: includes/class-wsfign-map-field.php:294
+#: includes/class-wsfign-map-field.php:347
 msgid "URL of an image to replace the default marker."
 msgstr "URL d'une image qui remplace le marqueur par défaut."
 
@@ -338,33 +338,33 @@ msgstr "Cet emplacement n'est pas valide."
 msgid "The plugin folder could not be renamed during the update."
 msgstr "Le dossier du plugin n'a pas pu être renommé pendant la mise à jour."
 
-#: includes/class-wsfign-assets.php:123
+#: includes/class-wsfign-map-field.php:282
 msgid "Click the map to place the point."
 msgstr "Cliquez sur la carte pour placer le point."
 
-#: includes/class-wsfign-assets.php:124
+#: includes/class-wsfign-assets.php:128
 msgid "Tap the map to place the point. Use two fingers to move the map."
 msgstr "Touchez la carte pour placer le point. Utilisez deux doigts pour la déplacer."
 
-#: includes/class-wsfign-assets.php:125
+#: includes/class-wsfign-map-field.php:283
 msgid "Place the point at the center"
 msgstr "Placer le point au centre"
 
-#: includes/class-wsfign-assets.php:129
+#: includes/class-wsfign-map-field.php:284
 msgid "Point placed."
 msgstr "Point placé."
 
 #. translators: 1: latitude, 2: longitude.
-#: includes/class-wsfign-assets.php:132
+#: includes/class-wsfign-assets.php:131
 #, php-format
 msgid "Latitude %1$s, longitude %2$s."
 msgstr "Latitude %1$s, longitude %2$s."
 
-#: includes/class-wsfign-assets.php:133
+#: includes/class-wsfign-map-field.php:286
 msgid "Point removed."
 msgstr "Point retiré."
 
-#: includes/class-wsfign-assets.php:130
+#: includes/class-wsfign-map-field.php:285
 msgid "Point updated."
 msgstr "Point mis à jour."
 
@@ -375,3 +375,31 @@ msgstr "Afficher les coordonnées"
 #: includes/class-wsfign-map-field.php:270
 msgid "Shows the latitude and longitude once the point is placed. Screen readers announce them either way."
 msgstr "Affiche la latitude et la longitude une fois le point placé. Les lecteurs d'écran les annoncent dans tous les cas."
+
+#: includes/class-wsfign-map-field.php:301
+msgid "Help above the map"
+msgstr "Aide au-dessus de la carte"
+
+#: includes/class-wsfign-map-field.php:302
+msgid "Place button"
+msgstr "Bouton de pose"
+
+#: includes/class-wsfign-map-field.php:303
+msgid "Point placed"
+msgstr "Point placé"
+
+#: includes/class-wsfign-map-field.php:304
+msgid "Point updated"
+msgstr "Point mis à jour"
+
+#: includes/class-wsfign-map-field.php:305
+msgid "Point removed"
+msgstr "Point retiré"
+
+#: includes/class-wsfign-map-field.php:306
+msgid "Map unavailable"
+msgstr "Carte indisponible"
+
+#: includes/class-wsfign-map-field.php:307
+msgid "Location error"
+msgstr "Erreur de géolocalisation"
