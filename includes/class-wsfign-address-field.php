@@ -119,6 +119,10 @@ class WSFIGN_Address_Field {
 						'meta_keys' => array( 'class_field_wrapper', 'class_field' ),
 					),
 					array(
+						'label'     => __( 'Labels', 'wsform-ign' ),
+						'meta_keys' => array( 'wsfign_address_text_no_results', 'wsfign_address_text_unavailable', 'wsfign_address_text_no_address' ),
+					),
+					array(
 						'label'     => __( 'Restrictions', 'wsform-ign' ),
 						'meta_keys' => array( 'field_user_status', 'field_user_roles', 'field_user_capabilities' ),
 					),
@@ -147,7 +151,7 @@ class WSFIGN_Address_Field {
 	 * @return array
 	 */
 	public static function register_meta_keys( $meta_keys ) {
-		return array_merge( $meta_keys, self::get_mapping_meta_keys(), self::get_map_link_meta_keys() );
+		return array_merge( $meta_keys, self::get_mapping_meta_keys(), self::get_map_link_meta_keys(), self::get_text_meta_keys() );
 	}
 
 	/**
@@ -224,6 +228,34 @@ class WSFIGN_Address_Field {
 		}
 
 		return $options;
+	}
+
+	/**
+	 * Retourne les textes par défaut que chaque champ peut remplacer.
+	 *
+	 * @return string[] Textes, par clé attendue du script de l'adresse.
+	 */
+	public static function get_default_texts() {
+		return array(
+			'noResults'      => __( 'No suggestion. You can keep typing your address.', 'wsform-ign' ),
+			'unavailable'    => __( 'Address suggestions are unavailable right now. You can type your address by hand.', 'wsform-ign' ),
+			'noAddressFound' => __( 'No address found at this location.', 'wsform-ign' ),
+		);
+	}
+
+	/**
+	 * Retourne les réglages des textes de l'adresse.
+	 *
+	 * @return array
+	 */
+	private static function get_text_meta_keys() {
+		$defaults = self::get_default_texts();
+
+		return array(
+			'wsfign_address_text_no_results'  => WSFIGN_Map_Field::build_text_meta_key( __( 'No suggestion', 'wsform-ign' ), $defaults['noResults'] ),
+			'wsfign_address_text_unavailable' => WSFIGN_Map_Field::build_text_meta_key( __( 'Suggestions unavailable', 'wsform-ign' ), $defaults['unavailable'] ),
+			'wsfign_address_text_no_address'  => WSFIGN_Map_Field::build_text_meta_key( __( 'No address at this location', 'wsform-ign' ), $defaults['noAddressFound'] ),
+		);
 	}
 
 	/**

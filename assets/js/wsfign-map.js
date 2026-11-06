@@ -11,11 +11,14 @@
 		'https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER={layer}&STYLE=normal&FORMAT={format}&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}';
 	const MAX_ZOOM = 19;
 	const LOCATED_ZOOM = 15;
-	const COORDINATE_DECIMALS = 7;
+	// Environ un mètre : la valeur enregistrée garde toute sa précision.
+	const COORDINATE_DECIMALS = 5;
 	const DEFAULT_LAT = 46.6;
 	const DEFAULT_LNG = 2.4;
 	const DEFAULT_ZOOM = 6;
 	const DEFAULT_HEIGHT = '56.25%';
+	const LOCATE_ICON =
+		'<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="7"/><path d="M12 1v5M12 18v5M1 12h5M18 12h5"/></svg>';
 
 	/**
 	 * Lit la valeur d'un input : JSON, ou ancien format « lat,lng » accepté par le cœur.
@@ -45,18 +48,15 @@
 	}
 
 	/**
-	 * Sélecteur de couches dont les radios ne partent pas avec le formulaire.
+	 * Contrôle Leaflet qui affiche un élément déjà construit.
 	 *
-	 * Leaflet leur donne un name : sans ce détachement, WS Form les enverrait au
-	 * serveur. Un attribut form sans cible les retire du formulaire sans casser leur groupe.
+	 * Sans l'arrêt de la propagation, un clic sur le contrôle poserait aussi le marqueur.
 	 */
-	const DetachedLayersControl = L.Control.Layers.extend( {
-		_createRadioElement: function createDetachedRadio( name, checked ) {
-			const radio = L.Control.Layers.prototype._createRadioElement.call( this, name, checked );
+	const ElementControl = L.Control.extend( {
+		onAdd: function getControlElement() {
+			L.DomEvent.disableClickPropagation( this.options.element );
 
-			radio.setAttribute( 'form', 'wsfign-detached' );
-
-			return radio;
+			return this.options.element;
 		},
 	} );
 
@@ -156,55 +156,86 @@
 				center: this.defaultCenter,
 				zoom: this.defaultZoom,
 				scrollWheelZoom: false,
+				// Un seul doigt doit faire défiler la page : la carte se déplace à deux doigts.
+				dragging: ! L.Browser.mobile,
 			} );
 
 			this.map.attributionControl.setPrefix( '<a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>' );
 			canvas.setAttribute( 'aria-label', this.formInstance.get_object_meta_value( this.field, 'aria_label', '' ) || settings.i18n.mapLabel );
 
 			if ( 'on' === this.formInstance.get_object_meta_value( this.field, 'wsfign_map_control_layers', 'on' ) ) {
-				new DetachedLayersControl( this.getLayerChoices() ).addTo( this.map );
+				this.$layerToggle = this.createButton( settings.layers[ this.getOtherLayerKey() ].label, this.onLayerToggleClick, 'wsfign-map-layer-toggle' );
+				this.addMapControl( this.$layerToggle, 'topright' );
 			}
 		}
 
 		/**
-		 * Retourne les couches proposées au sélecteur, par libellé.
+		 * Retourne la couche qui n'est pas affichée.
 		 *
-		 * @return {Object} Couches Leaflet indexées par libellé.
+		 * @return {string} Clé de la couche.
 		 */
-		getLayerChoices() {
-			return {
-				[ settings.layers.plan.label ]: this.tileLayers.plan,
-				[ settings.layers.ortho.label ]: this.tileLayers.ortho,
-			};
+		getOtherLayerKey() {
+			return 'plan' === this.layerKey ? 'ortho' : 'plan';
 		}
 
 		/**
-		 * Ajoute sous la carte les boutons et la zone de message.
+		 * Ajoute un bouton dans la carte.
+		 *
+		 * @param {jQuery} $button  Bouton.
+		 * @param {string} position Position Leaflet.
+		 */
+		addMapControl( $button, position ) {
+			const $container = $( '<div class="leaflet-bar wsfign-map-control"></div>' ).append( $button );
+
+			new ElementControl( { element: $container.get( 0 ), position } ).addTo( this.map );
+		}
+
+		/**
+		 * Ajoute l'aide, les boutons et la zone de message autour de la carte.
 		 *
 		 * Sans le bouton de pose, un marqueur ne pourrait être placé qu'à la souris.
 		 */
 		createInterface() {
-			const $actions = $( '<div class="wsfign-map-actions"></div>' );
+			const hintId = this.$input.attr( 'id' ) + '-hint';
+			const $hint = $( '<div class="wsf-help wsf-help-pre wsfign-map-hint"></div>' )
+				.attr( 'id', hintId )
+				.text( this.getSetting( 'wsfign_map_text_hint', L.Browser.mobile ? settings.i18n.hintTouch : settings.i18n.hintMouse ) );
 
-			$actions.append( this.createButton( settings.i18n.placeAtCenter, this.onPlaceAtCenterClick ) );
+			this.$placeButton = this.createButton( this.getSetting( 'wsfign_map_text_place_button', settings.i18n.placeAtCenter ), this.onPlaceAtCenterClick, 'wsf-button wsf-button-secondary' );
+			this.$notice = $( '<div class="wsf-help wsfign-map-notice" role="status"></div>' );
+			this.$clear = this.$input.parent().find( '.wsfign-map-clear' );
+
+			this.$map.before( $hint );
+			this.$map.after( $( '<div class="wsfign-map-actions"></div>' ).append( this.$placeButton ), this.$notice );
+			this.$map.find( '.wsfign-map-canvas' ).attr( 'aria-describedby', hintId );
 
 			if ( 'browser' === this.formInstance.get_object_meta_value( this.field, 'wsfign_map_center', '' ) && navigator.geolocation ) {
-				$actions.append( this.createButton( settings.i18n.locateMe, this.onLocateClick ) );
+				this.addMapControl( this.createLocateButton(), 'topleft' );
 			}
-
-			this.$notice = $( '<div class="wsfign-map-notice" role="status"></div>' );
-			this.$map.after( $actions, this.$notice );
 		}
 
 		/**
-		 * Crée un bouton d'action. Le type button évite d'envoyer le formulaire.
+		 * Crée le bouton de géolocalisation, une icône nommée pour les lecteurs d'écran.
 		 *
-		 * @param {string}   label   Libellé.
-		 * @param {Function} handler Méthode à appeler au clic.
 		 * @return {jQuery} Bouton.
 		 */
-		createButton( label, handler ) {
-			return $( '<button type="button" class="wsf-button"></button>' )
+		createLocateButton() {
+			return this.createButton( '', this.onLocateClick, 'wsfign-map-locate' )
+				.attr( { 'aria-label': settings.i18n.locateMe, title: settings.i18n.locateMe } )
+				.html( LOCATE_ICON );
+		}
+
+		/**
+		 * Crée un bouton. Le type button évite d'envoyer le formulaire.
+		 *
+		 * @param {string}   label     Libellé.
+		 * @param {Function} handler   Méthode à appeler au clic.
+		 * @param {string}   className Classe du bouton.
+		 * @return {jQuery} Bouton.
+		 */
+		createButton( label, handler, className ) {
+			return $( '<button type="button"></button>' )
+				.addClass( className )
 				.text( label )
 				.on( 'keydown', this.onButtonKeydown )
 				.on( 'click', handler.bind( this ) );
@@ -230,7 +261,6 @@
 		bindEvents() {
 			this.map.on( 'click', this.onMapClick, this );
 			this.map.on( 'zoomend', this.onViewOptionChange, this );
-			this.map.on( 'baselayerchange', this.onBaseLayerChange, this );
 
 			this.$input.on( 'change', this.syncFromInput.bind( this ) );
 			this.$input.on( 'wsfign-map-show', this.onShowRequest.bind( this ) );
@@ -288,7 +318,7 @@
 		 * Signale l'échec de la géolocalisation.
 		 */
 		onLocateError() {
-			this.$notice.text( settings.i18n.locateError );
+			this.$notice.text( this.getSetting( 'wsfign_map_text_locate_error', settings.i18n.locateError ) );
 		}
 
 		/**
@@ -299,7 +329,9 @@
 		onClearClick( clickEvent ) {
 			clickEvent.preventDefault();
 			this.$input.val( '' ).trigger( 'change' );
-			this.$notice.text( settings.i18n.markerCleared );
+			this.$notice.text( this.getSetting( 'wsfign_map_text_removed', settings.i18n.markerCleared ) );
+			// Le lien vient de disparaître : le focus clavier ne doit pas se perdre avec lui.
+			this.$placeButton.trigger( 'focus' );
 		}
 
 		/**
@@ -310,12 +342,15 @@
 		}
 
 		/**
-		 * Enregistre la couche choisie, puis met la valeur à jour.
-		 *
-		 * @param {L.LayersControlEvent} layerEvent Événement Leaflet.
+		 * Bascule sur l'autre couche, puis met la valeur à jour.
 		 */
-		onBaseLayerChange( layerEvent ) {
-			this.layerKey = layerEvent.layer.layerKey;
+		onLayerToggleClick() {
+			const nextLayerKey = this.getOtherLayerKey();
+
+			this.map.removeLayer( this.tileLayers[ this.layerKey ] );
+			this.map.addLayer( this.tileLayers[ nextLayerKey ] );
+			this.layerKey = nextLayerKey;
+			this.$layerToggle.text( settings.layers[ this.getOtherLayerKey() ].label );
 			this.onViewOptionChange();
 		}
 
@@ -333,7 +368,16 @@
 		 */
 		onTilesUnavailable() {
 			this.tilesFailed = true;
-			this.$notice.text( settings.i18n.tilesError );
+			this.$notice.text( this.getUnavailableText() );
+		}
+
+		/**
+		 * Retourne le message d'indisponibilité du fond de carte.
+		 *
+		 * @return {string} Message.
+		 */
+		getUnavailableText() {
+			return this.getSetting( 'wsfign_map_text_unavailable', settings.i18n.tilesError );
 		}
 
 		/**
@@ -348,7 +392,7 @@
 
 			this.tilesFailed = false;
 
-			if ( settings.i18n.tilesError === this.$notice.text() ) {
+			if ( this.getUnavailableText() === this.$notice.text() ) {
 				this.$notice.text( '' );
 			}
 		}
@@ -361,9 +405,11 @@
 		 */
 		onShowRequest( showEvent, location ) {
 			const latLng = L.latLng( location.lat, location.lng );
+			const isUpdate = null !== this.marker;
 
 			this.address = location.address;
 			this.showMarker( latLng );
+			this.announcePlacement( latLng, isUpdate );
 
 			// Sans animation, le zoom est à jour tout de suite pour l'écriture de la valeur.
 			this.map.setView( latLng, location.zoom, { animate: false } );
@@ -390,15 +436,40 @@
 		 * @param {L.LatLng} latLng Position.
 		 */
 		placeMarker( latLng ) {
+			const isUpdate = null !== this.marker;
+
 			this.address = '';
 			this.showMarker( latLng );
 			this.writeValue( latLng );
-			this.$notice.text(
-				settings.i18n.markerPlaced
-					.replace( '%1$s', latLng.lat.toFixed( COORDINATE_DECIMALS ) )
-					.replace( '%2$s', latLng.lng.toFixed( COORDINATE_DECIMALS ) )
-			);
+			this.announcePlacement( latLng, isUpdate );
 			this.$input.triggerHandler( 'wsfign-map-placed', [ { lat: latLng.lat, lng: latLng.lng } ] );
+		}
+
+		/**
+		 * Confirme la pose ou le déplacement du point.
+		 *
+		 * Masquées par réglage, les coordonnées restent annoncées aux lecteurs d'écran :
+		 * sans voir la carte, elles sont la seule confirmation de la position.
+		 *
+		 * @param {L.LatLng} latLng   Position.
+		 * @param {boolean}  isUpdate Vrai si le point existait déjà.
+		 */
+		announcePlacement( latLng, isUpdate ) {
+			const showCoordinates = 'on' === this.formInstance.get_object_meta_value( this.field, 'wsfign_map_show_coordinates', 'on' );
+			const coordinates = settings.i18n.markerCoordinates
+				.replace( '%1$s', latLng.lat.toFixed( COORDINATE_DECIMALS ) )
+				.replace( '%2$s', latLng.lng.toFixed( COORDINATE_DECIMALS ) );
+
+			this.$notice
+				.text( ( isUpdate ? this.getSetting( 'wsfign_map_text_updated', settings.i18n.markerUpdated ) : this.getSetting( 'wsfign_map_text_placed', settings.i18n.markerPlaced ) ) + ' ' )
+				.append( $( '<span></span>' ).toggleClass( 'wsfign-map-sr-only', ! showCoordinates ).text( coordinates ) );
+		}
+
+		/**
+		 * Affiche le lien de retrait seulement s'il y a un marqueur à retirer.
+		 */
+		updateClearLink() {
+			this.$clear.toggle( null !== this.marker );
 		}
 
 		/**
@@ -426,6 +497,7 @@
 
 			this.marker = L.marker( latLng, markerOptions ).addTo( this.map );
 			this.marker.on( 'dragend', this.onMarkerDragEnd, this );
+			this.updateClearLink();
 		}
 
 		/**
@@ -484,6 +556,8 @@
 				this.marker = null;
 				this.map.setView( this.defaultCenter, this.defaultZoom );
 			}
+
+			this.updateClearLink();
 		}
 	}
 

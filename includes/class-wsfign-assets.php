@@ -61,6 +61,9 @@ class WSFIGN_Assets {
 		wp_enqueue_script( 'wsfign-map', WSFIGN_URL . 'assets/js/wsfign-map.js', array( 'jquery', 'wsfign-leaflet', 'wsfign-fields', 'wsfign-tile-retry' ), WSFIGN_VERSION, true );
 
 		wp_localize_script( 'wsfign-map', 'wsfignMapSettings', self::get_map_settings() );
+
+		// Le cœur ne charge ce CSS que pour ses propres boutons : un formulaire sans bouton d'envoi en serait privé.
+		add_filter( 'wsf_enqueue_css_button', '__return_true' );
 	}
 
 	/**
@@ -85,14 +88,14 @@ class WSFIGN_Assets {
 	 */
 	private static function get_address_settings() {
 		return array(
-			'i18n' => array(
-				'suggestions'    => __( 'Address suggestions', 'wsform-ign' ),
-				'oneResult'      => __( '1 suggestion available. Use the arrow keys to browse.', 'wsform-ign' ),
-				/* translators: %d: number of suggestions. */
-				'manyResults'    => __( '%d suggestions available. Use the arrow keys to browse.', 'wsform-ign' ),
-				'noResults'      => __( 'No suggestion. You can keep typing your address.', 'wsform-ign' ),
-				'unavailable'    => __( 'Address suggestions are unavailable right now. You can type your address by hand.', 'wsform-ign' ),
-				'noAddressFound' => __( 'No address found at this location.', 'wsform-ign' ),
+			'i18n' => array_merge(
+				WSFIGN_Address_Field::get_default_texts(),
+				array(
+					'suggestions' => __( 'Address suggestions', 'wsform-ign' ),
+					'oneResult'   => __( '1 suggestion available. Use the arrow keys to browse.', 'wsform-ign' ),
+					/* translators: %d: number of suggestions. */
+					'manyResults' => __( '%d suggestions available. Use the arrow keys to browse.', 'wsform-ign' ),
+				)
 			),
 		);
 	}
@@ -118,15 +121,15 @@ class WSFIGN_Assets {
 					'source' => 'https://cartes.gouv.fr/rechercher-une-donnee/dataset/IGNF_BD-ORTHO',
 				),
 			),
-			'i18n'   => array(
-				'mapLabel'      => __( 'Map', 'wsform-ign' ),
-				'placeAtCenter' => __( 'Place the marker at the center of the map', 'wsform-ign' ),
-				'locateMe'      => __( 'Center on my location', 'wsform-ign' ),
-				'locateError'   => __( 'Your location could not be determined.', 'wsform-ign' ),
-				'tilesError'    => __( 'The map background is unavailable right now. You can still send this form.', 'wsform-ign' ),
-				/* translators: 1: latitude, 2: longitude. */
-				'markerPlaced'  => __( 'Marker placed at latitude %1$s, longitude %2$s.', 'wsform-ign' ),
-				'markerCleared' => __( 'Marker removed.', 'wsform-ign' ),
+			'i18n'   => array_merge(
+				WSFIGN_Map_Field::get_default_texts(),
+				array(
+					'mapLabel'          => __( 'Map', 'wsform-ign' ),
+					'hintTouch'         => __( 'Tap the map to place the point. Use two fingers to move the map.', 'wsform-ign' ),
+					'locateMe'          => __( 'Center on my location', 'wsform-ign' ),
+					/* translators: 1: latitude, 2: longitude. */
+					'markerCoordinates' => __( 'Latitude %1$s, longitude %2$s.', 'wsform-ign' ),
+				)
 			),
 		);
 	}

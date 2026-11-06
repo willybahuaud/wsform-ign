@@ -4,7 +4,7 @@ Tags: ws form, map, address, ign, autocomplete
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.4
+Stable tag: 0.2.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,15 @@ The plugin bundles Leaflet 1.9.4 (BSD-2-Clause), see `assets/vendor/leaflet/LICE
 Updates come from the GitHub releases of the plugin, not from WordPress.org.
 
 == Changelog ==
+
+= 0.2.0 =
+* Map: a short hint explains how to place the point.
+* Map: the layer switch is now a direct button, and the location button sits inside the map.
+* Map: "Clear" only shows when there is a point.
+* Map: the message says whether the point was placed or updated, with its coordinates. A new field option can hide them, and screen readers still announce them.
+* Map and address: messages can be customized in the field settings, along with the place button.
+* Styling: the map, its messages and the address suggestions now follow the WS Form style settings.
+* Mobile: one finger scrolls the page, two fingers move the map. The map is at least 280 px high, with 44 px touch targets.
 
 = 0.1.4 =
 * Map: failed tiles are loaded again automatically, after 1 and 3 seconds.

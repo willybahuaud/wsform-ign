@@ -25,13 +25,82 @@
 }
 
 .wsfign-map-actions {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.5em;
 	margin-top: 0.5em;
 }
 
-.wsfign-map-notice:empty {
+/* Les contrôles flottent sur la carte : ils reprennent les couleurs et la police des champs du formulaire. */
+.wsf-form .wsfign-map-canvas .leaflet-bar a,
+.wsfign-map-control button {
+	background-color: var(--wsf-field-color-background, #fff);
+	color: var(--wsf-field-color, #000);
+}
+
+.wsf-form .wsfign-map-canvas .leaflet-bar a:hover,
+.wsfign-map-control button:hover {
+	background-color: var(--wsf-field-color-background-hover, #f4f4f4);
+	color: var(--wsf-field-color, #000);
+}
+
+.wsfign-map-control button {
+	align-items: center;
+	border: 0;
+	border-radius: 4px;
+	cursor: pointer;
+	display: flex;
+	font-family: var(--wsf-form-font-family, inherit);
+	font-size: 0.8125rem;
+	justify-content: center;
+	min-height: 30px;
+	min-width: 30px;
+	padding: 0;
+}
+
+.wsfign-map-control .wsfign-map-layer-toggle {
+	padding: 0 0.75em;
+}
+
+.wsfign-map-sr-only {
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Cibles tactiles de 44 px. */
+.wsfign-map-canvas.leaflet-touch .leaflet-bar a,
+.wsfign-map-canvas.leaflet-touch .wsfign-map-control button {
+	line-height: 44px;
+	min-height: 44px;
+	min-width: 44px;
+}
+
+.wsfign-map-canvas.leaflet-touch .leaflet-bar a {
+	height: 44px;
+	width: 44px;
+}
+
+/* La carte laisse défiler la page sur mobile, mais le marqueur doit rester déplaçable au doigt. */
+.wsfign-map-canvas .leaflet-marker-draggable {
+	touch-action: none;
+}
+
+/* border-box : la hauteur minimale englobe le padding qui porte la hauteur réglée. */
+@media (max-width: 600px) {
+
+	.wsfign-map {
+		box-sizing: border-box;
+		min-height: 280px;
+	}
+
+	.wsf-form .wsfign-map-actions button.wsf-button {
+		min-height: 44px;
+	}
+}
+
+/* Spécificité du cœur à égaler : sa classe wsf-help impose display: block. */
+.wsf-form .wsfign-map-notice:empty {
 	display: none;
 }
 
