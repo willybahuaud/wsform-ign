@@ -38,15 +38,16 @@ Le plugin ne rend pas de carte en front. Avec Post Management, le point part en 
 
 | Cible | Résultat | À savoir |
 |---|---|---|
+| Méta simple | Compatible | La valeur est un JSON : `json_decode( get_post_meta( $post_id, 'ma_meta', true ), true )` |
 | Champ Google Map d'ACF | Compatible | `get_field()` renvoie `lat`, `lng`, `zoom` et `address` si elle est connue |
 | Bloc ACF en `usePostMeta` | Compatible | Ses champs sont en méta, le mapping les alimente directement |
 | Bloc ACF standard | Incompatible | Il lit ses données dans le contenu de l'article, pas en méta |
 | ACF OpenStreetMap Field | Incompatible | WS Form ne le propose pas au mapping. Forcé, il perd l'adresse et n'affiche aucun marqueur |
 | Autres champs ACF de carte | Non pris en charge | Le blocage est le même : la liste des types mappables de WS Form est fermée |
 
-Un champ Google Map d'ACF ne t'oblige pas à afficher Google : il sert ici à stocker le point. Sans clé, l'édition du champ dans l'admin d'ACF ne montre pas de carte, mais la valeur est bien là.
+Un champ Google Map d'ACF ne charge rien de Google sur ton site si tu affiches le point autrement, et la valeur survit à l'enregistrement de l'article. Par contre, son écran d'édition charge l'API Google dans l'admin, même sans clé. Pour éviter Google partout, passe par une méta simple.
 
-Voici un rendu Leaflet avec les tuiles IGN, à partir d'un champ nommé `coordonnees_gps`. Charge Leaflet de ton côté : celui du plugin n'est présent que sur les pages de formulaire.
+Voici un rendu Leaflet avec les tuiles IGN, à partir d'un champ ACF nommé `coordonnees_gps`. Avec une méta simple, seule la lecture de `$point` change. Charge Leaflet de ton côté : celui du plugin n'est présent que sur les pages de formulaire.
 
 ```php
 $point = get_field( 'coordonnees_gps' );

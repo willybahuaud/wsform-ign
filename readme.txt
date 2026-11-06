@@ -49,7 +49,8 @@ Both fields work with WS Form LITE and PRO. Repeatable sections are not availabl
 
 This plugin does not render a map on the front end. With Post Management, the point is stored as post meta, and your theme or block displays it.
 
-* ACF Google Map field: works. `get_field()` returns `lat`, `lng`, `zoom` and `address` when known. It only stores the point, you do not have to display Google.
+* Plain custom field: works. The value is JSON, so read it with `json_decode()`. This is the option that avoids Google everywhere.
+* ACF Google Map field: works. `get_field()` returns `lat`, `lng`, `zoom` and `address` when known. It loads nothing from Google on your site if you display the point another way, but its edit screen loads the Google API in the admin, even without a key.
 * ACF block using `usePostMeta`: works, its fields are stored as post meta.
 * Standard ACF block: does not work, it reads its data from the post content.
 * ACF OpenStreetMap Field and other third-party ACF map fields: not supported, because WS Form does not offer these field types for mapping.
