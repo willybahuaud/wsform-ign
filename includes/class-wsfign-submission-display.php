@@ -46,6 +46,9 @@ class WSFIGN_Submission_Display {
 	/**
 	 * Formate une valeur pour l'export CSV.
 	 *
+	 * Dans une section répétable, le cœur joint les lignes par une virgule, déjà utilisée
+	 * entre latitude et longitude : le point-virgule garde les paires distinctes.
+	 *
 	 * @param mixed      $value      Valeur enregistrée.
 	 * @param int|string $field_id   Identifiant du champ.
 	 * @param string     $field_type Type du champ.
@@ -56,7 +59,7 @@ class WSFIGN_Submission_Display {
 			return $value;
 		}
 
-		return self::replace_json_values( $value );
+		return self::replace_json_values( str_replace( '},{', '};{', $value ) );
 	}
 
 	/**
