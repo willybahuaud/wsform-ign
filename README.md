@@ -9,10 +9,11 @@ Il fonctionne avec WS Form LITE et PRO.
 **Carte IGN**
 
 - Fond Plan IGN, photos aériennes en option
-- Marqueur posé au clic, déplaçable, réinitialisable, obligatoire si besoin
+- Marqueur posé au clic, déplaçable, effaçable, obligatoire si besoin
 - Bouton de pose au clavier
 - Icône et titre du marqueur personnalisables
 - Bouton optionnel pour centrer sur le visiteur : le navigateur ne demande sa position qu'après ce clic
+- Sur mobile, un doigt fait défiler la page et deux doigts déplacent la carte
 
 **Adresse BAN**
 
@@ -21,9 +22,70 @@ Il fonctionne avec WS Form LITE et PRO.
 - Liaison optionnelle à une carte, et géocodage inverse quand on pose le marqueur
 - Saisie libre toujours possible, par exemple pour une adresse à l'étranger
 
-Si les services IGN sont coupés, un message s'affiche et le formulaire reste envoyable.
+**Personnalisation**
+
+- Style : boutons, messages, contrôles de la carte et suggestions d'adresse suivent les réglages de style de WS Form
+- Textes : les messages et le bouton de pose se changent champ par champ, dans Avancé > Libellés
+- Coordonnées : une option de la carte les masque sous le message. Les lecteurs d'écran les annoncent toujours
+
+Une tuile en erreur est rechargée automatiquement. Si les services IGN sont coupés, un message s'affiche et le formulaire reste envoyable.
 
 Leaflet et les scripts du plugin ne se chargent que si le formulaire contient l'un de ces champs.
+
+## Afficher le point sur le site
+
+Le plugin ne rend pas de carte en front. Avec Post Management, le point part en méta, et c'est ton thème ou ton bloc qui l'affiche. Tout dépend de la cible du mapping :
+
+| Cible | Résultat | À savoir |
+|---|---|---|
+| Champ Google Map d'ACF | Compatible | `get_field()` renvoie `lat`, `lng`, `zoom` et `address` si elle est connue |
+| Bloc ACF en `usePostMeta` | Compatible | Ses champs sont en méta, le mapping les alimente directement |
+| Bloc ACF standard | Incompatible | Il lit ses données dans le contenu de l'article, pas en méta |
+| ACF OpenStreetMap Field | Incompatible | WS Form ne le propose pas au mapping. Forcé, il perd l'adresse et n'affiche aucun marqueur |
+| Autres champs ACF de carte | Non pris en charge | Le blocage est le même : la liste des types mappables de WS Form est fermée |
+
+Un champ Google Map d'ACF ne t'oblige pas à afficher Google : il sert ici à stocker le point. Sans clé, l'édition du champ dans l'admin d'ACF ne montre pas de carte, mais la valeur est bien là.
+
+Voici un rendu Leaflet avec les tuiles IGN, à partir d'un champ nommé `coordonnees_gps`. Charge Leaflet de ton côté : celui du plugin n'est présent que sur les pages de formulaire.
+
+```php
+$point = get_field( 'coordonnees_gps' );
+
+if ( ! empty( $point['lat'] ) && ! empty( $point['lng'] ) ) {
+	printf(
+		'<div class="carte-ign" style="height: 400px" data-lat="%s" data-lng="%s" data-zoom="%s"></div>',
+		esc_attr( $point['lat'] ),
+		esc_attr( $point['lng'] ),
+		esc_attr( $point['zoom'] ?? 16 )
+	);
+}
+```
+
+```js
+/**
+ * Affiche une carte IGN avec un marqueur.
+ *
+ * @param {HTMLElement} element Conteneur avec data-lat, data-lng et data-zoom.
+ */
+function initIgnMap( element ) {
+	const position = [ parseFloat( element.dataset.lat ), parseFloat( element.dataset.lng ) ];
+	const map = L.map( element ).setView( position, parseInt( element.dataset.zoom, 10 ) || 16 );
+
+	L.tileLayer(
+		'https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&STYLE=normal&FORMAT=image/png&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}',
+		{
+			maxZoom: 19,
+			attribution: '<a href="https://cartes.gouv.fr/rechercher-une-donnee/dataset/IGNF_PLAN-IGN">IGN, Plan IGN</a>',
+		}
+	).addTo( map );
+
+	L.marker( position ).addTo( map );
+}
+
+document.querySelectorAll( '.carte-ign' ).forEach( initIgnMap );
+```
+
+La licence des tuiles demande de citer la source : garde l'attribution. Ces pages contactent elles aussi `data.geopf.fr`, et ta politique de confidentialité doit le mentionner.
 
 ## Limites
 
