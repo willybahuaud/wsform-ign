@@ -17,6 +17,8 @@ https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER={cou
 
 Les deux couches vont du zoom 0 au zoom 19 (ensemble `PM_0_19` dans `https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetCapabilities`, relevé le 2026-11-06).
 
+Le service renvoie parfois des erreurs ponctuelles, et Leaflet ne retente jamais une tuile. `assets/js/wsfign-tile-retry.js` fait deux essais, à 1 s puis 3 s. Un paramètre `_retry` change l'URL à chaque essai, car WebKit ignore un `src` identique. Le service l'ignore (200, même image). Hors de France à fort zoom, il répond 404 : le zoom est alors abandonné.
+
 ## Adresses
 
 L'ancienne API `api-adresse.data.gouv.fr` a été décommissionnée fin janvier 2026 : ne l'utilise pas.
