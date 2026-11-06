@@ -18,6 +18,12 @@
 	max-width: none;
 }
 
+/* La taille de l'icône est inconnue : la pointe, en bas au centre, doit tomber sur le point. */
+.wsfign-map-marker img {
+	display: block;
+	transform: translate(-50%, -100%);
+}
+
 .wsfign-map-actions {
 	display: flex;
 	flex-wrap: wrap;
