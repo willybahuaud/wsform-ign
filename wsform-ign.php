@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Carte IGN pour WS Form
  * Description:       IGN map and BAN address fields for WS Form. No Google, no API key.
- * Version:           0.1.0
+ * Version:           0.1.1
  * Requires at least: 6.5
  * Requires PHP:      7.4
  * Author:            Willy Bahuaud
@@ -18,7 +18,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'WSFIGN_VERSION', '0.1.0' );
+define( 'WSFIGN_VERSION', '0.1.1' );
 define( 'WSFIGN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WSFIGN_DIR', plugin_dir_path( __FILE__ ) );
 
