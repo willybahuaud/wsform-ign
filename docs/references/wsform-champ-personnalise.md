@@ -1,6 +1,6 @@
 # Créer un type de champ WS Form
 
-Relevé le 2026-11-06 dans WS Form PRO 1.10.68 et dans un champ déjà en service écrit par Willy. La documentation publique lue ne décrit pas ce mécanisme : le code fait foi, et il faut le revérifier sur la dernière version.
+Relevé dans WS Form PRO. La documentation publique ne décrit pas ce mécanisme : le code fait foi, et il faut le revérifier à chaque version majeure.
 
 ## Sources à lire (lecture seule)
 
@@ -13,8 +13,6 @@ Racine PRO : voir `LOCAL.md` (fichier local non versionné).
 | `public/js/ws-form-public-google-address.js` | Autocomplétion, mapping des composants, liaison à une carte |
 | `includes/core/class-ws-form-submit.php` | Traitement de la valeur à l'enregistrement (`case 'googlemap'`) |
 | `includes/third-party/acf/class-ws-form-acf.php`, `includes/third-party/meta-box/class-ws-form-meta-box.php` | Correspondance avec les champs personnalisés |
-
-Exemple écrit par Willy, dans `LOCAL.md` (projet client, ne pas copier tel quel, ne pas citer le client).
 
 ## Accroches
 
@@ -57,7 +55,7 @@ Le type `googlemap` ajoute `conditional`, `events`, `trigger` et `progress` : re
 
 ## Initialisation en JS
 
-Le champ de Willy écoute `wsf-rendered` sur `document`, avec un balayage de secours pour les chargements tardifs. Les sections répétables déclenchent `wsf-section-repeatable` : une carte ajoutée à la volée doit aussi s'initialiser.
+Le champ écoute `wsf-rendered` sur `document`, avec un balayage de secours pour les chargements tardifs. Les sections répétables déclenchent `wsf-section-repeatable` : une carte ajoutée à la volée doit aussi s'initialiser.
 
 ## Format de valeur de `googlemap`
 
@@ -96,7 +94,7 @@ Il faut donc vérifier, pour le nouveau champ : l'affichage dans la liste des so
 - **Touche Entrée :** le cœur l'annule sur tous les `:input` du formulaire, par délégation sur `keydown`. Un bouton ajouté au champ doit arrêter la propagation de cet événement.
 - **Types ACF mappables :** `WS_Form_ACF::acf_field_mappable()` est une liste fermée, et aucun filtre n'a été trouvé. Un champ ACF tiers n'est donc pas proposé au mapping. Vérifié avec ACF OpenStreetMap Field et ACF: Leaflet Map Field. Un bloc ACF n'est alimenté que s'il est en `usePostMeta`.
 - **Style :** pour suivre le Styler, réutilise les classes du cœur (`wsf-button`, `wsf-help`) ou ses variables (`--wsf-field-color`, `--wsf-form-font-family`), avec une valeur de repli. Le cœur ne charge le CSS des boutons que pour ses propres types de champ : force-le avec le filtre `wsf_enqueue_css_button`. Vérifié sur PRO et LITE avec un style publié.
-- **Inputs tiers :** tout `input` nommé dans le formulaire part dans le POST, y compris ceux d'une bibliothèque comme les radios de Leaflet.
+- **Inputs tiers :** tout `input` nommé dans le formulaire part dans le POST. C'est pour ça que la carte n'utilise pas le sélecteur de couches de Leaflet, et ses radios.
 - **Sections répétables :** elles sont absentes de LITE. Le suffixe d'une ligne vient de `get_section_repeatable_suffix()`, et une ligne ajoutée déclenche `wsf-section-repeatable`.
 - **Écrire dans un autre champ :** passe par `field_value_set( $wrapper, $field, value )`, qui gère les listes et déclenche les conditions.
 - **Répéteur de réglages :** une clé de type `select` dotée de `'key' => 'ws_form_field'` range sa valeur sous cette clé dans chaque ligne.
@@ -118,18 +116,8 @@ Testé avec WS Form Post 1.6.13, ACF PRO 6.8.11 et Meta Box 5.15.4, dans les deu
 Le plugin lit `coordonnees_gps` en JSON ou en tableau, avec les clés `lat` et `lng`.
 
 - **Méta simple `coordonnees_gps`, sans champ ACF de ce nom :** fonctionne de bout en bout, car `wp_insert_post` écrit `meta_input` avant `save_post`.
-- **Champ ACF :** la valeur arrive bien, mais la table miroir de Geo Query reste vide. Post Management écrit le champ après le premier `save_post` : Geo Query ne trouve rien, marque le contenu comme synchronisé et ignore le second `save_post`. Le champ Google aurait le même problème. Retirer `mark_synced()` de la branche « pas de coordonnées » de `CoordinateSyncService::sync_post()` corrige le cas (essai sur une copie de test).
+- **Champ ACF :** la valeur arrive bien, mais la table miroir de Geo Query reste vide. Post Management écrit le champ après le premier `save_post`, que Geo Query marque déjà comme synchronisé. Le correctif est à faire dans Geo Query.
 - **Ne mappe pas une méta simple sur le nom d'un champ ACF existant :** ACF lirait la chaîne JSON avec `wp_parse_args`.
-
-## Réglages de `googlemap` à reprendre
-
-`google_map_lat`, `google_map_lng`, `google_map_zoom`, `google_map_height`, `google_map_center`, `google_map_type`, `google_map_control_zoom`, `google_map_control_full_screen`, `google_map_marker_icon_title`, `google_map_marker_icon_url`, `google_map_search_field_id`
-
-## Réglages de `googleaddress` à reprendre
-
-`google_address_auto_complete`, `google_address_auto_complete_on_load`, `google_address_auto_complete_browser_high_accuracy`, `google_address_auto_complete_browser_timeout`, `google_address_field_mapping`, `google_address_component`, `google_address_map`, `google_address_map_zoom`, `google_address_map_geolocate_on_click`, `google_address_map_geocode_location_snap`
-
-Sans objet ici : `google_map_id`, `google_map_control_street_view`, `google_address_restriction_*`, `google_address_place_id_*`, `google_map_routing_*`.
 
 ## Documentation publique
 

@@ -1,79 +1,44 @@
 # Mise à jour automatique depuis GitHub
 
-Willy veut que ce plugin se mette à jour depuis les releases GitHub, sur le modèle de `wboard-connector`.
+Le plugin se met à jour depuis les releases d'un dépôt public, sans jeton. Un jeton serait distribué à tout le monde, et l'API répond 404 sans erreur sur un dépôt privé : le mécanisme ne marche donc que sur un dépôt public.
 
-## Modèle
-
-- Dépôt public : https://github.com/willybahuaud/wboard-connector
-- Classe : `includes/class-updater.php` (370 lignes). Sur la machine de Willy : `~/GitHub/wboard/plugin/wboard-connector/includes/class-updater.php`
-- Instanciée dans le fichier principal, puis `register_hooks()`
-- Releases : tag `vX.Y.Z` et archive `wboard-connector-X.Y.Z.zip` jointe à la release
-
-## Fonctionnement à reprendre
+## Fonctionnement
 
 | Filtre | Rôle |
 |---|---|
-| `pre_set_site_transient_update_plugins` | Compare la version du plugin au tag de la dernière release et ajoute l'entrée de mise à jour |
-| `plugins_api` | Remplit la fenêtre « Voir les détails », avec les notes de release |
-| `upgrader_source_selection` | Corrige le nom du dossier extrait |
+| `update_plugins_github.com` | Déclenché par l'en-tête `Update URI`. Compare la version à la dernière release. WordPress range la réponse dans `response` ou `no_update`, ce qui affiche l'interrupteur des mises à jour automatiques même sans mise à jour en attente |
+| `plugins_api` | Remplit la fenêtre « Voir les détails » |
+| `upgrader_source_selection` | Garantit le nom du dossier installé |
 
-La version vient de `GET https://api.github.com/repos/{owner}/{repo}/releases/latest`, avec un transient de 12 h et un cache en mémoire.
+Tout plugin dont l'`Update URI` vise github.com passe par le premier filtre : il faut comparer le basename.
 
-## Écart assumé avec le modèle
+La version vient de `GET /repos/{owner}/{repo}/releases/latest`. La compatibilité vient d'un manifeste `<slug>-X.Y.Z.json` joint à la release, car les en-têtes du plugin installé décrivent l'ancienne version.
 
-`pre_set_site_transient_update_plugins` est remplacé par `update_plugins_github.com`, le filtre natif que WordPress déclenche à partir de l'en-tête `Update URI`. Il range lui-même la réponse dans `response` ou `no_update`, ce qui règle l'interrupteur du point 5 ci-dessous. Tout plugin dont l'`Update URI` vise github.com passe par ce filtre : il faut comparer le basename.
+## Choix
 
-La compatibilité vient d'un manifeste `<slug>-X.Y.Z.json` joint à la release, généré par `bin/build-release.sh`.
-
-## Condition : un dépôt public
-
-Le dépôt est public depuis le 2026-11-06. La limite ci-dessous reste valable si d'autres plugins reprennent ce mécanisme.
-
-**L'updater du modèle appelle l'API sans authentification. Sur un dépôt privé, GitHub répond 404 et le plugin ne propose jamais de mise à jour, sans aucune erreur.** Le modèle fonctionne parce que son dépôt est public.
-
-Décisions :
-
-- Ne mets aucun jeton GitHub dans le plugin, car il serait distribué à tout le monde.
-- Le mécanisme ne fonctionnera donc qu'une fois le dépôt public. Dis-le clairement à Willy.
-- Teste avant cela en simulant les réponses de GitHub avec le filtre `pre_http_request`, puis fais un essai réel sur un dépôt public de test, avec l'accord de Willy.
-
-## Ce qu'il faut améliorer par rapport au modèle
-
-1. **Rendre la classe paramétrable :** propriétaire, dépôt, fichier principal, version et nom affiché en paramètres du constructeur, sans valeurs en dur dans la logique.
-2. **Une classe préfixée par plugin :** `WSFIGN_Updater`, par exemple. Ne partage pas une classe de même nom entre plusieurs plugins, car deux versions différentes entreraient en conflit sur un même site.
-3. **Archive jointe obligatoire :** retire le repli sur `zipball_url` du modèle. Cette archive contient tout le dépôt (`docs/`, `tests/`, etc.) et ne doit pas partir chez les utilisateurs.
-4. **Cache des échecs :** le modèle ne garde pas en cache un échec ou un 404, et l'API anonyme est limitée à 60 requêtes par heure et par IP. Sur un hébergement mutualisé, c'est vite atteint. Garde les échecs en cache environ 1 h.
-5. **Interrupteur « Activer les mises à jour automatiques » :** vérifie qu'il s'affiche aussi quand aucune mise à jour n'attend, ce qui demande une entrée dans `no_update`.
-6. **En-tête `Update URI` :** ajoute `Update URI: https://github.com/willybahuaud/<dépôt>`, pour qu'un plugin de même slug sur WordPress.org ne puisse jamais le remplacer.
-7. **Compatibilité :** lis `Requires at least`, `Requires PHP` et `Tested up to` depuis les en-têtes ou un manifeste de la release au lieu de les écrire en dur.
-8. **Comparaison stricte :** ne propose la mise à jour que si l'archive est présente et le tag lisible.
+- **Classe préfixée :** `WSFIGN_Updater`. Une classe au nom générique entrerait en conflit avec un autre plugin.
+- **Archive jointe obligatoire :** sans `<slug>-X.Y.Z.zip`, pas de mise à jour. Le zipball de GitHub contient tout le dépôt.
+- **Hôte vérifié :** l'archive doit venir de `github.com` en HTTPS. Les champs de la réponse sont lus sans présumer de leur type.
+- **Cache :** 12 h après un succès, 1 h après un échec. L'API anonyme est limitée à 60 requêtes par heure et par IP, vite atteintes sur un mutualisé.
 
 ## Publier une version
 
-Ajoute un workflow GitHub Actions qui, sur un tag `v*` :
+Sur un tag `v*`, le workflow vérifie que le tag égale la version du plugin, construit l'archive en respectant `.distignore`, contrôle son contenu et publie la release. Il refuse un tag qui ne correspond pas.
 
-1. vérifie que le tag est égal à l'en-tête `Version` du plugin
-2. construit les dépendances de production
-3. crée `<slug>-X.Y.Z.zip`, avec un dossier racine `<slug>/`, en respectant `.distignore`
-4. publie la release avec cette archive et ses notes
-
-## Incompatible avec WordPress.org
-
-Les règles du répertoire WordPress.org interdisent à un plugin de se mettre à jour depuis une autre source. Vérifie la règle en vigueur. Si Willy veut plus tard publier sur WordPress.org, la version du répertoire devra retirer ce mécanisme.
-
-## Critères d'acceptation
-
-- [x] Une version plus récente apparaît dans l'admin et la mise à jour s'installe dans le bon dossier. Vérifié avec des réponses simulées, puis en réel de v0.1.0 vers v0.1.1 le 2026-11-06.
-- [x] Le plugin reste actif après la mise à jour, sans perte de réglages.
-- [x] Un 404, un 403 de limite ou un délai dépassé ne produisent ni erreur visible ni ralentissement de l'admin.
-- [x] L'archive installée ne contient ni `docs/` ni `tests/`.
-- [x] Une release sans archive ne propose pas de mise à jour.
-- [x] Aucun jeton n'est présent dans le code.
-- [x] Le workflow refuse un tag différent de la version du plugin. Vérifié sur GitHub Actions le 2026-11-06 : la vérification échoue, le build et la publication sont sautés, et aucune release n'est créée.
+Tester une vraie mise à jour : voir `docs/dev-ddev.md`, car le lab monte le dépôt lui-même.
 
 ## Fenêtre « Voir les détails »
 
-Deux pièges relevés sur la mise à jour réelle, et corrigés en 0.1.2 :
-
-- **Version testée :** la fenêtre compare les versions telles quelles, et préviendrait à tort pour `Tested up to: 7.1` sur WordPress 7.1.4. `WSFIGN_Updater` présente donc la version courante si elle appartient à la branche déclarée. La fenêtre affiche alors « Compatible jusqu'à 7.1.4 ».
+- **Version testée :** la fenêtre compare les versions telles quelles, et préviendrait à tort pour `Tested up to: 7.1` sur WordPress 7.1.4. `WSFIGN_Updater` présente donc la version courante si elle appartient à la branche déclarée.
 - **Notes de version :** GitHub les génère en Markdown. `WSFIGN_Release_Notes` les convertit après échappement, sans `make_clickable`, qui couperait les liens de comparaison.
+
+## WordPress.org
+
+Ses règles interdisent à un plugin de se mettre à jour depuis une autre source. Une version pour le répertoire devrait retirer ce mécanisme.
+
+## Vérifié
+
+- Vraie mise à jour de v0.1.0 vers v0.1.1, puis de v0.1.1 vers v0.1.2 : bon dossier, plugin actif, réglages conservés.
+- Un 404, un 403 de limite ou un délai dépassé ne produisent ni erreur visible ni ralentissement.
+- Une release sans archive ne propose pas de mise à jour.
+- Des réponses GitHub malformées ou une archive hors de github.com sont ignorées sans erreur.
