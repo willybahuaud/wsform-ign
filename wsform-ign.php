@@ -26,8 +26,10 @@ require_once WSFIGN_DIR . 'includes/class-wsfign-map-field.php';
 require_once WSFIGN_DIR . 'includes/class-wsfign-address-field.php';
 require_once WSFIGN_DIR . 'includes/class-wsfign-assets.php';
 require_once WSFIGN_DIR . 'includes/class-wsfign-submission-display.php';
+require_once WSFIGN_DIR . 'includes/class-wsfign-submission-validation.php';
 
 WSFIGN_Map_Field::register_hooks();
 WSFIGN_Address_Field::register_hooks();
 WSFIGN_Assets::register_hooks();
 WSFIGN_Submission_Display::register_hooks();
+WSFIGN_Submission_Validation::register_hooks();
