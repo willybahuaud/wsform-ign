@@ -47,7 +47,7 @@ msgid "location place address adresse ban"
 msgstr "localisation lieu adresse location place address ban"
 
 #: includes/class-wsfign-address-field.php:66
-#: includes/class-wsfign-address-field.php:237
+#: includes/class-wsfign-address-field.php:269
 #: includes/class-wsfign-map-field.php:91
 msgid "Field"
 msgstr "Champ"
@@ -96,125 +96,125 @@ msgstr "Style"
 msgid "Classes"
 msgstr "Classes"
 
-#: includes/class-wsfign-address-field.php:122
+#: includes/class-wsfign-address-field.php:126
 #: includes/class-wsfign-map-field.php:157
 msgid "Restrictions"
 msgstr "Restrictions"
 
-#: includes/class-wsfign-address-field.php:126
+#: includes/class-wsfign-address-field.php:130
 #: includes/class-wsfign-map-field.php:161
 msgid "Validation"
 msgstr "Validation"
 
-#: includes/class-wsfign-address-field.php:130
+#: includes/class-wsfign-address-field.php:134
 #: includes/class-wsfign-map-field.php:165
 msgid "Custom Attributes"
 msgstr "Attributs personnalisés"
 
-#: includes/class-wsfign-address-field.php:134
+#: includes/class-wsfign-address-field.php:138
 #: includes/class-wsfign-map-field.php:169
 msgid "Breakpoints"
 msgstr "Points de rupture"
 
-#: includes/class-wsfign-address-field.php:161
+#: includes/class-wsfign-address-field.php:165
 msgid "Field Mapping"
 msgstr "Correspondance des champs"
 
-#: includes/class-wsfign-address-field.php:179
+#: includes/class-wsfign-address-field.php:183
 msgid "Fields to fill in when the visitor chooses an address."
 msgstr "Champs à remplir quand le visiteur choisit une adresse."
 
-#: includes/class-wsfign-address-field.php:182
+#: includes/class-wsfign-address-field.php:186
 msgid "Component"
 msgstr "Composant"
 
-#: includes/class-wsfign-address-field.php:188
+#: includes/class-wsfign-address-field.php:192
 msgid "Form Field"
 msgstr "Champ du formulaire"
 
-#: includes/class-wsfign-address-field.php:191
-#: includes/class-wsfign-address-field.php:240
+#: includes/class-wsfign-address-field.php:195
+#: includes/class-wsfign-address-field.php:272
 msgid "Select..."
 msgstr "Sélectionner…"
 
-#: includes/class-wsfign-address-field.php:208
+#: includes/class-wsfign-address-field.php:212
 msgid "Full address"
 msgstr "Adresse complète"
 
-#: includes/class-wsfign-address-field.php:209
+#: includes/class-wsfign-address-field.php:213
 msgid "Number and street"
 msgstr "Numéro et rue"
 
-#: includes/class-wsfign-address-field.php:210
+#: includes/class-wsfign-address-field.php:214
 msgid "Postal code"
 msgstr "Code postal"
 
-#: includes/class-wsfign-address-field.php:211
+#: includes/class-wsfign-address-field.php:215
 msgid "City"
 msgstr "Ville"
 
-#: includes/class-wsfign-address-field.php:212
+#: includes/class-wsfign-address-field.php:216
 msgid "INSEE code"
 msgstr "Code INSEE"
 
-#: includes/class-wsfign-address-field.php:213
+#: includes/class-wsfign-address-field.php:217
 msgid "Department"
 msgstr "Département"
 
-#: includes/class-wsfign-address-field.php:214
+#: includes/class-wsfign-address-field.php:218
 #: includes/class-wsfign-map-field.php:196
 msgid "Latitude"
 msgstr "Latitude"
 
-#: includes/class-wsfign-address-field.php:215
+#: includes/class-wsfign-address-field.php:219
 #: includes/class-wsfign-map-field.php:203
 msgid "Longitude"
 msgstr "Longitude"
 
-#: includes/class-wsfign-address-field.php:242
+#: includes/class-wsfign-address-field.php:274
 msgid "IGN Map field to center on the chosen address."
 msgstr "Champ Carte IGN à centrer sur l'adresse choisie."
 
-#: includes/class-wsfign-address-field.php:245
+#: includes/class-wsfign-address-field.php:277
 #: includes/class-wsfign-map-field.php:210
 msgid "Zoom"
 msgstr "Zoom"
 
-#: includes/class-wsfign-address-field.php:250
+#: includes/class-wsfign-address-field.php:282
 msgid "Zoom of the map once an address is chosen."
 msgstr "Zoom de la carte une fois l'adresse choisie."
 
-#: includes/class-wsfign-address-field.php:253
+#: includes/class-wsfign-address-field.php:285
 msgid "Find the address on map click"
 msgstr "Chercher l'adresse au clic sur la carte"
 
-#: includes/class-wsfign-address-field.php:256
+#: includes/class-wsfign-address-field.php:288
 msgid "When the visitor places the marker, this field and its mapped fields receive the nearest address."
 msgstr "Quand le visiteur pose le marqueur, ce champ et ses champs liés reçoivent l'adresse la plus proche."
 
-#: includes/class-wsfign-assets.php:92
+#: includes/class-wsfign-assets.php:94
 msgid "Address suggestions"
 msgstr "Suggestions d'adresse"
 
-#: includes/class-wsfign-assets.php:93
+#: includes/class-wsfign-assets.php:95
 msgid "1 suggestion available. Use the arrow keys to browse."
 msgstr "1 suggestion disponible. Utilisez les flèches pour la parcourir."
 
 #. translators: %d: number of suggestions.
-#: includes/class-wsfign-assets.php:95
+#: includes/class-wsfign-assets.php:97
 #, php-format
 msgid "%d suggestions available. Use the arrow keys to browse."
 msgstr "%d suggestions disponibles. Utilisez les flèches pour les parcourir."
 
-#: includes/class-wsfign-assets.php:96
+#: includes/class-wsfign-address-field.php:240
 msgid "No suggestion. You can keep typing your address."
 msgstr "Aucune suggestion. Vous pouvez continuer à saisir votre adresse."
 
-#: includes/class-wsfign-assets.php:97
+#: includes/class-wsfign-address-field.php:241
 msgid "Address suggestions are unavailable right now. You can type your address by hand."
 msgstr "Les suggestions d'adresse sont indisponibles pour le moment. Vous pouvez saisir votre adresse à la main."
 
-#: includes/class-wsfign-assets.php:98
+#: includes/class-wsfign-address-field.php:242
 msgid "No address found at this location."
 msgstr "Aucune adresse trouvée à cet endroit."
 
@@ -262,6 +262,7 @@ msgstr "Contrôles"
 msgid "Marker"
 msgstr "Marqueur"
 
+#: includes/class-wsfign-address-field.php:122
 #: includes/class-wsfign-map-field.php:153
 msgid "Labels"
 msgstr "Libellés"
@@ -403,3 +404,15 @@ msgstr "Carte indisponible"
 #: includes/class-wsfign-map-field.php:307
 msgid "Location error"
 msgstr "Erreur de géolocalisation"
+
+#: includes/class-wsfign-address-field.php:255
+msgid "No suggestion"
+msgstr "Aucune suggestion"
+
+#: includes/class-wsfign-address-field.php:256
+msgid "Suggestions unavailable"
+msgstr "Suggestions indisponibles"
+
+#: includes/class-wsfign-address-field.php:257
+msgid "No address at this location"
+msgstr "Aucune adresse à cet endroit"
