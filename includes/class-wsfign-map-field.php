@@ -315,7 +315,7 @@ class WSFIGN_Map_Field {
 	 * @param string $default_text Texte utilisé si le réglage reste vide.
 	 * @return array
 	 */
-	private static function build_text_meta_key( $label, $default_text ) {
+	public static function build_text_meta_key( $label, $default_text ) {
 		return array(
 			'label'           => $label,
 			'type'            => 'text',

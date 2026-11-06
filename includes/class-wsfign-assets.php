@@ -88,14 +88,14 @@ class WSFIGN_Assets {
 	 */
 	private static function get_address_settings() {
 		return array(
-			'i18n' => array(
-				'suggestions'    => __( 'Address suggestions', 'wsform-ign' ),
-				'oneResult'      => __( '1 suggestion available. Use the arrow keys to browse.', 'wsform-ign' ),
-				/* translators: %d: number of suggestions. */
-				'manyResults'    => __( '%d suggestions available. Use the arrow keys to browse.', 'wsform-ign' ),
-				'noResults'      => __( 'No suggestion. You can keep typing your address.', 'wsform-ign' ),
-				'unavailable'    => __( 'Address suggestions are unavailable right now. You can type your address by hand.', 'wsform-ign' ),
-				'noAddressFound' => __( 'No address found at this location.', 'wsform-ign' ),
+			'i18n' => array_merge(
+				WSFIGN_Address_Field::get_default_texts(),
+				array(
+					'suggestions' => __( 'Address suggestions', 'wsform-ign' ),
+					'oneResult'   => __( '1 suggestion available. Use the arrow keys to browse.', 'wsform-ign' ),
+					/* translators: %d: number of suggestions. */
+					'manyResults' => __( '%d suggestions available. Use the arrow keys to browse.', 'wsform-ign' ),
+				)
 			),
 		);
 	}

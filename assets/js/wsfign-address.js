@@ -40,6 +40,20 @@
 		}
 
 		/**
+		 * Lit un texte réglé sur le champ, en résolvant les variables WS Form.
+		 *
+		 * @param {string} metaKey     Clé du réglage.
+		 * @param {string} defaultText Texte si le réglage est vide.
+		 * @return {string} Texte.
+		 */
+		getText( metaKey, defaultText ) {
+			const rawText = this.formInstance.get_object_meta_value( this.field, metaKey, '' );
+			const resolvedText = this.formInstance.parse_variables_process( String( rawText ) ).output;
+
+			return '' === resolvedText ? defaultText : resolvedText;
+		}
+
+		/**
 		 * Trouve un champ du formulaire par son identifiant, dans la même ligne répétable.
 		 *
 		 * @param {string|number} fieldId Identifiant du champ.
@@ -164,7 +178,7 @@
 		onServiceError( serviceError ) {
 			if ( 'AbortError' !== serviceError.name ) {
 				this.closeList();
-				this.$notice.text( settings.i18n.unavailable );
+				this.$notice.text( this.getText( 'wsfign_address_text_unavailable', settings.i18n.unavailable ) );
 			}
 		}
 
@@ -213,7 +227,7 @@
 		 */
 		getResultsMessage( count ) {
 			if ( 0 === count ) {
-				return settings.i18n.noResults;
+				return this.getText( 'wsfign_address_text_no_results', settings.i18n.noResults );
 			}
 
 			return 1 === count ? settings.i18n.oneResult : settings.i18n.manyResults.replace( '%d', count );
@@ -468,7 +482,7 @@
 		 */
 		applyReverseResult( suggestion, position ) {
 			if ( ! suggestion ) {
-				this.$notice.text( settings.i18n.noAddressFound );
+				this.$notice.text( this.getText( 'wsfign_address_text_no_address', settings.i18n.noAddressFound ) );
 				return;
 			}
 
