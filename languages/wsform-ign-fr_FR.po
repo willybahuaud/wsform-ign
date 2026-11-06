@@ -11,7 +11,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-06T15:49:40+01:00\n"
+"POT-Creation-Date: 2026-11-06T15:54:39+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wsform-ign\n"
@@ -225,40 +225,40 @@ msgstr "Aucune adresse trouvée à cet endroit."
 msgid "IGN map"
 msgstr "Plan IGN"
 
-#: includes/class-wsfign-assets.php:113
+#: includes/class-wsfign-assets.php:114
 #: includes/class-wsfign-map-field.php:235
 msgid "Aerial photos"
 msgstr "Photos aériennes"
 
-#: includes/class-wsfign-assets.php:119
+#: includes/class-wsfign-assets.php:121
 #: includes/class-wsfign-map-field.php:70
 #: includes/class-wsfign-map-field.php:116
 msgid "Map"
 msgstr "Carte"
 
-#: includes/class-wsfign-assets.php:120
+#: includes/class-wsfign-assets.php:122
 msgid "Place the marker at the center of the map"
 msgstr "Poser le marqueur au centre de la carte"
 
-#: includes/class-wsfign-assets.php:121
+#: includes/class-wsfign-assets.php:123
 msgid "Center on my location"
 msgstr "Centrer sur ma position"
 
-#: includes/class-wsfign-assets.php:122
+#: includes/class-wsfign-assets.php:124
 msgid "Your location could not be determined."
 msgstr "Votre position n'a pas pu être déterminée."
 
-#: includes/class-wsfign-assets.php:123
+#: includes/class-wsfign-assets.php:125
 msgid "The map background is unavailable right now. You can still send this form."
 msgstr "Le fond de carte est indisponible pour le moment. Vous pouvez quand même envoyer ce formulaire."
 
 #. translators: 1: latitude, 2: longitude.
-#: includes/class-wsfign-assets.php:125
+#: includes/class-wsfign-assets.php:127
 #, php-format
 msgid "Marker placed at latitude %1$s, longitude %2$s."
 msgstr "Marqueur posé en latitude %1$s, longitude %2$s."
 
-#: includes/class-wsfign-assets.php:126
+#: includes/class-wsfign-assets.php:128
 msgid "Marker removed."
 msgstr "Marqueur retiré."
 
@@ -349,3 +349,7 @@ msgstr "URL d'une image qui remplace le marqueur par défaut."
 #: includes/class-wsfign-submission-validation.php:46
 msgid "This location is not valid."
 msgstr "Cet emplacement n'est pas valide."
+
+#: includes/class-wsfign-updater.php:194
+msgid "The plugin folder could not be renamed during the update."
+msgstr "Le dossier du plugin n'a pas pu être renommé pendant la mise à jour."

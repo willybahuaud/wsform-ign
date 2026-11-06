@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-06T15:49:40+01:00\n"
+"POT-Creation-Date: 2026-11-06T15:54:39+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wsform-ign\n"
@@ -223,40 +223,40 @@ msgstr ""
 msgid "IGN map"
 msgstr ""
 
-#: includes/class-wsfign-assets.php:113
+#: includes/class-wsfign-assets.php:114
 #: includes/class-wsfign-map-field.php:235
 msgid "Aerial photos"
 msgstr ""
 
-#: includes/class-wsfign-assets.php:119
+#: includes/class-wsfign-assets.php:121
 #: includes/class-wsfign-map-field.php:70
 #: includes/class-wsfign-map-field.php:116
 msgid "Map"
 msgstr ""
 
-#: includes/class-wsfign-assets.php:120
+#: includes/class-wsfign-assets.php:122
 msgid "Place the marker at the center of the map"
 msgstr ""
 
-#: includes/class-wsfign-assets.php:121
+#: includes/class-wsfign-assets.php:123
 msgid "Center on my location"
 msgstr ""
 
-#: includes/class-wsfign-assets.php:122
+#: includes/class-wsfign-assets.php:124
 msgid "Your location could not be determined."
 msgstr ""
 
-#: includes/class-wsfign-assets.php:123
+#: includes/class-wsfign-assets.php:125
 msgid "The map background is unavailable right now. You can still send this form."
 msgstr ""
 
 #. translators: 1: latitude, 2: longitude.
-#: includes/class-wsfign-assets.php:125
+#: includes/class-wsfign-assets.php:127
 #, php-format
 msgid "Marker placed at latitude %1$s, longitude %2$s."
 msgstr ""
 
-#: includes/class-wsfign-assets.php:126
+#: includes/class-wsfign-assets.php:128
 msgid "Marker removed."
 msgstr ""
 
@@ -346,4 +346,8 @@ msgstr ""
 
 #: includes/class-wsfign-submission-validation.php:46
 msgid "This location is not valid."
+msgstr ""
+
+#: includes/class-wsfign-updater.php:194
+msgid "The plugin folder could not be renamed during the update."
 msgstr ""

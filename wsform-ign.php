@@ -27,6 +27,8 @@ require_once WSFIGN_DIR . 'includes/class-wsfign-address-field.php';
 require_once WSFIGN_DIR . 'includes/class-wsfign-assets.php';
 require_once WSFIGN_DIR . 'includes/class-wsfign-submission-display.php';
 require_once WSFIGN_DIR . 'includes/class-wsfign-submission-validation.php';
+require_once WSFIGN_DIR . 'includes/class-wsfign-github-release.php';
+require_once WSFIGN_DIR . 'includes/class-wsfign-updater.php';
 
 /**
  * Charge les traductions embarquées.
@@ -45,3 +47,6 @@ WSFIGN_Address_Field::register_hooks();
 WSFIGN_Assets::register_hooks();
 WSFIGN_Submission_Display::register_hooks();
 WSFIGN_Submission_Validation::register_hooks();
+
+$wsfign_updater = new WSFIGN_Updater( __FILE__, WSFIGN_VERSION, 'willybahuaud', 'wsform-ign', 'Carte IGN pour WS Form' );
+$wsfign_updater->register_hooks();
