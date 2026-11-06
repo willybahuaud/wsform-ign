@@ -82,7 +82,7 @@ class WSFIGN_Submission_Validation {
 
 		if ( ! is_array( $position ) ) {
 			$parts    = explode( ',', $field_value );
-			$position = 2 === count( $parts ) ? array_combine( array( 'lat', 'lng' ), $parts ) : array();
+			$position = count( $parts ) >= 2 ? array_combine( array( 'lat', 'lng' ), array_slice( $parts, 0, 2 ) ) : array();
 		}
 
 		return isset( $position['lat'], $position['lng'] )

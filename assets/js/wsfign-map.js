@@ -30,7 +30,8 @@
 			parsedValue = JSON.parse( rawValue );
 		} catch ( parseError ) {
 			const parts = String( rawValue ).split( ',' );
-			parsedValue = 2 === parts.length ? { lat: parts[ 0 ], lng: parts[ 1 ] } : null;
+			// Meta Box stocke « lat,lng,zoom » : le zoom éventuel est ignoré, comme dans le cœur.
+			parsedValue = parts.length >= 2 ? { lat: parts[ 0 ], lng: parts[ 1 ] } : null;
 		}
 
 		if ( ! parsedValue || 'object' !== typeof parsedValue ) {
