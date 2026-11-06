@@ -71,7 +71,7 @@ Updates come from the GitHub releases of the plugin, not from WordPress.org.
 * Map: a short hint explains how to place the point.
 * Map: the layer switch is now a direct button, and the location button sits inside the map.
 * Map: the action to place the point is more discreet, and "Clear" only shows when there is a point.
-* Map: the message no longer shows coordinates. Screen readers still announce them.
+* Map: the message says whether the point was placed or updated, with its coordinates. A new field option can hide them, and screen readers still announce them.
 * Mobile: one finger scrolls the page, two fingers move the map. The map is at least 280 px high, with 44 px touch targets.
 
 = 0.1.4 =
