@@ -71,9 +71,9 @@ Les règles du répertoire WordPress.org interdisent à un plugin de se mettre �
 - [x] Aucun jeton n'est présent dans le code.
 - [x] Le workflow refuse un tag différent de la version du plugin. Vérifié sur GitHub Actions le 2026-11-06 : la vérification échoue, le build et la publication sont sautés, et aucune release n'est créée.
 
-## Défauts connus de la fenêtre « Voir les détails »
+## Fenêtre « Voir les détails »
 
-Relevés sur la mise à jour réelle, sans effet sur l'installation :
+Deux pièges relevés sur la mise à jour réelle, et corrigés en 0.1.2 :
 
-- **Fausse alerte :** `Tested up to: 7.1` déclenche « n'a pas été testée » sur WordPress 7.1.4, car le cœur compare `7.1.4` à `7.1` avec `version_compare`.
-- **Notes de version :** le corps de la release s'affiche en Markdown brut.
+- **Version testée :** la fenêtre compare les versions telles quelles, et préviendrait à tort pour `Tested up to: 7.1` sur WordPress 7.1.4. `WSFIGN_Updater` présente donc la version courante si elle appartient à la branche déclarée. La fenêtre affiche alors « Compatible jusqu'à 7.1.4 ».
+- **Notes de version :** GitHub les génère en Markdown. `WSFIGN_Release_Notes` les convertit après échappement, sans `make_clickable`, qui couperait les liens de comparaison.
