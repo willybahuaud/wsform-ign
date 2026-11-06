@@ -15,7 +15,7 @@ https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER={cou
 | `GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2` | `image/png` | 200 |
 | `ORTHOIMAGERY.ORTHOPHOTOS` | `image/jpeg` | 200 |
 
-Testé sur une seule tuile, au zoom 12 (`TILEROW=1400`, `TILECOL=2100`). Les zooms maximaux de chaque couche restent à relever dans `https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetCapabilities`.
+Les deux couches vont du zoom 0 au zoom 19 (ensemble `PM_0_19` dans `https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetCapabilities`, relevé le 2026-11-06).
 
 ## Adresses
 
@@ -79,7 +79,9 @@ Les appels partent du navigateur du visiteur (CORS ouvert, `access-control-allow
 
 - Les données sont sous la licence choisie par leur fournisseur, et par défaut sous Licence Ouverte Etalab.
 - Les CGU prévoient un usage « à des fins commerciales ou non », et les services sont gratuits sauf licence spécifique.
-- **À vérifier avant publication :** la mention d'attribution à afficher sur la carte. Elle n'a été trouvée sur aucune page lue. Regarde les métadonnées des deux couches et le texte de la Licence Ouverte.
+- Les métadonnées des couches Plan IGN et BD ORTHO indiquent toutes deux la Licence Ouverte (relevé le 2026-11-06, fiches CSW `IGNF_PLAN-IGN` et `IGNF_BD-ORTHO`).
+- La Licence Ouverte 2.0 demande de mentionner la source et la date de dernière mise à jour. Elle admet un lien hypertexte vers la source, avec une mention effective de la paternité. Elle interdit de suggérer une caution du concédant.
+- **Attribution retenue :** « IGN, Plan IGN » ou « IGN, Photos aériennes », avec un lien vers la fiche cartes.gouv.fr de la couche. Celle du Plan IGN affiche « Mise à jour continue ». Aucun texte officiel imposé n'a été trouvé : les CGU renvoient à la licence de chaque donnée.
 
 ## Sources
 

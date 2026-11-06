@@ -1,6 +1,6 @@
 # Brief : carte IGN et adresses BAN pour WS Form
 
-Rédigé le 2026-11-06. Dépôt GitHub privé : `willybahuaud/wsform-ign`. Aucun code n'existe encore dans ce dépôt, et aucune de ces hypothèses n'a été essayée dans WS Form.
+Rédigé le 2026-11-06. Dépôt GitHub privé : `willybahuaud/wsform-ign`. Les critères cochés ci-dessous ont été vérifiés sur WS Form PRO et LITE 1.12.19.
 
 ## Pourquoi
 
@@ -61,7 +61,7 @@ Le plugin se met à jour depuis les releases GitHub, sur le modèle de `wboard-c
 
 ## Risques à lever en premier, dans cet ordre
 
-1. **Type de champ tiers :** le cœur traite `googlemap` à part dans une dizaine de fichiers. Vérifie la liste des soumissions, les e-mails, l'export CSV, `#field(ID)` et le mapping ACF, Meta Box et Post Management.
+1. **Type de champ tiers :** le cœur traite `googlemap` à part dans une dizaine de fichiers. Vérifie la liste des soumissions, les e-mails, l'export CSV, `#field(ID)` et le mapping ACF, Meta Box et Post Management. **Le mapping reste à tester.**
 2. **WS Form LITE :** le filtre semble partagé, mais rien n'a été essayé. Si le champ marche sur LITE, tout le monde peut l'essayer sans licence. Dis clairement ce qui marche ou non sur chaque édition.
 3. **Éditeur visuel :** le rendu et les réglages du champ dans le constructeur.
 4. **Sections répétables :** une carte ajoutée à la volée.
@@ -69,19 +69,19 @@ Le plugin se met à jour depuis les releases GitHub, sur le modèle de `wboard-c
 
 ## Critères d'acceptation
 
-- [ ] Sur `wsform-lab`, avec la dernière version de WS Form PRO, un formulaire contenant les deux champs s'affiche sans erreur en console et sans clé.
-- [ ] Le choix d'une adresse remplit les champs mappés et centre la carte.
-- [ ] Un clic pose le marqueur, et sa valeur est bien enregistrée dans la soumission.
-- [ ] La valeur est lisible dans la liste des soumissions, l'e-mail et l'export CSV.
-- [ ] La logique conditionnelle fonctionne au minimum en visibilité, obligatoire et validation.
-- [ ] Le champ fonctionne dans une section répétable et dans un onglet d'abord masqué.
-- [ ] L'autocomplétion s'utilise entièrement au clavier, avec un balisage de type combobox.
-- [ ] La carte reste utilisable sans la souris, ou le formulaire offre une autre saisie.
-- [ ] Si l'API IGN est coupée ou renvoie 429, le formulaire reste envoyable et un message clair s'affiche.
-- [ ] Une page sans ces champs ne charge ni Leaflet ni les scripts du plugin.
-- [ ] PHPCS (WordPress) passe sans erreur, et la vérification avec Plugin Check est faite.
-- [ ] Le README et le `readme.txt` existent, les limites comprises.
-- [ ] La compatibilité avec LITE est testée et documentée.
+- [x] Sur `wsform-lab`, avec la dernière version de WS Form PRO, un formulaire contenant les deux champs s'affiche sans erreur en console et sans clé.
+- [x] Le choix d'une adresse remplit les champs mappés et centre la carte.
+- [x] Un clic pose le marqueur, et sa valeur est bien enregistrée dans la soumission.
+- [x] La valeur est lisible dans la liste des soumissions, l'e-mail et l'export CSV. Limites documentées : `#field(ID)` hors e-mail et détail d'une soumission.
+- [x] La logique conditionnelle fonctionne au minimum en visibilité, obligatoire et validation.
+- [x] Le champ fonctionne dans une section répétable et dans un onglet d'abord masqué.
+- [x] L'autocomplétion s'utilise entièrement au clavier, avec un balisage de type combobox.
+- [x] La carte reste utilisable sans la souris, ou le formulaire offre une autre saisie.
+- [x] Si l'API IGN est coupée ou renvoie 429, le formulaire reste envoyable et un message clair s'affiche.
+- [x] Une page sans ces champs ne charge ni Leaflet ni les scripts du plugin.
+- [x] PHPCS (WordPress) passe sans erreur, et la vérification avec Plugin Check est faite.
+- [x] Le README et le `readme.txt` existent, les limites comprises.
+- [x] La compatibilité avec LITE est testée et documentée.
 
 Vérifie en vrai navigateur avec Playwright et donne la preuve de chaque critère. Ne coche pas un critère non vérifié.
 

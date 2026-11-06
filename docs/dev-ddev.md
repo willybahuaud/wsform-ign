@@ -29,6 +29,14 @@ services:
 
 Puis `ddev restart`.
 
+**Attention :** ce montage expose le dépôt lui-même. Une vraie mise à jour du plugin dans ce dossier effacerait le dépôt, `.git` compris. Pour tester l'auto-update :
+
+1. Commite ton travail.
+2. Retire la ligne `wsform-ign` du montage et relance ddev.
+3. Vérifie que `ddev exec "mount | grep -c 'plugins/wsform-ign '"` affiche `0`.
+4. Dézippe l'archive de `bin/build-release.sh` dans `wp-content/plugins/` et fais tes essais.
+5. Supprime cette copie, remets la ligne et relance ddev.
+
 ## WS Form
 
 - **PRO :** Willy le télécharge depuis son compte (`https://wsform.com/my-account/downloads/`) et le dézippe dans `wp-content/plugins/`. Prends la dernière version.

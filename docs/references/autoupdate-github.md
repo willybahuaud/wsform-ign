@@ -19,6 +19,12 @@ Willy veut que ce plugin se mette à jour depuis les releases GitHub, sur le mod
 
 La version vient de `GET https://api.github.com/repos/{owner}/{repo}/releases/latest`, avec un transient de 12 h et un cache en mémoire.
 
+## Écart assumé avec le modèle
+
+`pre_set_site_transient_update_plugins` est remplacé par `update_plugins_github.com`, le filtre natif que WordPress déclenche à partir de l'en-tête `Update URI`. Il range lui-même la réponse dans `response` ou `no_update`, ce qui règle l'interrupteur du point 5 ci-dessous. Tout plugin dont l'`Update URI` vise github.com passe par ce filtre : il faut comparer le basename.
+
+La compatibilité vient d'un manifeste `<slug>-X.Y.Z.json` joint à la release, généré par `bin/build-release.sh`.
+
 ## Limite bloquante : le dépôt privé
 
 **L'updater du modèle appelle l'API sans authentification. Sur un dépôt privé, GitHub répond 404 et le plugin ne propose jamais de mise à jour, sans aucune erreur.** Le modèle fonctionne parce que son dépôt est public.
@@ -55,10 +61,10 @@ Les règles du répertoire WordPress.org interdisent à un plugin de se mettre �
 
 ## Critères d'acceptation
 
-- [ ] Avec des réponses simulées, une version plus récente apparaît dans l'admin et la mise à jour s'installe dans le bon dossier.
-- [ ] Le plugin reste actif après la mise à jour, sans perte de réglages.
-- [ ] Un 404, un 403 de limite ou un délai dépassé ne produisent ni erreur visible ni ralentissement de l'admin.
-- [ ] L'archive installée ne contient ni `docs/` ni `tests/`.
-- [ ] Une release sans archive ne propose pas de mise à jour.
-- [ ] Aucun jeton n'est présent dans le code.
-- [ ] Le workflow refuse un tag différent de la version du plugin.
+- [x] Avec des réponses simulées, une version plus récente apparaît dans l'admin et la mise à jour s'installe dans le bon dossier. L'essai réel sur un dépôt public reste à faire.
+- [x] Le plugin reste actif après la mise à jour, sans perte de réglages.
+- [x] Un 404, un 403 de limite ou un délai dépassé ne produisent ni erreur visible ni ralentissement de l'admin.
+- [x] L'archive installée ne contient ni `docs/` ni `tests/`.
+- [x] Une release sans archive ne propose pas de mise à jour.
+- [x] Aucun jeton n'est présent dans le code.
+- [ ] Le workflow refuse un tag différent de la version du plugin. Script `bin/check-tag.sh` vérifié en local : le workflow lui-même n'a jamais tourné sur GitHub Actions.
