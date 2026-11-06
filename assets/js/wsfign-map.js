@@ -197,12 +197,12 @@
 		 */
 		createInterface() {
 			const hintId = this.$input.attr( 'id' ) + '-hint';
-			const $hint = $( '<div class="wsfign-map-hint"></div>' )
+			const $hint = $( '<div class="wsf-help wsf-help-pre wsfign-map-hint"></div>' )
 				.attr( 'id', hintId )
-				.text( L.Browser.mobile ? settings.i18n.hintTouch : settings.i18n.hintMouse );
+				.text( this.getSetting( 'wsfign_map_text_hint', L.Browser.mobile ? settings.i18n.hintTouch : settings.i18n.hintMouse ) );
 
-			this.$placeButton = this.createButton( settings.i18n.placeAtCenter, this.onPlaceAtCenterClick, 'wsfign-map-button' );
-			this.$notice = $( '<div class="wsfign-map-notice" role="status"></div>' );
+			this.$placeButton = this.createButton( this.getSetting( 'wsfign_map_text_place_button', settings.i18n.placeAtCenter ), this.onPlaceAtCenterClick, 'wsf-button wsf-button-secondary' );
+			this.$notice = $( '<div class="wsf-help wsfign-map-notice" role="status"></div>' );
 			this.$clear = this.$input.parent().find( '.wsfign-map-clear' );
 
 			this.$map.before( $hint );
@@ -318,7 +318,7 @@
 		 * Signale l'échec de la géolocalisation.
 		 */
 		onLocateError() {
-			this.$notice.text( settings.i18n.locateError );
+			this.$notice.text( this.getSetting( 'wsfign_map_text_locate_error', settings.i18n.locateError ) );
 		}
 
 		/**
@@ -329,7 +329,7 @@
 		onClearClick( clickEvent ) {
 			clickEvent.preventDefault();
 			this.$input.val( '' ).trigger( 'change' );
-			this.$notice.text( settings.i18n.markerCleared );
+			this.$notice.text( this.getSetting( 'wsfign_map_text_removed', settings.i18n.markerCleared ) );
 			// Le lien vient de disparaître : le focus clavier ne doit pas se perdre avec lui.
 			this.$placeButton.trigger( 'focus' );
 		}
@@ -368,7 +368,16 @@
 		 */
 		onTilesUnavailable() {
 			this.tilesFailed = true;
-			this.$notice.text( settings.i18n.tilesError );
+			this.$notice.text( this.getUnavailableText() );
+		}
+
+		/**
+		 * Retourne le message d'indisponibilité du fond de carte.
+		 *
+		 * @return {string} Message.
+		 */
+		getUnavailableText() {
+			return this.getSetting( 'wsfign_map_text_unavailable', settings.i18n.tilesError );
 		}
 
 		/**
@@ -383,7 +392,7 @@
 
 			this.tilesFailed = false;
 
-			if ( settings.i18n.tilesError === this.$notice.text() ) {
+			if ( this.getUnavailableText() === this.$notice.text() ) {
 				this.$notice.text( '' );
 			}
 		}
@@ -452,7 +461,7 @@
 				.replace( '%2$s', latLng.lng.toFixed( COORDINATE_DECIMALS ) );
 
 			this.$notice
-				.text( ( isUpdate ? settings.i18n.markerUpdated : settings.i18n.markerPlaced ) + ' ' )
+				.text( ( isUpdate ? this.getSetting( 'wsfign_map_text_updated', settings.i18n.markerUpdated ) : this.getSetting( 'wsfign_map_text_placed', settings.i18n.markerPlaced ) ) + ' ' )
 				.append( $( '<span></span>' ).toggleClass( 'wsfign-map-sr-only', ! showCoordinates ).text( coordinates ) );
 		}
 

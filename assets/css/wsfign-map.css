@@ -24,37 +24,30 @@
 	transform: translate(-50%, -100%);
 }
 
-.wsfign-map-hint {
-	font-size: 0.875em;
-	margin-bottom: 0.5em;
-}
-
 .wsfign-map-actions {
 	margin-top: 0.5em;
 }
 
-/* Action secondaire : elle ne doit pas ressembler au bouton d'envoi du formulaire. */
-.wsfign-map-button {
-	background: transparent;
-	border: 1px solid currentColor;
-	border-radius: 0.25em;
-	color: inherit;
-	cursor: pointer;
-	font: inherit;
-	font-size: 0.875em;
-	min-height: 2.5em;
-	padding: 0.25em 0.75em;
+/* Les contrôles flottent sur la carte : ils reprennent les couleurs et la police des champs du formulaire. */
+.wsf-form .wsfign-map-canvas .leaflet-bar a,
+.wsfign-map-control button {
+	background-color: var(--wsf-field-color-background, #fff);
+	color: var(--wsf-field-color, #000);
+}
+
+.wsf-form .wsfign-map-canvas .leaflet-bar a:hover,
+.wsfign-map-control button:hover {
+	background-color: var(--wsf-field-color-background-hover, #f4f4f4);
+	color: var(--wsf-field-color, #000);
 }
 
 .wsfign-map-control button {
 	align-items: center;
-	background: #fff;
 	border: 0;
 	border-radius: 4px;
-	color: #000;
 	cursor: pointer;
 	display: flex;
-	font: inherit;
+	font-family: var(--wsf-form-font-family, inherit);
 	font-size: 0.8125rem;
 	justify-content: center;
 	min-height: 30px;
@@ -64,10 +57,6 @@
 
 .wsfign-map-control .wsfign-map-layer-toggle {
 	padding: 0 0.75em;
-}
-
-.wsfign-map-control button:hover {
-	background: #f4f4f4;
 }
 
 .wsfign-map-sr-only {
@@ -105,12 +94,13 @@
 		min-height: 280px;
 	}
 
-	.wsfign-map-button {
+	.wsf-form .wsfign-map-actions button.wsf-button {
 		min-height: 44px;
 	}
 }
 
-.wsfign-map-notice:empty {
+/* Spécificité du cœur à égaler : sa classe wsf-help impose display: block. */
+.wsf-form .wsfign-map-notice:empty {
 	display: none;
 }
 

@@ -61,6 +61,9 @@ class WSFIGN_Assets {
 		wp_enqueue_script( 'wsfign-map', WSFIGN_URL . 'assets/js/wsfign-map.js', array( 'jquery', 'wsfign-leaflet', 'wsfign-fields', 'wsfign-tile-retry' ), WSFIGN_VERSION, true );
 
 		wp_localize_script( 'wsfign-map', 'wsfignMapSettings', self::get_map_settings() );
+
+		// Le cœur ne charge ce CSS que pour ses propres boutons : un formulaire sans bouton d'envoi en serait privé.
+		add_filter( 'wsf_enqueue_css_button', '__return_true' );
 	}
 
 	/**
@@ -118,19 +121,15 @@ class WSFIGN_Assets {
 					'source' => 'https://cartes.gouv.fr/rechercher-une-donnee/dataset/IGNF_BD-ORTHO',
 				),
 			),
-			'i18n'   => array(
-				'mapLabel'          => __( 'Map', 'wsform-ign' ),
-				'hintMouse'         => __( 'Click the map to place the point.', 'wsform-ign' ),
-				'hintTouch'         => __( 'Tap the map to place the point. Use two fingers to move the map.', 'wsform-ign' ),
-				'placeAtCenter'     => __( 'Place the point at the center', 'wsform-ign' ),
-				'locateMe'          => __( 'Center on my location', 'wsform-ign' ),
-				'locateError'       => __( 'Your location could not be determined.', 'wsform-ign' ),
-				'tilesError'        => __( 'The map background is unavailable right now. You can still send this form.', 'wsform-ign' ),
-				'markerPlaced'      => __( 'Point placed.', 'wsform-ign' ),
-				'markerUpdated'     => __( 'Point updated.', 'wsform-ign' ),
-				/* translators: 1: latitude, 2: longitude. */
-				'markerCoordinates' => __( 'Latitude %1$s, longitude %2$s.', 'wsform-ign' ),
-				'markerCleared'     => __( 'Point removed.', 'wsform-ign' ),
+			'i18n'   => array_merge(
+				WSFIGN_Map_Field::get_default_texts(),
+				array(
+					'mapLabel'          => __( 'Map', 'wsform-ign' ),
+					'hintTouch'         => __( 'Tap the map to place the point. Use two fingers to move the map.', 'wsform-ign' ),
+					'locateMe'          => __( 'Center on my location', 'wsform-ign' ),
+					/* translators: 1: latitude, 2: longitude. */
+					'markerCoordinates' => __( 'Latitude %1$s, longitude %2$s.', 'wsform-ign' ),
+				)
 			),
 		);
 	}

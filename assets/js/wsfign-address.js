@@ -83,7 +83,7 @@
 			} );
 
 			this.$status = $( '<div class="wsfign-address-status" role="status"></div>' );
-			this.$notice = $( '<div class="wsfign-address-notice" role="alert"></div>' );
+			this.$notice = $( '<div class="wsf-help wsfign-address-notice" role="alert"></div>' );
 			this.$listbox.parent().after( this.$status, this.$notice );
 		}
 

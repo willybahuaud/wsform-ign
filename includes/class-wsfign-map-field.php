@@ -151,7 +151,7 @@ class WSFIGN_Map_Field {
 					),
 					array(
 						'label'     => __( 'Labels', 'wsform-ign' ),
-						'meta_keys' => array( 'text_clear' ),
+						'meta_keys' => array( 'text_clear', 'wsfign_map_text_hint', 'wsfign_map_text_place_button', 'wsfign_map_text_placed', 'wsfign_map_text_updated', 'wsfign_map_text_removed', 'wsfign_map_text_unavailable', 'wsfign_map_text_locate_error' ),
 					),
 					array(
 						'label'     => __( 'Restrictions', 'wsform-ign' ),
@@ -182,7 +182,7 @@ class WSFIGN_Map_Field {
 	 * @return array
 	 */
 	public static function register_meta_keys( $meta_keys ) {
-		return array_merge( $meta_keys, self::get_map_meta_keys(), self::get_marker_meta_keys() );
+		return array_merge( $meta_keys, self::get_map_meta_keys(), self::get_marker_meta_keys(), self::get_text_meta_keys() );
 	}
 
 	/**
@@ -269,6 +269,59 @@ class WSFIGN_Map_Field {
 				'default' => 'on',
 				'help'    => __( 'Shows the latitude and longitude once the point is placed. Screen readers announce them either way.', 'wsform-ign' ),
 			),
+		);
+	}
+
+	/**
+	 * Retourne les textes par défaut que chaque champ peut remplacer.
+	 *
+	 * @return string[] Textes, par clé attendue du script de la carte.
+	 */
+	public static function get_default_texts() {
+		return array(
+			'hintMouse'     => __( 'Click the map to place the point.', 'wsform-ign' ),
+			'placeAtCenter' => __( 'Place the point at the center', 'wsform-ign' ),
+			'markerPlaced'  => __( 'Point placed.', 'wsform-ign' ),
+			'markerUpdated' => __( 'Point updated.', 'wsform-ign' ),
+			'markerCleared' => __( 'Point removed.', 'wsform-ign' ),
+			'tilesError'    => __( 'The map background is unavailable right now. You can still send this form.', 'wsform-ign' ),
+			'locateError'   => __( 'Your location could not be determined.', 'wsform-ign' ),
+		);
+	}
+
+	/**
+	 * Retourne les réglages des textes de la carte.
+	 *
+	 * @return array
+	 */
+	private static function get_text_meta_keys() {
+		$defaults = self::get_default_texts();
+
+		return array(
+			'wsfign_map_text_hint'         => self::build_text_meta_key( __( 'Help above the map', 'wsform-ign' ), $defaults['hintMouse'] ),
+			'wsfign_map_text_place_button' => self::build_text_meta_key( __( 'Place button', 'wsform-ign' ), $defaults['placeAtCenter'] ),
+			'wsfign_map_text_placed'       => self::build_text_meta_key( __( 'Point placed', 'wsform-ign' ), $defaults['markerPlaced'] ),
+			'wsfign_map_text_updated'      => self::build_text_meta_key( __( 'Point updated', 'wsform-ign' ), $defaults['markerUpdated'] ),
+			'wsfign_map_text_removed'      => self::build_text_meta_key( __( 'Point removed', 'wsform-ign' ), $defaults['markerCleared'] ),
+			'wsfign_map_text_unavailable'  => self::build_text_meta_key( __( 'Map unavailable', 'wsform-ign' ), $defaults['tilesError'] ),
+			'wsfign_map_text_locate_error' => self::build_text_meta_key( __( 'Location error', 'wsform-ign' ), $defaults['locateError'] ),
+		);
+	}
+
+	/**
+	 * Construit le réglage d'un texte, vide par défaut pour suivre les traductions.
+	 *
+	 * @param string $label        Libellé du réglage.
+	 * @param string $default_text Texte utilisé si le réglage reste vide.
+	 * @return array
+	 */
+	private static function build_text_meta_key( $label, $default_text ) {
+		return array(
+			'label'           => $label,
+			'type'            => 'text',
+			'default'         => '',
+			'placeholder'     => $default_text,
+			'variable_helper' => true,
 		);
 	}
 
