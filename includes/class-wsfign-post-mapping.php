@@ -102,7 +102,7 @@ class WSFIGN_Post_Mapping {
 		self::$original_values = array();
 
 		foreach ( (array) $submit->meta as $meta_key => $field_meta ) {
-			if ( ! isset( $field_meta['type'], $field_meta['value'] ) || WSFIGN_Map_Field::FIELD_TYPE !== $field_meta['type'] || ! is_string( $field_meta['value'] ) ) {
+			if ( ! WSFIGN_Map_Field::is_map_meta( $field_meta ) ) {
 				continue;
 			}
 

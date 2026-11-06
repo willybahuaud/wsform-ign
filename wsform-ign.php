@@ -22,6 +22,7 @@ define( 'WSFIGN_VERSION', '0.3.0' );
 define( 'WSFIGN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WSFIGN_DIR', plugin_dir_path( __FILE__ ) );
 
+require_once WSFIGN_DIR . 'includes/class-wsfign-field-config.php';
 require_once WSFIGN_DIR . 'includes/class-wsfign-map-field.php';
 require_once WSFIGN_DIR . 'includes/class-wsfign-address-field.php';
 require_once WSFIGN_DIR . 'includes/class-wsfign-assets.php';
