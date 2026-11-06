@@ -52,6 +52,11 @@ class WSFIGN_Assets {
 	 * @return void
 	 */
 	private static function enqueue_map_assets() {
+		// Appelé pour chaque champ : un second appel dupliquerait les réglages dans la page.
+		if ( wp_script_is( 'wsfign-map', 'enqueued' ) ) {
+			return;
+		}
+
 		wp_enqueue_style( 'wsfign-leaflet', WSFIGN_URL . 'assets/vendor/leaflet/leaflet.css', array(), self::LEAFLET_VERSION );
 		wp_enqueue_style( 'wsfign-map', WSFIGN_URL . 'assets/css/wsfign-map.css', array( 'wsfign-leaflet' ), WSFIGN_VERSION );
 
@@ -72,6 +77,10 @@ class WSFIGN_Assets {
 	 * @return void
 	 */
 	private static function enqueue_address_assets() {
+		if ( wp_script_is( 'wsfign-address', 'enqueued' ) ) {
+			return;
+		}
+
 		wp_enqueue_style( 'wsfign-address', WSFIGN_URL . 'assets/css/wsfign-address.css', array(), WSFIGN_VERSION );
 
 		wp_enqueue_script( 'wsfign-fields', WSFIGN_URL . 'assets/js/wsfign-fields.js', array( 'jquery' ), WSFIGN_VERSION, true );
@@ -125,6 +134,7 @@ class WSFIGN_Assets {
 				WSFIGN_Map_Field::get_default_texts(),
 				array(
 					'mapLabel'          => __( 'Map', 'wsform-ign' ),
+					'markerLabel'       => __( 'Point on the map', 'wsform-ign' ),
 					'hintTouch'         => __( 'Tap the map to place the point. Use two fingers to move the map.', 'wsform-ign' ),
 					'locateMe'          => __( 'Center on my location', 'wsform-ign' ),
 					/* translators: 1: latitude, 2: longitude. */

@@ -40,17 +40,14 @@
 		}
 
 		/**
-		 * Lit un texte réglé sur le champ, en résolvant les variables WS Form.
+		 * Lit un réglage du champ.
 		 *
-		 * @param {string} metaKey     Clé du réglage.
-		 * @param {string} defaultText Texte si le réglage est vide.
-		 * @return {string} Texte.
+		 * @param {string} metaKey      Clé du réglage.
+		 * @param {string} defaultValue Valeur si le réglage est vide.
+		 * @return {string} Valeur du réglage.
 		 */
-		getText( metaKey, defaultText ) {
-			const rawText = this.formInstance.get_object_meta_value( this.field, metaKey, '' );
-			const resolvedText = this.formInstance.parse_variables_process( String( rawText ) ).output;
-
-			return '' === resolvedText ? defaultText : resolvedText;
+		getSetting( metaKey, defaultValue ) {
+			return window.wsfignFields.getSetting( this.formInstance, this.field, metaKey, defaultValue );
 		}
 
 		/**
@@ -79,8 +76,8 @@
 		/**
 		 * Pose le balisage de combobox et les zones de message.
 		 *
-		 * Le message d'état reste invisible, pour les lecteurs d'écran : la liste
-		 * ouverte suffit à l'œil. Une panne, elle, doit se voir.
+		 * Le nombre de suggestions reste invisible, pour les lecteurs d'écran : la liste
+		 * ouverte suffit à l'œil. Une panne ou une liste vide, elles, doivent se voir.
 		 */
 		createCombobox() {
 			const listboxId = this.$input.attr( 'id' ) + '-listbox';
@@ -137,6 +134,7 @@
 
 			if ( ! banClient.isSearchable( query ) ) {
 				this.closeList();
+				this.$notice.text( '' );
 				return;
 			}
 
@@ -178,7 +176,7 @@
 		onServiceError( serviceError ) {
 			if ( 'AbortError' !== serviceError.name ) {
 				this.closeList();
-				this.$notice.text( this.getText( 'wsfign_address_text_unavailable', settings.i18n.unavailable ) );
+				this.$notice.text( this.getSetting( 'wsfign_address_text_unavailable', settings.i18n.unavailable ) );
 			}
 		}
 
@@ -194,6 +192,7 @@
 			this.$listbox.prop( 'hidden', 0 === suggestions.length );
 			this.$input.attr( 'aria-expanded', String( suggestions.length > 0 ) );
 			this.$status.text( this.getResultsMessage( suggestions.length ) );
+			this.$notice.text( 0 === suggestions.length ? this.getSetting( 'wsfign_address_text_no_results', settings.i18n.noResults ) : '' );
 		}
 
 		/**
@@ -222,12 +221,14 @@
 		/**
 		 * Retourne le message annonçant le nombre de résultats.
 		 *
+		 * À zéro, la zone de message visible l'annonce déjà : role="alert" le fait lire.
+		 *
 		 * @param {number} count Nombre de résultats.
 		 * @return {string} Message.
 		 */
 		getResultsMessage( count ) {
 			if ( 0 === count ) {
-				return this.getText( 'wsfign_address_text_no_results', settings.i18n.noResults );
+				return '';
 			}
 
 			return 1 === count ? settings.i18n.oneResult : settings.i18n.manyResults.replace( '%d', count );
@@ -443,10 +444,7 @@
 		 * @return {number} Zoom.
 		 */
 		getMapZoom() {
-			const rawZoom = this.formInstance.get_object_meta_value( this.field, 'wsfign_address_map_zoom', '' );
-			const resolvedZoom = this.formInstance.parse_variables_process( String( rawZoom ) ).output;
-
-			return parseInt( resolvedZoom, 10 ) || DEFAULT_MAP_ZOOM;
+			return parseInt( this.getSetting( 'wsfign_address_map_zoom', '' ), 10 ) || DEFAULT_MAP_ZOOM;
 		}
 
 		/**
@@ -482,7 +480,7 @@
 		 */
 		applyReverseResult( suggestion, position ) {
 			if ( ! suggestion ) {
-				this.$notice.text( this.getText( 'wsfign_address_text_no_address', settings.i18n.noAddressFound ) );
+				this.$notice.text( this.getSetting( 'wsfign_address_text_no_address', settings.i18n.noAddressFound ) );
 				return;
 			}
 

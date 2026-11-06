@@ -84,17 +84,28 @@
 		}
 
 		/**
-		 * Lit un réglage en résolvant les variables WS Form (#field, etc.).
+		 * Lit un réglage du champ.
 		 *
 		 * @param {string} metaKey      Clé du réglage.
 		 * @param {string} defaultValue Valeur si le réglage est vide.
 		 * @return {string} Valeur du réglage.
 		 */
 		getSetting( metaKey, defaultValue ) {
-			const rawValue = this.formInstance.get_object_meta_value( this.field, metaKey, defaultValue );
-			const resolvedValue = this.formInstance.parse_variables_process( String( rawValue ) ).output;
+			return window.wsfignFields.getSetting( this.formInstance, this.field, metaKey, defaultValue );
+		}
 
-			return '' === resolvedValue ? defaultValue : resolvedValue;
+		/**
+		 * Lit un réglage numérique. Zéro reste valable : c'est une longitude qui traverse la France.
+		 *
+		 * @param {string}   metaKey      Clé du réglage.
+		 * @param {Function} parseNumber  parseFloat ou parseInt.
+		 * @param {number}   defaultValue Valeur si le réglage est vide ou illisible.
+		 * @return {number} Valeur du réglage.
+		 */
+		getNumberSetting( metaKey, parseNumber, defaultValue ) {
+			const parsedValue = parseNumber( this.getSetting( metaKey, String( defaultValue ) ) );
+
+			return Number.isNaN( parsedValue ) ? defaultValue : parsedValue;
 		}
 
 		/**
@@ -124,7 +135,6 @@
 					.prop( 'outerHTML' ),
 			} );
 
-			tileLayer.layerKey = layerKey;
 			window.wsfignTileRetry.watch( tileLayer );
 			tileLayer.on( window.wsfignTileRetry.UNAVAILABLE_EVENT, this.onTilesUnavailable, this );
 			tileLayer.on( 'tileload', this.onTileLoad, this );
@@ -141,10 +151,10 @@
 
 			this.layerKey = settings.layers[ configuredLayer ] ? configuredLayer : 'plan';
 			this.defaultCenter = [
-				parseFloat( this.getSetting( 'wsfign_map_lat', String( DEFAULT_LAT ) ) ) || DEFAULT_LAT,
-				parseFloat( this.getSetting( 'wsfign_map_lng', String( DEFAULT_LNG ) ) ) || DEFAULT_LNG,
+				this.getNumberSetting( 'wsfign_map_lat', parseFloat, DEFAULT_LAT ),
+				this.getNumberSetting( 'wsfign_map_lng', parseFloat, DEFAULT_LNG ),
 			];
-			this.defaultZoom = parseInt( this.getSetting( 'wsfign_map_zoom', String( DEFAULT_ZOOM ) ), 10 ) || DEFAULT_ZOOM;
+			this.defaultZoom = this.getNumberSetting( 'wsfign_map_zoom', parseInt, DEFAULT_ZOOM );
 			this.tileLayers = {
 				plan: this.createTileLayer( 'plan' ),
 				ortho: this.createTileLayer( 'ortho' ),
@@ -260,7 +270,7 @@
 		 */
 		bindEvents() {
 			this.map.on( 'click', this.onMapClick, this );
-			this.map.on( 'zoomend', this.onViewOptionChange, this );
+			this.map.on( 'zoomend', this.refreshValue, this );
 
 			this.$input.on( 'change', this.syncFromInput.bind( this ) );
 			this.$input.on( 'wsfign-map-show', this.onShowRequest.bind( this ) );
@@ -345,19 +355,33 @@
 		 * Bascule sur l'autre couche, puis met la valeur à jour.
 		 */
 		onLayerToggleClick() {
-			const nextLayerKey = this.getOtherLayerKey();
-
-			this.map.removeLayer( this.tileLayers[ this.layerKey ] );
-			this.map.addLayer( this.tileLayers[ nextLayerKey ] );
-			this.layerKey = nextLayerKey;
-			this.$layerToggle.text( settings.layers[ this.getOtherLayerKey() ].label );
-			this.onViewOptionChange();
+			this.setLayer( this.getOtherLayerKey() );
+			this.refreshValue();
 		}
 
 		/**
-		 * Garde le zoom et la couche à jour dans la valeur s'il y a un marqueur.
+		 * Affiche une couche.
+		 *
+		 * @param {string} layerKey Clé de la couche, ignorée si elle est inconnue ou déjà affichée.
 		 */
-		onViewOptionChange() {
+		setLayer( layerKey ) {
+			if ( layerKey === this.layerKey || ! this.tileLayers[ layerKey ] ) {
+				return;
+			}
+
+			this.map.removeLayer( this.tileLayers[ this.layerKey ] );
+			this.map.addLayer( this.tileLayers[ layerKey ] );
+			this.layerKey = layerKey;
+
+			if ( this.$layerToggle ) {
+				this.$layerToggle.text( settings.layers[ this.getOtherLayerKey() ].label );
+			}
+		}
+
+		/**
+		 * Réécrit la valeur s'il y a un marqueur, pour le zoom, la couche ou l'adresse.
+		 */
+		refreshValue() {
 			if ( this.marker ) {
 				this.writeValue( this.marker.getLatLng() );
 			}
@@ -424,7 +448,7 @@
 		 */
 		onAddressRequest( addressEvent, address ) {
 			this.address = address;
-			this.onViewOptionChange();
+			this.refreshValue();
 		}
 
 		/**
@@ -485,7 +509,7 @@
 
 			const markerTitle = this.getSetting( 'wsfign_map_marker_title', '' );
 			const iconUrl = this.getSetting( 'wsfign_map_marker_icon_url', '' );
-			const markerOptions = { draggable: true, title: markerTitle, alt: markerTitle || settings.i18n.mapLabel };
+			const markerOptions = { draggable: true, title: markerTitle, alt: markerTitle || settings.i18n.markerLabel };
 
 			if ( iconUrl ) {
 				markerOptions.icon = L.divIcon( {
@@ -540,6 +564,7 @@
 				return;
 			}
 
+			this.setLayer( fieldValue.layer );
 			this.showMarker( [ fieldValue.lat, fieldValue.lng ] );
 
 			if ( ! this.map.getBounds().contains( [ fieldValue.lat, fieldValue.lng ] ) ) {
