@@ -1,6 +1,6 @@
 # Brief : carte IGN et adresses BAN pour WS Form
 
-Rédigé le 2026-11-06. Aucun code n'existe encore dans ce dépôt, et aucune de ces hypothèses n'a été essayée dans WS Form.
+Rédigé le 2026-11-06. Dépôt GitHub privé : `willybahuaud/wsform-ign`. Aucun code n'existe encore dans ce dépôt, et aucune de ces hypothèses n'a été essayée dans WS Form.
 
 ## Pourquoi
 
@@ -53,6 +53,12 @@ Willy ne cherche pas à le vendre. Le plugin sert sa notoriété et fait découv
 - N'écris pas « hébergé en France » sans source.
 - La documentation doit dire que l'éditeur du site doit mentionner ce service dans sa politique de confidentialité.
 
+## Mise à jour automatique
+
+Le plugin se met à jour depuis les releases GitHub, sur le modèle de `wboard-connector`. Tout est dans `docs/references/autoupdate-github.md`, critères d'acceptation compris.
+
+**Le mécanisme ne peut pas fonctionner tant que le dépôt est privé**, et aucun jeton ne doit être ajouté au plugin. Teste-le avec des réponses simulées.
+
 ## Risques à lever en premier, dans cet ordre
 
 1. **Type de champ tiers :** le cœur traite `googlemap` à part dans une dizaine de fichiers. Vérifie la liste des soumissions, les e-mails, l'export CSV, `#field(ID)` et le mapping ACF, Meta Box et Post Management.
@@ -87,7 +93,7 @@ Le scénario visé : un formulaire crée un contenu avec Post Management, les co
 
 ## À demander à Willy
 
-1. La distribution : GitHub et une page wabeo.fr, ou aussi WordPress.org ? Vérifie d'abord si le répertoire accepte un plugin qui dépend d'une extension payante, le résultat du test LITE compte ici.
+1. Le passage du dépôt en public, indispensable pour que les utilisateurs reçoivent les mises à jour.
 2. Les chaînes source : français avec une traduction anglaise, ou anglais avec une traduction française. Par défaut, anglais et `fr_FR` fourni, comme l'attend WordPress.org.
 3. La licence WS Form PRO pour l'environnement de test.
 

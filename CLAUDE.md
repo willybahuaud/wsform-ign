@@ -9,6 +9,7 @@ Plugin WordPress gratuit : champs de carte IGN et d'adresse BAN pour WS Form, sa
 | `docs/BRIEF.md` | Le travail à faire |
 | `docs/references/wsform-champ-personnalise.md` | Comment créer un type de champ WS Form |
 | `docs/references/ign-geoplateforme.md` | Services IGN testés, limites, licence |
+| `docs/references/autoupdate-github.md` | Mise à jour depuis les releases GitHub |
 | `docs/dev-ddev.md` | Environnement de test `wsform-lab` |
 | `LOCAL.md` | Chemins locaux de lecture, non versionné |
 
