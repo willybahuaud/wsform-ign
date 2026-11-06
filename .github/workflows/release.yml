@@ -13,7 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Recuperer le code
-        uses: actions/checkout@v4
+        # Epingle sur le commit de v4 : un tag peut etre deplace, et ce job peut publier.
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
 
       - name: Verifier que le tag correspond a la version du plugin
         run: bash bin/check-tag.sh "$GITHUB_REF_NAME"
