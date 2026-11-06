@@ -9,7 +9,6 @@
 
 	const TILE_URL =
 		'https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER={layer}&STYLE=normal&FORMAT={format}&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}';
-	const ATTRIBUTION = '<a href="https://www.ign.fr/" target="_blank" rel="noopener">IGN</a>';
 	const MAX_ZOOM = 19;
 	const LOCATED_ZOOM = 15;
 	const COORDINATE_DECIMALS = 7;
@@ -116,7 +115,11 @@
 				layer: layer.layer,
 				format: layer.format,
 				maxZoom: MAX_ZOOM,
-				attribution: ATTRIBUTION,
+				// La Licence Ouverte demande la source et la date : la fiche liée donne les deux.
+				attribution: $( '<a target="_blank" rel="noopener"></a>' )
+					.attr( 'href', layer.source )
+					.text( 'IGN, ' + layer.label )
+					.prop( 'outerHTML' ),
 			} );
 
 			tileLayer.layerKey = layerKey;

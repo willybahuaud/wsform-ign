@@ -108,11 +108,13 @@ class WSFIGN_Assets {
 					'label'  => __( 'IGN map', 'wsform-ign' ),
 					'layer'  => 'GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2',
 					'format' => 'image/png',
+					'source' => 'https://cartes.gouv.fr/rechercher-une-donnee/dataset/IGNF_PLAN-IGN',
 				),
 				'ortho' => array(
 					'label'  => __( 'Aerial photos', 'wsform-ign' ),
 					'layer'  => 'ORTHOIMAGERY.ORTHOPHOTOS',
 					'format' => 'image/jpeg',
+					'source' => 'https://cartes.gouv.fr/rechercher-une-donnee/dataset/IGNF_BD-ORTHO',
 				),
 			),
 			'i18n'   => array(
