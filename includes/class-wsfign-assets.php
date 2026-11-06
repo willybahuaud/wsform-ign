@@ -57,7 +57,8 @@ class WSFIGN_Assets {
 
 		wp_enqueue_script( 'wsfign-leaflet', WSFIGN_URL . 'assets/vendor/leaflet/leaflet.js', array(), self::LEAFLET_VERSION, true );
 		wp_enqueue_script( 'wsfign-fields', WSFIGN_URL . 'assets/js/wsfign-fields.js', array( 'jquery' ), WSFIGN_VERSION, true );
-		wp_enqueue_script( 'wsfign-map', WSFIGN_URL . 'assets/js/wsfign-map.js', array( 'jquery', 'wsfign-leaflet', 'wsfign-fields' ), WSFIGN_VERSION, true );
+		wp_enqueue_script( 'wsfign-tile-retry', WSFIGN_URL . 'assets/js/wsfign-tile-retry.js', array(), WSFIGN_VERSION, true );
+		wp_enqueue_script( 'wsfign-map', WSFIGN_URL . 'assets/js/wsfign-map.js', array( 'jquery', 'wsfign-leaflet', 'wsfign-fields', 'wsfign-tile-retry' ), WSFIGN_VERSION, true );
 
 		wp_localize_script( 'wsfign-map', 'wsfignMapSettings', self::get_map_settings() );
 	}
