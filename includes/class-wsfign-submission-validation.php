@@ -12,8 +12,11 @@ defined( 'ABSPATH' ) || exit;
  */
 class WSFIGN_Submission_Validation {
 
-	const MAX_LATITUDE  = 90;
-	const MAX_LONGITUDE = 180;
+	const MAX_LATITUDE     = 90;
+	const MAX_LONGITUDE    = 180;
+	const MAX_ZOOM         = 22;
+	const MAX_VALUE_LENGTH = 2048;
+	const LEGACY_FORMAT    = '/^\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*(?:,\s*\d+\s*)?$/';
 
 	/**
 	 * Branche la validation sur WS Form.
@@ -62,33 +65,81 @@ class WSFIGN_Submission_Validation {
 			return false;
 		}
 
-		$field = (object) $fields[ $field_id ];
-
-		return isset( $field->type ) && WSFIGN_Map_Field::FIELD_TYPE === $field->type;
+		return isset( $fields[ $field_id ]->type ) && WSFIGN_Map_Field::FIELD_TYPE === $fields[ $field_id ]->type;
 	}
 
 	/**
 	 * Vérifie une valeur : JSON, ou ancien format « lat,lng » accepté comme par le champ Google.
 	 *
+	 * Les clés inconnues restent permises : un point qui préremplit le formulaire depuis ACF
+	 * porte aussi city ou place_id, et le visiteur le renvoie tel quel s'il n'y touche pas.
+	 *
 	 * @param mixed $field_value Valeur envoyée.
 	 * @return bool
 	 */
 	private static function is_valid_position( $field_value ) {
-		if ( ! is_string( $field_value ) ) {
+		if ( ! is_string( $field_value ) || strlen( $field_value ) > self::MAX_VALUE_LENGTH ) {
 			return false;
 		}
 
 		$position = json_decode( $field_value, true );
 
-		if ( ! is_array( $position ) ) {
-			$parts    = explode( ',', $field_value );
-			$position = count( $parts ) >= 2 ? array_combine( array( 'lat', 'lng' ), array_slice( $parts, 0, 2 ) ) : array();
+		if ( is_array( $position ) ) {
+			return self::has_valid_coordinates( $position ) && self::has_valid_options( $position ) && self::has_clean_values( $position );
 		}
 
+		return 1 === preg_match( self::LEGACY_FORMAT, $field_value, $parts )
+			&& self::has_valid_coordinates(
+				array(
+					'lat' => $parts[1],
+					'lng' => $parts[2],
+				)
+			);
+	}
+
+	/**
+	 * Vérifie la latitude et la longitude.
+	 *
+	 * @param array $position Position.
+	 * @return bool
+	 */
+	private static function has_valid_coordinates( $position ) {
 		return isset( $position['lat'], $position['lng'] )
 			&& is_numeric( $position['lat'] )
 			&& is_numeric( $position['lng'] )
 			&& abs( (float) $position['lat'] ) <= self::MAX_LATITUDE
 			&& abs( (float) $position['lng'] ) <= self::MAX_LONGITUDE;
+	}
+
+	/**
+	 * Vérifie le zoom et la couche, s'ils sont présents.
+	 *
+	 * @param array $position Position.
+	 * @return bool
+	 */
+	private static function has_valid_options( $position ) {
+		$zoom_is_valid  = ! isset( $position['zoom'] ) || ( is_numeric( $position['zoom'] ) && $position['zoom'] >= 0 && $position['zoom'] <= self::MAX_ZOOM );
+		$layer_is_valid = ! isset( $position['layer'] ) || in_array( $position['layer'], array( 'plan', 'ortho' ), true );
+
+		return $zoom_is_valid && $layer_is_valid;
+	}
+
+	/**
+	 * Refuse les valeurs imbriquées et le HTML.
+	 *
+	 * L'adresse finit en méta, et un thème pourrait l'afficher sans l'échapper. Aucune
+	 * adresse réelle ne contient de chevron.
+	 *
+	 * @param array $position Position.
+	 * @return bool
+	 */
+	private static function has_clean_values( $position ) {
+		foreach ( $position as $value ) {
+			if ( is_array( $value ) || ( is_string( $value ) && false !== strpbrk( $value, '<>' ) ) ) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

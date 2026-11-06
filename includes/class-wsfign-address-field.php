@@ -31,7 +31,7 @@ class WSFIGN_Address_Field {
 	 * @return array
 	 */
 	public static function register_field_type( $field_types ) {
-		return WSFIGN_Map_Field::add_to_group( $field_types, self::FIELD_TYPE, self::get_field_type_config() );
+		return WSFIGN_Field_Config::add_to_group( $field_types, self::FIELD_TYPE, self::get_field_type_config() );
 	}
 
 	/**
@@ -84,62 +84,23 @@ class WSFIGN_Address_Field {
 			'basic'    => array(
 				'label'     => __( 'Basic', 'wsform-ign' ),
 				'meta_keys' => array( 'label', 'label_render', 'required', 'hidden', 'hidden_warning', 'placeholder', 'help' ),
-				'fieldsets' => array(
+				'fieldsets' => array_merge(
 					array(
-						'label'     => __( 'Address Fields', 'wsform-ign' ),
-						'meta_keys' => array( 'wsfign_address_field_mapping' ),
+						array(
+							'label'     => __( 'Address Fields', 'wsform-ign' ),
+							'meta_keys' => array( 'wsfign_address_field_mapping' ),
+						),
+						array(
+							'label'     => __( 'IGN Map', 'wsform-ign' ),
+							'meta_keys' => array( 'wsfign_address_map', 'wsfign_address_map_zoom', 'wsfign_address_map_reverse' ),
+						),
 					),
-					array(
-						'label'     => __( 'IGN Map', 'wsform-ign' ),
-						'meta_keys' => array( 'wsfign_address_map', 'wsfign_address_map_zoom', 'wsfign_address_map_reverse' ),
-					),
-					array(
-						'label'     => __( 'Accessibility', 'wsform-ign' ),
-						'meta_keys' => array( 'aria_label' ),
-					),
-					array(
-						'label'     => __( 'Exclusions', 'wsform-ign' ),
-						'meta_keys' => array( 'exclude_email' ),
-					),
-					array(
-						'label'     => __( 'Hidden Behavior', 'wsform-ign' ),
-						'meta_keys' => array( 'hidden_bypass' ),
-					),
+					WSFIGN_Field_Config::get_common_basic_fieldsets()
 				),
 			),
-			'advanced' => array(
-				'label'     => __( 'Advanced', 'wsform-ign' ),
-				'fieldsets' => array(
-					array(
-						'label'     => __( 'Style', 'wsform-ign' ),
-						'meta_keys' => array( 'label_position_no_inside', 'label_column_width', 'help_position', 'class_single_vertical_align' ),
-					),
-					array(
-						'label'     => __( 'Classes', 'wsform-ign' ),
-						'meta_keys' => array( 'class_field_wrapper', 'class_field' ),
-					),
-					array(
-						'label'     => __( 'Labels', 'wsform-ign' ),
-						'meta_keys' => array( 'wsfign_address_text_no_results', 'wsfign_address_text_unavailable', 'wsfign_address_text_no_address' ),
-					),
-					array(
-						'label'     => __( 'Restrictions', 'wsform-ign' ),
-						'meta_keys' => array( 'field_user_status', 'field_user_roles', 'field_user_capabilities' ),
-					),
-					array(
-						'label'     => __( 'Validation', 'wsform-ign' ),
-						'meta_keys' => array( 'invalid_feedback_render', 'validate_inline', 'invalid_feedback' ),
-					),
-					array(
-						'label'     => __( 'Custom Attributes', 'wsform-ign' ),
-						'meta_keys' => array( 'custom_attributes' ),
-					),
-					array(
-						'label'     => __( 'Breakpoints', 'wsform-ign' ),
-						'meta_keys' => array( 'breakpoint_sizes' ),
-						'class'     => array( 'wsf-fieldset-panel' ),
-					),
-				),
+			'advanced' => WSFIGN_Field_Config::get_advanced_tab(
+				array( 'label_position_no_inside', 'label_column_width', 'help_position', 'class_single_vertical_align' ),
+				array( 'wsfign_address_text_no_results', 'wsfign_address_text_unavailable', 'wsfign_address_text_no_address' )
 			),
 		);
 	}
@@ -193,7 +154,7 @@ class WSFIGN_Address_Field {
 				'type'                       => 'select',
 				'options'                    => 'fields',
 				'options_blank'              => __( 'Select...', 'wsform-ign' ),
-				'fields_filter_type'         => array( 'wsfign_address', 'text', 'textarea', 'number', 'select', 'hidden', 'tel' ),
+				'fields_filter_type'         => array( self::FIELD_TYPE, 'text', 'textarea', 'number', 'select', 'hidden', 'tel' ),
 				'fields_filter_include_self' => true,
 				'key'                        => 'ws_form_field',
 			),
@@ -252,9 +213,9 @@ class WSFIGN_Address_Field {
 		$defaults = self::get_default_texts();
 
 		return array(
-			'wsfign_address_text_no_results'  => WSFIGN_Map_Field::build_text_meta_key( __( 'No suggestion', 'wsform-ign' ), $defaults['noResults'] ),
-			'wsfign_address_text_unavailable' => WSFIGN_Map_Field::build_text_meta_key( __( 'Suggestions unavailable', 'wsform-ign' ), $defaults['unavailable'] ),
-			'wsfign_address_text_no_address'  => WSFIGN_Map_Field::build_text_meta_key( __( 'No address at this location', 'wsform-ign' ), $defaults['noAddressFound'] ),
+			'wsfign_address_text_no_results'  => WSFIGN_Field_Config::build_text_meta_key( __( 'No suggestion', 'wsform-ign' ), $defaults['noResults'] ),
+			'wsfign_address_text_unavailable' => WSFIGN_Field_Config::build_text_meta_key( __( 'Suggestions unavailable', 'wsform-ign' ), $defaults['unavailable'] ),
+			'wsfign_address_text_no_address'  => WSFIGN_Field_Config::build_text_meta_key( __( 'No address at this location', 'wsform-ign' ), $defaults['noAddressFound'] ),
 		);
 	}
 
@@ -285,7 +246,7 @@ class WSFIGN_Address_Field {
 				'label'   => __( 'Find the address on map click', 'wsform-ign' ),
 				'type'    => 'checkbox',
 				'default' => '',
-				'help'    => __( 'When the visitor places the marker, this field and its mapped fields receive the nearest address.', 'wsform-ign' ),
+				'help'    => __( 'When the visitor places the point, this field and its mapped fields receive the nearest address.', 'wsform-ign' ),
 			),
 		);
 	}

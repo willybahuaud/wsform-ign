@@ -1,17 +1,28 @@
 # Carte IGN pour WS Form
 
-Les champs Google de WS Form demandent un projet Google Cloud, de la facturation et une clé d'API. Ce plugin gratuit offre une carte et une autocomplétion d'adresse avec les services publics français, sans Google et sans clé.
+Une carte et une autocomplétion d'adresse pour WS Form, sans Google et sans clé.
 
-Il fonctionne avec WS Form LITE et PRO.
+## Pourquoi ce plugin
 
-## Ce qu'il ajoute
+Les champs Google de WS Form marchent bien. Par contre, il leur faut un projet Google Cloud, de la facturation et une clé d'API. Pour placer un point sur une carte de France, ça fait beaucoup.
+
+Du coup, ce plugin fait le même travail avec les services publics français : les fonds de carte de l'IGN et la Base Adresse Nationale. Il est gratuit, il ne demande aucun compte, et il marche avec WS Form LITE et PRO.
+
+## Installation
+
+1. Télécharge `wsform-ign-X.Y.Z.zip` depuis la [dernière release](https://github.com/willybahuaud/wsform-ign/releases/latest). Pas l'archive du code source : elle contient tout le dépôt.
+2. Installe-le comme n'importe quelle extension, à côté de WS Form.
+3. Les deux champs apparaissent dans le groupe « French public services » du constructeur.
+
+Les mises à jour arrivent ensuite dans l'admin, depuis les releases GitHub.
+
+## Ce que ça ajoute
 
 **Carte IGN**
 
-- Fond Plan IGN, photos aériennes en option
-- Marqueur posé au clic, déplaçable, effaçable, obligatoire si besoin
-- Bouton de pose au clavier
-- Icône et titre du marqueur personnalisables
+- Plan IGN, ou photos aériennes
+- Point placé au clic ou au clavier, déplaçable, effaçable, obligatoire si besoin
+- Icône et titre du marqueur au choix
 - Bouton optionnel pour centrer sur le visiteur : le navigateur ne demande sa position qu'après ce clic
 - Sur mobile, un doigt fait défiler la page et deux doigts déplacent la carte
 
@@ -19,35 +30,32 @@ Il fonctionne avec WS Form LITE et PRO.
 
 - Autocomplétion utilisable entièrement au clavier
 - Remplissage d'autres champs : numéro et rue, code postal, ville, code INSEE, département, latitude, longitude
-- Liaison optionnelle à une carte, et géocodage inverse quand on pose le marqueur
-- Saisie libre toujours possible, par exemple pour une adresse à l'étranger
+- Lien optionnel avec une carte, dans les deux sens
+- Saisie libre toujours possible, pour une adresse à l'étranger par exemple
 
-**Personnalisation**
+**Pour les deux**
 
-- Style : boutons, messages, contrôles de la carte et suggestions d'adresse suivent les réglages de style de WS Form
-- Textes : les messages et le bouton de pose se changent champ par champ, dans Avancé > Libellés
-- Coordonnées : une option de la carte les masque sous le message. Les lecteurs d'écran les annoncent toujours
-
-Une tuile en erreur est rechargée automatiquement. Si les services IGN sont coupés, un message s'affiche et le formulaire reste envoyable.
-
-Leaflet et les scripts du plugin ne se chargent que si le formulaire contient l'un de ces champs.
+- Les boutons, les messages et les suggestions suivent tes réglages de style WS Form
+- Les messages se changent champ par champ, dans Avancé > Libellés
+- Si les services IGN tombent, un message s'affiche et le formulaire reste envoyable
+- Rien ne se charge sur une page sans ces champs
 
 ## Afficher le point sur le site
 
-Le plugin ne rend pas de carte en front. Avec Post Management, le point part en méta, et c'est ton thème ou ton bloc qui l'affiche. Tout dépend de la cible du mapping :
+Le plugin ne rend pas de carte en front. Avec Post Management, le point part en méta, et c'est ton thème ou ton bloc qui l'affiche.
 
-| Cible | Résultat | À savoir |
+| Cible du mapping | Ça marche ? | À savoir |
 |---|---|---|
-| Méta simple | Compatible | La valeur est un JSON : `json_decode( get_post_meta( $post_id, 'ma_meta', true ), true )` |
-| Champ Google Map d'ACF | Compatible | `get_field()` renvoie `lat`, `lng`, `zoom` et `address` si elle est connue |
-| Bloc ACF en `usePostMeta` | Compatible | Ses champs sont en méta, le mapping les alimente directement |
-| Bloc ACF standard | Incompatible | Il lit ses données dans le contenu de l'article, pas en méta |
-| ACF OpenStreetMap Field | Incompatible | WS Form ne le propose pas au mapping. Forcé, il perd l'adresse et n'affiche aucun marqueur |
-| Autres champs ACF de carte | Non pris en charge | Le blocage est le même : la liste des types mappables de WS Form est fermée |
+| Méta simple | Oui | La valeur est un JSON, à lire avec `json_decode()` |
+| Champ Google Map d'ACF | Oui | Son écran d'édition charge l'API Google dans l'admin, même sans clé |
+| Meta Box `map` | Oui | Testé à l'écriture et au préremplissage, pas en affichage |
+| Bloc ACF en `usePostMeta` | Oui | Ses champs sont en méta |
+| Bloc ACF standard | Non | Il lit ses données dans le contenu de l'article |
+| Champs ACF de carte tiers | Non | WS Form ne les propose pas au mapping |
 
-Un champ Google Map d'ACF ne charge rien de Google sur ton site si tu affiches le point autrement, et la valeur survit à l'enregistrement de l'article. Par contre, son écran d'édition charge l'API Google dans l'admin, même sans clé. Pour éviter Google partout, passe par une méta simple.
+Si tu veux éviter Google partout, prends la méta simple.
 
-Voici un rendu Leaflet avec les tuiles IGN, à partir d'un champ ACF nommé `coordonnees_gps`. Avec une méta simple, seule la lecture de `$point` change. Charge Leaflet de ton côté : celui du plugin n'est présent que sur les pages de formulaire.
+Voici un rendu Leaflet avec les tuiles IGN, à partir d'un champ ACF `coordonnees_gps`. Avec une méta simple, seule la lecture de `$point` change. Charge Leaflet de ton côté : celui du plugin n'est présent que sur les pages de formulaire.
 
 ```php
 $point = get_field( 'coordonnees_gps' );
@@ -86,24 +94,20 @@ function initIgnMap( element ) {
 document.querySelectorAll( '.carte-ign' ).forEach( initIgnMap );
 ```
 
-La licence des tuiles demande de citer la source : garde l'attribution. Ces pages contactent elles aussi `data.geopf.fr`, et ta politique de confidentialité doit le mentionner.
+La licence des tuiles demande de citer la source : garde l'attribution.
 
-## Limites
+## Les limites
 
 - **Adresses :** seules les adresses françaises sont suggérées.
-- **Sections répétables :** LITE n'en a pas, il faut donc PRO pour y placer ces champs.
+- **Sections répétables :** LITE n'en a pas, il te faut donc PRO pour y placer ces champs.
 - **Format de la valeur :** la carte enregistre un JSON. Il s'affiche en `latitude,longitude` dans la liste des soumissions, l'export CSV et les e-mails. Il reste en JSON dans `#field(ID)` hors e-mail et dans le détail d'une soumission, car WS Form n'y offre aucun filtre.
-- **Mapping :** le mapping fonctionne vers une méta simple, ACF et Meta Box avec Post Management, y compris pour préremplir le formulaire. Les autres passerelles (JetEngine, Toolset, ACPT) n'ont pas été testées.
+- **Autres extensions de champs :** le mapping n'a été testé qu'avec ACF et Meta Box. WS Form sait aussi écrire vers JetEngine, Toolset et ACPT, mais rien n'a été essayé avec ces trois-là.
 
 ## Confidentialité
 
-Le plugin n'ajoute ni traceur ni télémétrie. Par contre, le navigateur du visiteur contacte directement les serveurs de l'IGN (`data.geopf.fr`) et leur transmet son adresse IP, ainsi que le texte saisi dans le champ adresse.
+Le plugin n'ajoute ni traceur ni télémétrie. Par contre, le navigateur du visiteur contacte directement les serveurs de l'IGN (`data.geopf.fr`). Ils reçoivent donc son adresse IP et le texte saisi dans le champ adresse.
 
-Si tu utilises ce plugin, mentionne ce service dans ta politique de confidentialité.
-
-## Mises à jour
-
-Le plugin se met à jour depuis les releases GitHub, pas depuis WordPress.org. Il ne peut donc pas être publié tel quel sur le répertoire WordPress.org, dont les règles interdisent une autre source de mise à jour.
+Mentionne ce service dans ta politique de confidentialité, y compris si tu affiches les tuiles sur d'autres pages.
 
 ## Développer
 
@@ -113,8 +117,12 @@ composer lint
 bin/build-release.sh
 ```
 
-L'environnement de test est décrit dans `docs/dev-ddev.md`. Pour publier, passe la version dans `wsform-ign.php` (en-tête et constante) et dans `readme.txt`, puis pousse un tag `vX.Y.Z` : le workflow refuse un tag qui ne correspond pas.
+L'environnement de test est décrit dans `docs/dev-ddev.md`. Pour publier, passe la version dans `wsform-ign.php` (en-tête et constante) et dans `readme.txt`, puis pousse un tag `vX.Y.Z`. Le workflow refuse un tag qui ne correspond pas.
+
+Le plugin se met à jour depuis GitHub, et les règles de WordPress.org l'interdisent. C'est pour ça qu'il n'est pas sur le répertoire.
 
 ## Licence
 
 GPL-2.0-or-later. Leaflet 1.9.4 est embarqué sous licence BSD-2-Clause. Ce plugin n'est affilié ni à l'IGN ni à WS Form.
+
+Fait par [Willy Bahuaud](https://wabeo.fr).

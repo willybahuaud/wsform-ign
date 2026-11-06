@@ -1,12 +1,10 @@
 # Brief : carte IGN et adresses BAN pour WS Form
 
-Rédigé le 2026-11-06. Dépôt GitHub public : `willybahuaud/wsform-ign`. Les critères cochés ci-dessous ont été vérifiés sur WS Form PRO et LITE 1.12.19.
+Dépôt public : `willybahuaud/wsform-ign`. Les critères cochés ont été vérifiés sur WS Form PRO et LITE 1.12.19.
 
 ## Pourquoi
 
 Les champs Google de WS Form exigent un projet Google Cloud avec facturation et une clé d'API. Ce plugin gratuit offre la même chose avec les services publics français, sans clé ni compte.
-
-Willy ne cherche pas à le vendre. Le plugin sert sa notoriété et fait découvrir WS Form en France. Il doit donc être exemplaire et simple à essayer, et il sera raconté dans un article de wabeo.fr prévu en février 2027.
 
 ## Périmètre de la première version
 
@@ -55,17 +53,7 @@ Willy ne cherche pas à le vendre. Le plugin sert sa notoriété et fait découv
 
 ## Mise à jour automatique
 
-Le plugin se met à jour depuis les releases GitHub, sur le modèle de `wboard-connector`. Tout est dans `docs/references/autoupdate-github.md`, critères d'acceptation compris.
-
-Le dépôt est public depuis le 2026-11-06, condition du mécanisme. Aucun jeton ne doit être ajouté au plugin.
-
-## Risques à lever en premier, dans cet ordre
-
-1. **Type de champ tiers :** le cœur traite `googlemap` à part dans une dizaine de fichiers. Vérifie la liste des soumissions, les e-mails, l'export CSV, `#field(ID)` et le mapping ACF, Meta Box et Post Management. Mapping vérifié : voir `docs/references/wsform-champ-personnalise.md`.
-2. **WS Form LITE :** le filtre semble partagé, mais rien n'a été essayé. Si le champ marche sur LITE, tout le monde peut l'essayer sans licence. Dis clairement ce qui marche ou non sur chaque édition.
-3. **Éditeur visuel :** le rendu et les réglages du champ dans le constructeur.
-4. **Sections répétables :** une carte ajoutée à la volée.
-5. **Onglets masqués :** Leaflet doit recalculer sa taille (`invalidateSize`) quand un onglet ou une section s'affiche.
+Le plugin se met à jour depuis les releases GitHub. Tout est dans `docs/references/autoupdate-github.md`. Aucun jeton ne doit être ajouté au plugin.
 
 ## Critères d'acceptation
 
@@ -87,17 +75,4 @@ Vérifie en vrai navigateur avec Playwright et donne la preuve de chaque critèr
 
 ## Lien avec Geo Query
 
-Geo Query est un autre plugin de Willy pour les requêtes géolocalisées. Une copie est indiquée dans `LOCAL.md`.
-
-Le scénario visé : un formulaire crée un contenu avec Post Management, les coordonnées vont en méta, et Geo Query interroge ces métas. Regarde le format qu'il attend et rends ce scénario possible. Ce n'est pas un critère bloquant.
-
-## À demander à Willy
-
-1. La licence WS Form PRO pour l'environnement de test, à ne jamais versionner.
-
-## Pour commencer
-
-1. Lis `CLAUDE.md`, `LOCAL.md`, puis les deux fichiers de `docs/references/`.
-2. Monte `wsform-lab` avec `docs/dev-ddev.md`, et corrige ce fichier s'il est faux.
-3. Fais un premier prototype du seul champ Carte IGN pour lever les risques 1 à 3, et montre le résultat à Willy.
-4. Ajoute ensuite le champ Adresse BAN.
+Geo Query est un autre plugin de Willy pour les requêtes géolocalisées. Le scénario visé : un formulaire crée un contenu avec Post Management, les coordonnées vont en méta, et Geo Query les interroge. Voir `docs/references/wsform-champ-personnalise.md`.

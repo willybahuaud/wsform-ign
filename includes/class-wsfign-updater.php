@@ -10,10 +10,12 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Branche une release GitHub sur le système de mise à jour de WordPress.
  *
- * Classe préfixée par plugin : partagée entre plugins, deux versions différentes
- * entreraient en conflit sur un même site.
+ * Le préfixe évite un conflit sur un même site : un nom générique, repris par un
+ * autre plugin dans une autre version, ferait charger la mauvaise classe.
  */
 class WSFIGN_Updater {
+
+	const AUTHOR_LINK = '<a href="https://wabeo.fr">Willy Bahuaud</a>';
 
 	/**
 	 * Basename du plugin (dossier/fichier.php).
@@ -154,7 +156,7 @@ class WSFIGN_Updater {
 			'name'          => $this->name,
 			'slug'          => $this->slug,
 			'version'       => $release['version'],
-			'author'        => 'Willy Bahuaud',
+			'author'        => self::AUTHOR_LINK,
 			'homepage'      => $this->repository_url,
 			'requires'      => $release['requires'],
 			'requires_php'  => $release['requires_php'],

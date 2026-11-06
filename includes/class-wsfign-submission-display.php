@@ -12,6 +12,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class WSFIGN_Submission_Display {
 
+	const JSON_OBJECT = '/\{[^{}]*\}/';
+
 	/**
 	 * Branche le formatage sur les filtres de WS Form.
 	 *
@@ -40,7 +42,7 @@ class WSFIGN_Submission_Display {
 			return $value;
 		}
 
-		return preg_replace_callback( '/\{[^{}]*\}/', array( __CLASS__, 'format_escaped_json_match' ), $value );
+		return preg_replace_callback( self::JSON_OBJECT, array( __CLASS__, 'format_escaped_json_match' ), $value );
 	}
 
 	/**
@@ -76,7 +78,7 @@ class WSFIGN_Submission_Display {
 	 */
 	public static function format_in_email_message( $message, $form, $submit ) {
 		foreach ( (array) $submit->meta as $field_meta ) {
-			if ( ! isset( $field_meta['type'], $field_meta['value'] ) || WSFIGN_Map_Field::FIELD_TYPE !== $field_meta['type'] || ! is_string( $field_meta['value'] ) ) {
+			if ( ! WSFIGN_Map_Field::is_map_meta( $field_meta ) ) {
 				continue;
 			}
 
@@ -100,7 +102,7 @@ class WSFIGN_Submission_Display {
 	 * @return string
 	 */
 	private static function replace_json_values( $value ) {
-		return preg_replace_callback( '/\{[^{}]*\}/', array( __CLASS__, 'format_json_match' ), $value );
+		return preg_replace_callback( self::JSON_OBJECT, array( __CLASS__, 'format_json_match' ), $value );
 	}
 
 	/**

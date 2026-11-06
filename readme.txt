@@ -4,7 +4,7 @@ Tags: ws form, map, address, ign, autocomplete
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.3.0
+Stable tag: 0.3.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,72 +12,85 @@ IGN map and French address fields for WS Form. No Google, no API key.
 
 == Description ==
 
-WS Form ships Google map and address fields, which need a Google Cloud project, billing and an API key. This plugin offers the same kind of fields with French public services, with no key and no account.
+WS Form's Google fields work well, but they need a Google Cloud project, billing and an API key. That is a lot to place a point on a map of France.
+
+This plugin does the same job with French public services: IGN map backgrounds and the national address database (BAN). It is free, needs no account, and works with WS Form LITE and PRO.
 
 = IGN Map field =
 
-* IGN map background, with optional aerial photos
-* Default latitude, longitude, zoom and height, like the Google field
-* Click to place the marker, drag to move it, link to reset it
-* A button to place the marker from the keyboard
-* Required marker, custom marker icon and title
+* IGN map or aerial photos
+* Place the point by clicking or from the keyboard, then move it, clear it, or make it required
+* Custom marker icon and title
 * Optional button to center on the visitor, who is only asked for their location after clicking it
+* On mobile, one finger scrolls the page and two fingers move the map
 
 = BAN Address field =
 
-* Address autocomplete, fully usable from the keyboard (combobox pattern)
+* Address autocomplete, fully usable from the keyboard
 * Fills other fields: number and street, postal code, city, INSEE code, department, latitude, longitude
-* Optional link to an IGN Map field, which centers on the chosen address
-* Optional reverse geocoding when the marker is placed
-* Free typing stays possible when an address is not found or is abroad
+* Optional link with a map, in both directions
+* Free typing stays possible, for an address abroad for example
 
-If the IGN services are down, a message appears and the form can still be sent.
+= For both fields =
 
-Leaflet and the plugin scripts only load on pages whose form contains one of these fields.
-
-= WS Form editions =
-
-Both fields work with WS Form LITE and PRO. Repeatable sections are not available in LITE, so using these fields in a repeatable section requires PRO.
-
-= Known limits =
-
-* Addresses outside France are not suggested. They can still be typed by hand.
-* The map value is stored as JSON. It is shown as `latitude,longitude` in the submissions list, the CSV export and emails. It stays as JSON in `#field(ID)` outside emails and in the submission detail sidebar, because WS Form offers no filter there.
-* The zoom and layer are kept in the JSON value. With Post Management, mapping works with a plain custom field, ACF and Meta Box, including to populate the form. Other integrations (JetEngine, Toolset, ACPT) have not been tested.
+* Buttons, messages and suggestions follow your WS Form style settings
+* Messages can be changed field by field, in Advanced > Labels
+* If the IGN services are down, a message appears and the form can still be sent
+* Nothing loads on a page without these fields
 
 = Showing the point on your site =
 
 This plugin does not render a map on the front end. With Post Management, the point is stored as post meta, and your theme or block displays it.
 
-* Plain custom field: works. The value is JSON, so read it with `json_decode()`. This is the option that avoids Google everywhere.
-* ACF Google Map field: works. `get_field()` returns `lat`, `lng`, `zoom` and `address` when known. It loads nothing from Google on your site if you display the point another way, but its edit screen loads the Google API in the admin, even without a key.
-* ACF block using `usePostMeta`: works, its fields are stored as post meta.
+* Plain custom field: works. The value is JSON, read it with `json_decode()`.
+* ACF Google Map field: works, but its edit screen loads the Google API in the admin, even without a key.
+* Meta Box map field: works for saving and populating the form. Displaying it was not tested.
+* ACF block with `usePostMeta`: works.
 * Standard ACF block: does not work, it reads its data from the post content.
-* ACF OpenStreetMap Field and other third-party ACF map fields: not supported, because WS Form does not offer these field types for mapping.
+* Third-party ACF map fields: do not work, WS Form does not offer them for mapping.
 
-The README on GitHub includes a Leaflet example with IGN tiles. Pages showing these tiles also contact `data.geopf.fr`, so mention it in your privacy policy.
+To avoid Google everywhere, use a plain custom field. The README on GitHub has a Leaflet example with IGN tiles.
+
+= Known limits =
+
+* Only French addresses are suggested.
+* LITE has no repeatable sections, so using these fields in one requires PRO.
+* The map value is stored as JSON. It shows as `latitude,longitude` in the submissions list, the CSV export and emails. It stays as JSON in `#field(ID)` outside emails and in the submission detail, because WS Form offers no filter there.
+* Mapping was only tested with ACF and Meta Box. WS Form can also write to JetEngine, Toolset and ACPT, but none of them has been tried.
+
+== Installation ==
+
+1. Download `wsform-ign-X.Y.Z.zip` from the latest GitHub release: https://github.com/willybahuaud/wsform-ign/releases/latest
+2. Install it like any plugin, alongside WS Form.
+3. Both fields appear in the "French public services" group of the form builder.
 
 == Privacy ==
 
-This plugin adds no tracking and no telemetry. It has no settings page and no ads.
+This plugin adds no tracking and no telemetry. However, the visitor's browser contacts the IGN servers directly (`data.geopf.fr`). They receive the visitor's IP address and what is typed in the address field.
 
-The visitor's browser contacts the IGN servers at `data.geopf.fr` directly, to load map tiles and search addresses. These servers therefore receive the visitor's IP address, and what they type in the address field.
-
-As the site owner, you should mention this service in your privacy policy.
+Mention this service in your privacy policy, including if you display the tiles on other pages.
 
 == Data sources and licenses ==
 
-Map backgrounds and addresses come from the Géoplateforme operated by IGN. The two map layers are published under the French Licence Ouverte / Open Licence 2.0. The map links to the source page of each layer.
-
-This plugin is not affiliated with or endorsed by IGN or WS Form.
+Map backgrounds and addresses come from the Géoplateforme operated by IGN. The two map layers are published under the French Licence Ouverte / Open Licence 2.0, and the map links to the source of each layer.
 
 The plugin bundles Leaflet 1.9.4 (BSD-2-Clause), see `assets/vendor/leaflet/LICENSE`.
+
+This plugin is not affiliated with or endorsed by IGN or WS Form.
 
 == Updates ==
 
 Updates come from the GitHub releases of the plugin, not from WordPress.org.
 
 == Changelog ==
+
+= 0.3.1 =
+* Security: stricter validation of the map value on the server. HTML, nested values, invalid zoom or layer and oversized values are now refused.
+* Security: updates are only downloaded from github.com over HTTPS, and malformed GitHub responses no longer cause errors.
+* Map: a latitude, longitude or zoom set to 0 is no longer replaced by the default value.
+* Map: a populated value now opens on its stored layer.
+* Address: "no suggestion" now shows on screen, not only to screen readers.
+* Details window: the author name links to wabeo.fr.
 
 = 0.3.0 =
 * Documentation: how to show the point on your site, which ACF targets work, and a Leaflet example. No change to the fields.

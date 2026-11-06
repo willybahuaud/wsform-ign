@@ -2,7 +2,7 @@
 
 Plugin WordPress gratuit : champs de carte IGN et d'adresse BAN pour WS Form, sans Google ni clé.
 
-**Commence par `docs/BRIEF.md`.** Il contient le périmètre, les décisions, les risques et les critères d'acceptation.
+**Commence par `docs/BRIEF.md`.** Il contient le périmètre, les décisions et les critères d'acceptation.
 
 | Fichier | Contenu |
 |---|---|

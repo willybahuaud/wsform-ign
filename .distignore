@@ -17,3 +17,7 @@
 /composer.json
 /composer.lock
 /phpcs.xml.dist
+.env
+*.log
+*.local.php
+/ws-form-pro

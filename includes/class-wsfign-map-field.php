@@ -12,8 +12,7 @@ defined( 'ABSPATH' ) || exit;
  */
 class WSFIGN_Map_Field {
 
-	const FIELD_TYPE  = 'wsfign_map';
-	const FIELD_GROUP = 'wsfign';
+	const FIELD_TYPE = 'wsfign_map';
 
 	/**
 	 * Branche le champ sur les filtres de configuration de WS Form.
@@ -32,28 +31,17 @@ class WSFIGN_Map_Field {
 	 * @return array
 	 */
 	public static function register_field_type( $field_types ) {
-		return self::add_to_group( $field_types, self::FIELD_TYPE, self::get_field_type_config() );
+		return WSFIGN_Field_Config::add_to_group( $field_types, self::FIELD_TYPE, self::get_field_type_config() );
 	}
 
 	/**
-	 * Ajoute un type de champ au groupe du plugin, en créant le groupe au besoin.
+	 * Indique si une méta de soumission porte la valeur d'une carte.
 	 *
-	 * @param array  $field_types Types de champs connus de WS Form.
-	 * @param string $type        Identifiant du type de champ.
-	 * @param array  $config      Définition du type de champ.
-	 * @return array
+	 * @param mixed $field_meta Méta de la soumission.
+	 * @return bool
 	 */
-	public static function add_to_group( $field_types, $type, $config ) {
-		if ( ! isset( $field_types[ self::FIELD_GROUP ] ) ) {
-			$field_types[ self::FIELD_GROUP ] = array(
-				'label' => __( 'French public services', 'wsform-ign' ),
-				'types' => array(),
-			);
-		}
-
-		$field_types[ self::FIELD_GROUP ]['types'][ $type ] = $config;
-
-		return $field_types;
+	public static function is_map_meta( $field_meta ) {
+		return isset( $field_meta['type'], $field_meta['value'] ) && self::FIELD_TYPE === $field_meta['type'] && is_string( $field_meta['value'] );
 	}
 
 	/**
@@ -111,66 +99,27 @@ class WSFIGN_Map_Field {
 			'basic'    => array(
 				'label'     => __( 'Basic', 'wsform-ign' ),
 				'meta_keys' => array( 'label', 'label_render', 'required', 'hidden', 'hidden_warning', 'help' ),
-				'fieldsets' => array(
+				'fieldsets' => array_merge(
 					array(
-						'label'     => __( 'Map', 'wsform-ign' ),
-						'meta_keys' => array( 'wsfign_map_lat', 'wsfign_map_lng', 'wsfign_map_zoom', 'wsfign_map_layer', 'wsfign_map_center' ),
+						array(
+							'label'     => __( 'Map', 'wsform-ign' ),
+							'meta_keys' => array( 'wsfign_map_lat', 'wsfign_map_lng', 'wsfign_map_zoom', 'wsfign_map_layer', 'wsfign_map_center' ),
+						),
+						array(
+							'label'     => __( 'Controls', 'wsform-ign' ),
+							'meta_keys' => array( 'wsfign_map_control_layers', 'wsfign_map_control_zoom' ),
+						),
+						array(
+							'label'     => __( 'Marker', 'wsform-ign' ),
+							'meta_keys' => array( 'wsfign_map_marker_title', 'wsfign_map_marker_icon_url', 'wsfign_map_show_coordinates' ),
+						),
 					),
-					array(
-						'label'     => __( 'Controls', 'wsform-ign' ),
-						'meta_keys' => array( 'wsfign_map_control_layers', 'wsfign_map_control_zoom' ),
-					),
-					array(
-						'label'     => __( 'Marker', 'wsform-ign' ),
-						'meta_keys' => array( 'wsfign_map_marker_title', 'wsfign_map_marker_icon_url', 'wsfign_map_show_coordinates' ),
-					),
-					array(
-						'label'     => __( 'Accessibility', 'wsform-ign' ),
-						'meta_keys' => array( 'aria_label' ),
-					),
-					array(
-						'label'     => __( 'Exclusions', 'wsform-ign' ),
-						'meta_keys' => array( 'exclude_email' ),
-					),
-					array(
-						'label'     => __( 'Hidden Behavior', 'wsform-ign' ),
-						'meta_keys' => array( 'hidden_bypass' ),
-					),
+					WSFIGN_Field_Config::get_common_basic_fieldsets()
 				),
 			),
-			'advanced' => array(
-				'label'     => __( 'Advanced', 'wsform-ign' ),
-				'fieldsets' => array(
-					array(
-						'label'     => __( 'Style', 'wsform-ign' ),
-						'meta_keys' => array( 'label_position_no_inside', 'label_column_width', 'help_position', 'class_single_vertical_align', 'wsfign_map_height' ),
-					),
-					array(
-						'label'     => __( 'Classes', 'wsform-ign' ),
-						'meta_keys' => array( 'class_field_wrapper', 'class_field' ),
-					),
-					array(
-						'label'     => __( 'Labels', 'wsform-ign' ),
-						'meta_keys' => array( 'text_clear', 'wsfign_map_text_hint', 'wsfign_map_text_place_button', 'wsfign_map_text_placed', 'wsfign_map_text_updated', 'wsfign_map_text_removed', 'wsfign_map_text_unavailable', 'wsfign_map_text_locate_error' ),
-					),
-					array(
-						'label'     => __( 'Restrictions', 'wsform-ign' ),
-						'meta_keys' => array( 'field_user_status', 'field_user_roles', 'field_user_capabilities' ),
-					),
-					array(
-						'label'     => __( 'Validation', 'wsform-ign' ),
-						'meta_keys' => array( 'invalid_feedback_render', 'validate_inline', 'invalid_feedback' ),
-					),
-					array(
-						'label'     => __( 'Custom Attributes', 'wsform-ign' ),
-						'meta_keys' => array( 'custom_attributes' ),
-					),
-					array(
-						'label'     => __( 'Breakpoints', 'wsform-ign' ),
-						'meta_keys' => array( 'breakpoint_sizes' ),
-						'class'     => array( 'wsf-fieldset-panel' ),
-					),
-				),
+			'advanced' => WSFIGN_Field_Config::get_advanced_tab(
+				array( 'label_position_no_inside', 'label_column_width', 'help_position', 'class_single_vertical_align', 'wsfign_map_height' ),
+				array( 'text_clear', 'wsfign_map_text_hint', 'wsfign_map_text_place_button', 'wsfign_map_text_placed', 'wsfign_map_text_updated', 'wsfign_map_text_removed', 'wsfign_map_text_unavailable', 'wsfign_map_text_locate_error' )
 			),
 		);
 	}
@@ -298,30 +247,13 @@ class WSFIGN_Map_Field {
 		$defaults = self::get_default_texts();
 
 		return array(
-			'wsfign_map_text_hint'         => self::build_text_meta_key( __( 'Help above the map', 'wsform-ign' ), $defaults['hintMouse'] ),
-			'wsfign_map_text_place_button' => self::build_text_meta_key( __( 'Place button', 'wsform-ign' ), $defaults['placeAtCenter'] ),
-			'wsfign_map_text_placed'       => self::build_text_meta_key( __( 'Point placed', 'wsform-ign' ), $defaults['markerPlaced'] ),
-			'wsfign_map_text_updated'      => self::build_text_meta_key( __( 'Point updated', 'wsform-ign' ), $defaults['markerUpdated'] ),
-			'wsfign_map_text_removed'      => self::build_text_meta_key( __( 'Point removed', 'wsform-ign' ), $defaults['markerCleared'] ),
-			'wsfign_map_text_unavailable'  => self::build_text_meta_key( __( 'Map unavailable', 'wsform-ign' ), $defaults['tilesError'] ),
-			'wsfign_map_text_locate_error' => self::build_text_meta_key( __( 'Location error', 'wsform-ign' ), $defaults['locateError'] ),
-		);
-	}
-
-	/**
-	 * Construit le réglage d'un texte, vide par défaut pour suivre les traductions.
-	 *
-	 * @param string $label        Libellé du réglage.
-	 * @param string $default_text Texte utilisé si le réglage reste vide.
-	 * @return array
-	 */
-	public static function build_text_meta_key( $label, $default_text ) {
-		return array(
-			'label'           => $label,
-			'type'            => 'text',
-			'default'         => '',
-			'placeholder'     => $default_text,
-			'variable_helper' => true,
+			'wsfign_map_text_hint'         => WSFIGN_Field_Config::build_text_meta_key( __( 'Help above the map', 'wsform-ign' ), $defaults['hintMouse'] ),
+			'wsfign_map_text_place_button' => WSFIGN_Field_Config::build_text_meta_key( __( 'Place button', 'wsform-ign' ), $defaults['placeAtCenter'] ),
+			'wsfign_map_text_placed'       => WSFIGN_Field_Config::build_text_meta_key( __( 'Point placed', 'wsform-ign' ), $defaults['markerPlaced'] ),
+			'wsfign_map_text_updated'      => WSFIGN_Field_Config::build_text_meta_key( __( 'Point updated', 'wsform-ign' ), $defaults['markerUpdated'] ),
+			'wsfign_map_text_removed'      => WSFIGN_Field_Config::build_text_meta_key( __( 'Point removed', 'wsform-ign' ), $defaults['markerCleared'] ),
+			'wsfign_map_text_unavailable'  => WSFIGN_Field_Config::build_text_meta_key( __( 'Map unavailable', 'wsform-ign' ), $defaults['tilesError'] ),
+			'wsfign_map_text_locate_error' => WSFIGN_Field_Config::build_text_meta_key( __( 'Location error', 'wsform-ign' ), $defaults['locateError'] ),
 		);
 	}
 

@@ -11,21 +11,47 @@
 	const registrations = [];
 
 	/**
+	 * Initialise un élément.
+	 *
+	 * @param {Object}      formInstance Instance WS Form.
+	 * @param {Object}      registration Type de champ déclaré.
+	 * @param {number}      elementIndex Position, imposée par jQuery.
+	 * @param {HTMLElement} element      Input du champ.
+	 */
+	function initElement( formInstance, registration, elementIndex, element ) {
+		const $element = $( element );
+
+		$element.attr( INIT_ATTRIBUTE, '' );
+		registration.initialize( formInstance, $element );
+	}
+
+	/**
 	 * Initialise les éléments pas encore pris en charge d'un formulaire.
 	 *
 	 * @param {Object} formInstance Instance WS Form.
 	 */
 	function initForm( formInstance ) {
-		registrations.forEach( function initRegistration( registration ) {
+		for ( const registration of registrations ) {
 			$( registration.selector + ':not([' + INIT_ATTRIBUTE + '])', formInstance.form_canvas_obj ).each(
-				function initElement( elementIndex, element ) {
-					const $element = $( element );
-
-					$element.attr( INIT_ATTRIBUTE, '' );
-					registration.initialize( formInstance, $element );
-				}
+				initElement.bind( null, formInstance, registration )
 			);
-		} );
+		}
+	}
+
+	/**
+	 * Lit un réglage en résolvant les variables WS Form (#field, etc.).
+	 *
+	 * @param {Object} formInstance Instance WS Form.
+	 * @param {Object} field        Champ.
+	 * @param {string} metaKey      Clé du réglage.
+	 * @param {string} defaultValue Valeur si le réglage est vide.
+	 * @return {string} Valeur du réglage.
+	 */
+	function getSetting( formInstance, field, metaKey, defaultValue ) {
+		const rawValue = formInstance.get_object_meta_value( field, metaKey, defaultValue );
+		const resolvedValue = formInstance.parse_variables_process( String( rawValue ) ).output;
+
+		return '' === resolvedValue ? defaultValue : resolvedValue;
 	}
 
 	/**
@@ -50,5 +76,5 @@
 
 	$( document ).on( 'wsf-rendered wsf-section-repeatable', initAllForms );
 
-	window.wsfignFields = { register };
+	window.wsfignFields = { register, getSetting };
 }( jQuery ) );

@@ -121,7 +121,7 @@ class WSFIGN_GitHub_Release {
 		$url     = sprintf( '%s/repos/%s/%s/releases/latest', self::API_URL, $this->owner, $this->repo );
 		$release = $this->request_json( $url );
 
-		if ( ! is_object( $release ) || ! isset( $release->tag_name ) || 1 !== preg_match( '/^v?(\d+\.\d+\.\d+)$/', $release->tag_name, $tag_parts ) ) {
+		if ( ! is_object( $release ) || 1 !== preg_match( '/^v?(\d+\.\d+\.\d+)$/', $this->read_string( $release, 'tag_name' ), $tag_parts ) ) {
 			return null;
 		}
 
@@ -136,9 +136,9 @@ class WSFIGN_GitHub_Release {
 			array(
 				'version'      => $version,
 				'package'      => $package,
-				'url'          => isset( $release->html_url ) ? $release->html_url : '',
-				'published_at' => isset( $release->published_at ) ? $release->published_at : '',
-				'body'         => isset( $release->body ) ? (string) $release->body : '',
+				'url'          => $this->read_string( $release, 'html_url' ),
+				'published_at' => $this->read_string( $release, 'published_at' ),
+				'body'         => $this->read_string( $release, 'body' ),
 			),
 			$this->read_manifest( $release, $version )
 		);
@@ -158,10 +158,31 @@ class WSFIGN_GitHub_Release {
 		$manifest = '' === $url ? null : $this->request_json( $url );
 
 		return array(
-			'requires'     => isset( $manifest->requires ) ? (string) $manifest->requires : '',
-			'requires_php' => isset( $manifest->requires_php ) ? (string) $manifest->requires_php : '',
-			'tested'       => isset( $manifest->tested ) ? (string) $manifest->tested : '',
+			'requires'     => $this->read_string( $manifest, 'requires' ),
+			'requires_php' => $this->read_string( $manifest, 'requires_php' ),
+			'tested'       => $this->read_string( $manifest, 'tested' ),
 		);
+	}
+
+	/**
+	 * Lit un texte dans une réponse décodée, sans présumer de son type.
+	 *
+	 * @param mixed  $response Réponse décodée.
+	 * @param string $key      Clé à lire.
+	 * @return string Texte, ou chaîne vide.
+	 */
+	private function read_string( $response, $key ) {
+		return isset( $response->$key ) && is_string( $response->$key ) ? $response->$key : '';
+	}
+
+	/**
+	 * Vérifie qu'un fichier se télécharge bien depuis GitHub, en HTTPS.
+	 *
+	 * @param string $url URL à vérifier.
+	 * @return bool
+	 */
+	private function is_github_url( $url ) {
+		return 'https' === wp_parse_url( $url, PHP_URL_SCHEME ) && 'github.com' === wp_parse_url( $url, PHP_URL_HOST );
 	}
 
 	/**
@@ -175,8 +196,10 @@ class WSFIGN_GitHub_Release {
 		$assets = isset( $release->assets ) && is_array( $release->assets ) ? $release->assets : array();
 
 		foreach ( $assets as $asset ) {
-			if ( isset( $asset->name, $asset->browser_download_url ) && $name === $asset->name ) {
-				return $asset->browser_download_url;
+			$url = $this->read_string( $asset, 'browser_download_url' );
+
+			if ( $name === $this->read_string( $asset, 'name' ) && $this->is_github_url( $url ) ) {
+				return $url;
 			}
 		}
 

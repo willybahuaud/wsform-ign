@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Carte IGN pour WS Form 0.2.0\n"
+"Project-Id-Version: Carte IGN pour WS Form 0.3.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wsform-ign\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-07T00:11:27+01:00\n"
+"POT-Creation-Date: 2026-11-07T00:44:53+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wsform-ign\n"
@@ -47,372 +47,365 @@ msgid "location place address adresse ban"
 msgstr ""
 
 #: includes/class-wsfign-address-field.php:66
-#: includes/class-wsfign-address-field.php:269
-#: includes/class-wsfign-map-field.php:91
+#: includes/class-wsfign-address-field.php:230
+#: includes/class-wsfign-map-field.php:79
 msgid "Field"
 msgstr ""
 
 #: includes/class-wsfign-address-field.php:85
-#: includes/class-wsfign-map-field.php:112
+#: includes/class-wsfign-map-field.php:100
 msgid "Basic"
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:89
+#: includes/class-wsfign-address-field.php:90
 msgid "Address Fields"
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:93
-#: includes/class-wsfign-map-field.php:69
+#: includes/class-wsfign-address-field.php:94
+#: includes/class-wsfign-map-field.php:57
 msgid "IGN Map"
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:97
-#: includes/class-wsfign-map-field.php:128
-msgid "Accessibility"
-msgstr ""
-
-#: includes/class-wsfign-address-field.php:101
-#: includes/class-wsfign-map-field.php:132
-msgid "Exclusions"
-msgstr ""
-
-#: includes/class-wsfign-address-field.php:105
-#: includes/class-wsfign-map-field.php:136
-msgid "Hidden Behavior"
-msgstr ""
-
-#: includes/class-wsfign-address-field.php:111
-#: includes/class-wsfign-map-field.php:142
-msgid "Advanced"
-msgstr ""
-
-#: includes/class-wsfign-address-field.php:114
-#: includes/class-wsfign-map-field.php:145
-msgid "Style"
-msgstr ""
-
-#: includes/class-wsfign-address-field.php:118
-#: includes/class-wsfign-map-field.php:149
-msgid "Classes"
-msgstr ""
-
-#: includes/class-wsfign-address-field.php:122
-#: includes/class-wsfign-map-field.php:153
-msgid "Labels"
-msgstr ""
-
 #: includes/class-wsfign-address-field.php:126
-#: includes/class-wsfign-map-field.php:157
-msgid "Restrictions"
-msgstr ""
-
-#: includes/class-wsfign-address-field.php:130
-#: includes/class-wsfign-map-field.php:161
-msgid "Validation"
-msgstr ""
-
-#: includes/class-wsfign-address-field.php:134
-#: includes/class-wsfign-map-field.php:165
-msgid "Custom Attributes"
-msgstr ""
-
-#: includes/class-wsfign-address-field.php:138
-#: includes/class-wsfign-map-field.php:169
-msgid "Breakpoints"
-msgstr ""
-
-#: includes/class-wsfign-address-field.php:165
 msgid "Field Mapping"
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:183
+#: includes/class-wsfign-address-field.php:144
 msgid "Fields to fill in when the visitor chooses an address."
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:186
+#: includes/class-wsfign-address-field.php:147
 msgid "Component"
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:192
+#: includes/class-wsfign-address-field.php:153
 msgid "Form Field"
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:195
-#: includes/class-wsfign-address-field.php:272
+#: includes/class-wsfign-address-field.php:156
+#: includes/class-wsfign-address-field.php:233
 msgid "Select..."
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:212
+#: includes/class-wsfign-address-field.php:173
 msgid "Full address"
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:213
+#: includes/class-wsfign-address-field.php:174
 msgid "Number and street"
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:214
+#: includes/class-wsfign-address-field.php:175
 msgid "Postal code"
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:215
+#: includes/class-wsfign-address-field.php:176
 msgid "City"
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:216
+#: includes/class-wsfign-address-field.php:177
 msgid "INSEE code"
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:217
+#: includes/class-wsfign-address-field.php:178
 msgid "Department"
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:218
-#: includes/class-wsfign-map-field.php:196
+#: includes/class-wsfign-address-field.php:179
+#: includes/class-wsfign-map-field.php:145
 msgid "Latitude"
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:219
-#: includes/class-wsfign-map-field.php:203
+#: includes/class-wsfign-address-field.php:180
+#: includes/class-wsfign-map-field.php:152
 msgid "Longitude"
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:240
+#: includes/class-wsfign-address-field.php:201
 msgid "No suggestion. You can keep typing your address."
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:241
+#: includes/class-wsfign-address-field.php:202
 msgid "Address suggestions are unavailable right now. You can type your address by hand."
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:242
+#: includes/class-wsfign-address-field.php:203
 msgid "No address found at this location."
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:255
+#: includes/class-wsfign-address-field.php:216
 msgid "No suggestion"
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:256
+#: includes/class-wsfign-address-field.php:217
 msgid "Suggestions unavailable"
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:257
+#: includes/class-wsfign-address-field.php:218
 msgid "No address at this location"
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:274
+#: includes/class-wsfign-address-field.php:235
 msgid "IGN Map field to center on the chosen address."
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:277
-#: includes/class-wsfign-map-field.php:210
+#: includes/class-wsfign-address-field.php:238
+#: includes/class-wsfign-map-field.php:159
 msgid "Zoom"
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:282
+#: includes/class-wsfign-address-field.php:243
 msgid "Zoom of the map once an address is chosen."
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:285
+#: includes/class-wsfign-address-field.php:246
 msgid "Find the address on map click"
 msgstr ""
 
-#: includes/class-wsfign-address-field.php:288
-msgid "When the visitor places the marker, this field and its mapped fields receive the nearest address."
+#: includes/class-wsfign-address-field.php:249
+msgid "When the visitor places the point, this field and its mapped fields receive the nearest address."
 msgstr ""
 
-#: includes/class-wsfign-assets.php:94
+#: includes/class-wsfign-assets.php:103
 msgid "Address suggestions"
 msgstr ""
 
-#: includes/class-wsfign-assets.php:95
+#: includes/class-wsfign-assets.php:104
 msgid "1 suggestion available. Use the arrow keys to browse."
 msgstr ""
 
 #. translators: %d: number of suggestions.
-#: includes/class-wsfign-assets.php:97
+#: includes/class-wsfign-assets.php:106
 #, php-format
 msgid "%d suggestions available. Use the arrow keys to browse."
 msgstr ""
 
-#: includes/class-wsfign-assets.php:112
-#: includes/class-wsfign-map-field.php:231
+#: includes/class-wsfign-assets.php:121
+#: includes/class-wsfign-map-field.php:180
 msgid "IGN map"
 msgstr ""
 
-#: includes/class-wsfign-assets.php:118
-#: includes/class-wsfign-map-field.php:235
+#: includes/class-wsfign-assets.php:127
+#: includes/class-wsfign-map-field.php:184
 msgid "Aerial photos"
 msgstr ""
 
-#: includes/class-wsfign-assets.php:127
-#: includes/class-wsfign-map-field.php:70
-#: includes/class-wsfign-map-field.php:116
+#: includes/class-wsfign-assets.php:136
+#: includes/class-wsfign-map-field.php:58
+#: includes/class-wsfign-map-field.php:105
 msgid "Map"
 msgstr ""
 
-#: includes/class-wsfign-assets.php:128
+#: includes/class-wsfign-assets.php:137
+msgid "Point on the map"
+msgstr ""
+
+#: includes/class-wsfign-assets.php:138
 msgid "Tap the map to place the point. Use two fingers to move the map."
 msgstr ""
 
-#: includes/class-wsfign-assets.php:129
+#: includes/class-wsfign-assets.php:139
 msgid "Center on my location"
 msgstr ""
 
 #. translators: 1: latitude, 2: longitude.
-#: includes/class-wsfign-assets.php:131
+#: includes/class-wsfign-assets.php:141
 #, php-format
 msgid "Latitude %1$s, longitude %2$s."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:49
+#: includes/class-wsfign-field-config.php:28
 msgid "French public services"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:83
+#: includes/class-wsfign-field-config.php:63
+msgid "Accessibility"
+msgstr ""
+
+#: includes/class-wsfign-field-config.php:67
+msgid "Exclusions"
+msgstr ""
+
+#: includes/class-wsfign-field-config.php:71
+msgid "Hidden Behavior"
+msgstr ""
+
+#: includes/class-wsfign-field-config.php:86
+msgid "Advanced"
+msgstr ""
+
+#: includes/class-wsfign-field-config.php:89
+msgid "Style"
+msgstr ""
+
+#: includes/class-wsfign-field-config.php:93
+msgid "Classes"
+msgstr ""
+
+#: includes/class-wsfign-field-config.php:97
+msgid "Labels"
+msgstr ""
+
+#: includes/class-wsfign-field-config.php:101
+msgid "Restrictions"
+msgstr ""
+
+#: includes/class-wsfign-field-config.php:105
+msgid "Validation"
+msgstr ""
+
+#: includes/class-wsfign-field-config.php:109
+msgid "Custom Attributes"
+msgstr ""
+
+#: includes/class-wsfign-field-config.php:113
+msgid "Breakpoints"
+msgstr ""
+
+#: includes/class-wsfign-map-field.php:71
 msgid "location place address latitude longitude ign carte"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:120
+#: includes/class-wsfign-map-field.php:109
 msgid "Controls"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:124
+#: includes/class-wsfign-map-field.php:113
 msgid "Marker"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:200
+#: includes/class-wsfign-map-field.php:149
 msgid "Initial latitude of the map."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:207
+#: includes/class-wsfign-map-field.php:156
 msgid "Initial longitude of the map."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:215
+#: includes/class-wsfign-map-field.php:164
 msgid "Initial zoom of the map (0 = world, 19 = building)."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:218
+#: includes/class-wsfign-map-field.php:167
 msgid "Height"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:223
+#: includes/class-wsfign-map-field.php:172
 msgid "Height of the map: a percentage of its width (56.25% for 16:9) or a value in pixels (400px)."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:226
+#: includes/class-wsfign-map-field.php:175
 msgid "Base layer"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:241
+#: includes/class-wsfign-map-field.php:190
 msgid "Visitor location"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:246
+#: includes/class-wsfign-map-field.php:195
 msgid "None"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:250
+#: includes/class-wsfign-map-field.php:199
 msgid "Offer a button to center on the visitor"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:254
+#: includes/class-wsfign-map-field.php:203
 msgid "The browser only asks for the location after the visitor clicks the button."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:257
+#: includes/class-wsfign-map-field.php:206
 msgid "Layer switcher"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:262
+#: includes/class-wsfign-map-field.php:211
 msgid "Zoom buttons"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:267
+#: includes/class-wsfign-map-field.php:216
 msgid "Show coordinates"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:270
+#: includes/class-wsfign-map-field.php:219
 msgid "Shows the latitude and longitude once the point is placed. Screen readers announce them either way."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:282
+#: includes/class-wsfign-map-field.php:231
 msgid "Click the map to place the point."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:283
+#: includes/class-wsfign-map-field.php:232
 msgid "Place the point at the center"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:284
+#: includes/class-wsfign-map-field.php:233
 msgid "Point placed."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:285
+#: includes/class-wsfign-map-field.php:234
 msgid "Point updated."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:286
+#: includes/class-wsfign-map-field.php:235
 msgid "Point removed."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:287
+#: includes/class-wsfign-map-field.php:236
 msgid "The map background is unavailable right now. You can still send this form."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:288
+#: includes/class-wsfign-map-field.php:237
 msgid "Your location could not be determined."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:301
+#: includes/class-wsfign-map-field.php:250
 msgid "Help above the map"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:302
+#: includes/class-wsfign-map-field.php:251
 msgid "Place button"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:303
+#: includes/class-wsfign-map-field.php:252
 msgid "Point placed"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:304
+#: includes/class-wsfign-map-field.php:253
 msgid "Point updated"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:305
+#: includes/class-wsfign-map-field.php:254
 msgid "Point removed"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:306
+#: includes/class-wsfign-map-field.php:255
 msgid "Map unavailable"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:307
+#: includes/class-wsfign-map-field.php:256
 msgid "Location error"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:336
+#: includes/class-wsfign-map-field.php:268
 msgid "Title"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:340
+#: includes/class-wsfign-map-field.php:272
 msgid "Text shown when hovering the marker."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:343
+#: includes/class-wsfign-map-field.php:275
 msgid "Icon URL"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:347
+#: includes/class-wsfign-map-field.php:279
 msgid "URL of an image to replace the default marker."
 msgstr ""
 
-#: includes/class-wsfign-submission-validation.php:46
+#: includes/class-wsfign-submission-validation.php:49
 msgid "This location is not valid."
 msgstr ""
 
-#: includes/class-wsfign-updater.php:209
+#: includes/class-wsfign-updater.php:211
 msgid "The plugin folder could not be renamed during the update."
 msgstr ""
