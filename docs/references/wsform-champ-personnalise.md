@@ -80,6 +80,25 @@ Le type `googlemap` est traité à part dans le cœur :
 
 Il faut donc vérifier, pour le nouveau champ : l'affichage dans la liste des soumissions, les e-mails (`#email_submission`), l'export CSV, `#field(ID)`, et le mapping vers ACF, Meta Box et Post Management. Cherche un filtre avant de contourner.
 
+## Vérifié sur 1.12.19 (PRO et LITE, 2026-11-06)
+
+| Sortie | Comportement d'un type tiers | Solution |
+|---|---|---|
+| Liste des soumissions | JSON brut, déjà passé dans `esc_html` | Filtre `wsf_table_submit_field_type_list` : décoder, formater, ré-échapper |
+| Export CSV | JSON brut | Filtre `wsf_submit_field_type_csv` |
+| E-mail (`#email_submission`, `#field(ID)`) | JSON brut, aucun filtre sur la valeur | Filtre `wsf_action_email_message`, sur le message composé |
+| `#field(ID)` hors e-mail | JSON brut | Aucun filtre trouvé : limite à documenter |
+| Détail d'une soumission (barre latérale) | JSON brut, rendu par le JS admin | Aucun filtre trouvé : limite à documenter |
+
+À savoir :
+
+- **Chargement à la demande :** `wsf_form_pre_process_field` reçoit chaque champ d'un formulaire rendu. C'est le bon crochet pour savoir si le formulaire contient le champ.
+- **Touche Entrée :** le cœur l'annule sur tous les `:input` du formulaire, par délégation sur `keydown`. Un bouton ajouté au champ doit arrêter la propagation de cet événement.
+- **Inputs tiers :** tout `input` nommé dans le formulaire part dans le POST, y compris ceux d'une bibliothèque comme les radios de Leaflet.
+- **Sections répétables :** elles sont absentes de LITE.
+
+Non vérifié : le mapping vers ACF, Meta Box et Post Management.
+
 ## Réglages de `googlemap` à reprendre
 
 `google_map_lat`, `google_map_lng`, `google_map_zoom`, `google_map_height`, `google_map_center`, `google_map_type`, `google_map_control_zoom`, `google_map_control_full_screen`, `google_map_marker_icon_title`, `google_map_marker_icon_url`, `google_map_search_field_id`
