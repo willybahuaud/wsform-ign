@@ -32,10 +32,26 @@ class WSFIGN_Map_Field {
 	 * @return array
 	 */
 	public static function register_field_type( $field_types ) {
-		$field_types[ self::FIELD_GROUP ] = array(
-			'label' => __( 'French public services', 'wsform-ign' ),
-			'types' => array( self::FIELD_TYPE => self::get_field_type_config() ),
-		);
+		return self::add_to_group( $field_types, self::FIELD_TYPE, self::get_field_type_config() );
+	}
+
+	/**
+	 * Ajoute un type de champ au groupe du plugin, en créant le groupe au besoin.
+	 *
+	 * @param array  $field_types Types de champs connus de WS Form.
+	 * @param string $type        Identifiant du type de champ.
+	 * @param array  $config      Définition du type de champ.
+	 * @return array
+	 */
+	public static function add_to_group( $field_types, $type, $config ) {
+		if ( ! isset( $field_types[ self::FIELD_GROUP ] ) ) {
+			$field_types[ self::FIELD_GROUP ] = array(
+				'label' => __( 'French public services', 'wsform-ign' ),
+				'types' => array(),
+			);
+		}
+
+		$field_types[ self::FIELD_GROUP ]['types'][ $type ] = $config;
 
 		return $field_types;
 	}

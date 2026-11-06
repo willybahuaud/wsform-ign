@@ -226,6 +226,8 @@
 			this.map.on( 'baselayerchange', this.onBaseLayerChange, this );
 
 			this.$input.on( 'change', this.syncFromInput.bind( this ) );
+			this.$input.on( 'wsfign-map-show', this.onShowRequest.bind( this ) );
+			this.$input.on( 'wsfign-map-address', this.onAddressRequest.bind( this ) );
 			this.$input
 				.parent()
 				.find( '[data-action="wsfign-map-clear"]' )
@@ -330,11 +332,43 @@
 		}
 
 		/**
-		 * Pose ou déplace le marqueur, écrit la valeur et l'annonce aux lecteurs d'écran.
+		 * Centre la carte sur une adresse choisie dans un champ Adresse BAN.
+		 *
+		 * @param {jQuery.Event} showEvent Événement reçu.
+		 * @param {Object}       location  Position, zoom et adresse.
+		 */
+		onShowRequest( showEvent, location ) {
+			const latLng = L.latLng( location.lat, location.lng );
+
+			this.address = location.address;
+			this.showMarker( latLng );
+
+			// Sans animation, le zoom est à jour tout de suite pour l'écriture de la valeur.
+			this.map.setView( latLng, location.zoom, { animate: false } );
+			this.writeValue( latLng );
+		}
+
+		/**
+		 * Ajoute à la valeur l'adresse trouvée pour le marqueur, sans le déplacer.
+		 *
+		 * @param {jQuery.Event} addressEvent Événement reçu.
+		 * @param {string}       address      Adresse trouvée.
+		 */
+		onAddressRequest( addressEvent, address ) {
+			this.address = address;
+			this.onViewOptionChange();
+		}
+
+		/**
+		 * Pose ou déplace le marqueur à la demande du visiteur, écrit la valeur et l'annonce.
+		 *
+		 * L'adresse connue ne vaut plus pour ce nouveau point. L'événement permet à un
+		 * champ Adresse BAN lié de chercher celle du point.
 		 *
 		 * @param {L.LatLng} latLng Position.
 		 */
 		placeMarker( latLng ) {
+			this.address = '';
 			this.showMarker( latLng );
 			this.writeValue( latLng );
 			this.$notice.text(
@@ -342,6 +376,7 @@
 					.replace( '%1$s', latLng.lat.toFixed( COORDINATE_DECIMALS ) )
 					.replace( '%2$s', latLng.lng.toFixed( COORDINATE_DECIMALS ) )
 			);
+			this.$input.triggerHandler( 'wsfign-map-placed', [ { lat: latLng.lat, lng: latLng.lng } ] );
 		}
 
 		/**
@@ -377,12 +412,18 @@
 		 * @param {L.LatLng} latLng Position du marqueur.
 		 */
 		writeValue( latLng ) {
-			const fieldValue = JSON.stringify( {
+			const valueObject = {
 				lat: latLng.lat,
 				lng: latLng.lng,
 				zoom: this.map.getZoom(),
 				layer: this.layerKey,
-			} );
+			};
+
+			if ( this.address ) {
+				valueObject.address = this.address;
+			}
+
+			const fieldValue = JSON.stringify( valueObject );
 
 			if ( this.$input.val() !== fieldValue ) {
 				this.$input.val( fieldValue ).trigger( 'change' );
@@ -397,6 +438,8 @@
 		 */
 		syncFromInput() {
 			const fieldValue = parseValue( this.$input.val() );
+
+			this.address = fieldValue && fieldValue.address ? fieldValue.address : '';
 
 			if ( ! fieldValue ) {
 				this.removeMarker();
@@ -423,30 +466,14 @@
 	}
 
 	/**
-	 * Initialise les cartes pas encore prises en charge d'un formulaire.
+	 * Initialise un champ carte.
 	 *
 	 * @param {Object} formInstance Instance WS Form.
+	 * @param {jQuery} $input       Input du champ.
 	 */
-	function initFormMaps( formInstance ) {
-		$( '[data-wsfign-map]:not([data-wsfign-map-init])', formInstance.form_canvas_obj ).each(
-			function initMapInput( inputIndex, inputElement ) {
-				const $input = $( inputElement );
-
-				$input.attr( 'data-wsfign-map-init', '' );
-				new IgnMapField( formInstance, $input );
-			}
-		);
+	function initMapField( formInstance, $input ) {
+		new IgnMapField( formInstance, $input );
 	}
 
-	/**
-	 * Parcourt tous les formulaires : une ligne répétable ajoutée après coup y passe aussi.
-	 */
-	function initAllMaps() {
-		Object.values( window.wsf_form_instances || {} ).forEach( initFormMaps );
-	}
-
-	$( document ).on( 'wsf-rendered wsf-section-repeatable', initAllMaps );
-
-	// Le formulaire peut avoir fini son rendu avant le chargement de ce script.
-	$( initAllMaps );
+	window.wsfignFields.register( '[data-wsfign-map]', initMapField );
 }( jQuery, L, window.wsfignMapSettings ) );
