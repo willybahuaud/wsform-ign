@@ -158,11 +158,26 @@ class WSFIGN_Updater {
 			'homepage'      => $this->repository_url,
 			'requires'      => $release['requires'],
 			'requires_php'  => $release['requires_php'],
-			'tested'        => $release['tested'],
+			'tested'        => $this->get_tested_version( $release['tested'] ),
 			'last_updated'  => $release['published_at'],
 			'download_link' => $release['package'],
-			'sections'      => array( 'changelog' => wpautop( esc_html( $release['body'] ) ) ),
+			'sections'      => array( 'changelog' => WSFIGN_Release_Notes::to_html( $release['body'] ) ),
 		);
+	}
+
+	/**
+	 * Retourne la version testée à présenter à la fenêtre des détails.
+	 *
+	 * « Tested up to: 7.1 » couvre toute la branche, mais cette fenêtre compare les versions
+	 * telles quelles : sans ce relais, elle préviendrait à tort sur WordPress 7.1.4.
+	 *
+	 * @param string $tested Version déclarée par la release.
+	 * @return string
+	 */
+	private function get_tested_version( $tested ) {
+		$wordpress_version = get_bloginfo( 'version' );
+
+		return 0 === strpos( $wordpress_version . '.', $tested . '.' ) ? $wordpress_version : $tested;
 	}
 
 	/**

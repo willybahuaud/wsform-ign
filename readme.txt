@@ -4,7 +4,7 @@ Tags: ws form, map, address, ign, autocomplete
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.1
+Stable tag: 0.1.2
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,10 @@ The plugin bundles Leaflet 1.9.4 (BSD-2-Clause), see `assets/vendor/leaflet/LICE
 Updates come from the GitHub releases of the plugin, not from WordPress.org.
 
 == Changelog ==
+
+= 0.1.2 =
+* Update details: no more false "not tested" warning on minor WordPress versions.
+* Update details: release notes are shown as formatted text.
 
 = 0.1.1 =
 * Maintenance release, with no change to the fields.
