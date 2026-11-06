@@ -314,19 +314,19 @@ msgstr "Sélecteur de fond de carte"
 msgid "Zoom buttons"
 msgstr "Boutons de zoom"
 
-#: includes/class-wsfign-map-field.php:277
+#: includes/class-wsfign-map-field.php:283
 msgid "Title"
 msgstr "Titre"
 
-#: includes/class-wsfign-map-field.php:281
+#: includes/class-wsfign-map-field.php:287
 msgid "Text shown when hovering the marker."
 msgstr "Texte affiché au survol du marqueur."
 
-#: includes/class-wsfign-map-field.php:284
+#: includes/class-wsfign-map-field.php:290
 msgid "Icon URL"
 msgstr "URL de l'icône"
 
-#: includes/class-wsfign-map-field.php:288
+#: includes/class-wsfign-map-field.php:294
 msgid "URL of an image to replace the default marker."
 msgstr "URL d'une image qui remplace le marqueur par défaut."
 
@@ -355,11 +355,23 @@ msgid "Point placed."
 msgstr "Point placé."
 
 #. translators: 1: latitude, 2: longitude.
-#: includes/class-wsfign-assets.php:131
+#: includes/class-wsfign-assets.php:132
 #, php-format
 msgid "Latitude %1$s, longitude %2$s."
 msgstr "Latitude %1$s, longitude %2$s."
 
-#: includes/class-wsfign-assets.php:132
+#: includes/class-wsfign-assets.php:133
 msgid "Point removed."
 msgstr "Point retiré."
+
+#: includes/class-wsfign-assets.php:130
+msgid "Point updated."
+msgstr "Point mis à jour."
+
+#: includes/class-wsfign-map-field.php:267
+msgid "Show coordinates"
+msgstr "Afficher les coordonnées"
+
+#: includes/class-wsfign-map-field.php:270
+msgid "Shows the latitude and longitude once the point is placed. Screen readers announce them either way."
+msgstr "Affiche la latitude et la longitude une fois le point placé. Les lecteurs d'écran les annoncent dans tous les cas."
