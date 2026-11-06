@@ -95,7 +95,10 @@ Il faut donc vérifier, pour le nouveau champ : l'affichage dans la liste des so
 - **Chargement à la demande :** `wsf_form_pre_process_field` reçoit chaque champ d'un formulaire rendu. C'est le bon crochet pour savoir si le formulaire contient le champ.
 - **Touche Entrée :** le cœur l'annule sur tous les `:input` du formulaire, par délégation sur `keydown`. Un bouton ajouté au champ doit arrêter la propagation de cet événement.
 - **Inputs tiers :** tout `input` nommé dans le formulaire part dans le POST, y compris ceux d'une bibliothèque comme les radios de Leaflet.
-- **Sections répétables :** elles sont absentes de LITE.
+- **Sections répétables :** elles sont absentes de LITE. Le suffixe d'une ligne vient de `get_section_repeatable_suffix()`, et une ligne ajoutée déclenche `wsf-section-repeatable`.
+- **Écrire dans un autre champ :** passe par `field_value_set( $wrapper, $field, value )`, qui gère les listes et déclenche les conditions.
+- **Répéteur de réglages :** une clé de type `select` dotée de `'key' => 'ws_form_field'` range sa valeur sous cette clé dans chaque ligne.
+- **Création par code :** ne passe pas de `label` à `WS_Form_Field::db_create()`. Le cœur saute alors le chargement de la config, et le champ perd ses valeurs par défaut.
 
 Non vérifié : le mapping vers ACF, Meta Box et Post Management.
 

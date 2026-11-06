@@ -29,7 +29,18 @@ https://data.geopf.fr/geocodage/search?q=8+boulevard+du+po&autocomplete=1&limit=
 
 Réponse GeoJSON. `features[].geometry.coordinates` vaut `[lng, lat]`. Propriétés vues : `label`, `score`, `housenumber`, `id`, `banId`, `name`, `postcode`, `citycode`, `city`, `context`, `type`, `importance`, `depcode`, `x`, `y`.
 
-La rue seule n'apparaît pas forcément dans une propriété dédiée : `name` vaut par exemple « 8 Boulevard du Port ». Relève les variantes par `type` (`housenumber`, `street`, `locality`, `municipality`) avant de figer le mapping.
+Variantes relevées le 2026-11-06 :
+
+| `type` | `name` | `street` |
+|---|---|---|
+| `housenumber` | « 8 Boulevard du Port » | « Boulevard du Port » |
+| `street` | « Boulevard du Port » | identique |
+| `locality` | « Square de la Motte » | vide |
+| `municipality` | « Amiens », le nom de la commune | vide |
+
+La ligne d'adresse vaut donc `name`, sauf pour `municipality` où elle est vide.
+
+Le service répond 400 si `q` fait moins de 3 ou plus de 200 caractères, ou ne commence ni par une lettre ni par un chiffre.
 
 ### Géocodage inverse
 
@@ -37,7 +48,14 @@ La rue seule n'apparaît pas forcément dans une propriété dédiée : `name` v
 https://data.geopf.fr/geocodage/reverse?lon=2.29&lat=49.89&limit=1
 ```
 
-Même forme de réponse. L'essai a renvoyé un `locality` et non un numéro de rue : prévois tous les types.
+Même forme de réponse, avec ces différences :
+
+- `depcode` est absent. Il manque aussi outre-mer. Le code du département se lit au début de `context` (« 80, Somme, Hauts-de-France »).
+- `street` peut être vide, même pour le type `street`.
+- `label` peut contenir l'arrondissement (« 75007 Paris,Paris 7e Arrondissement ») : recompose le libellé depuis `name`, `postcode` et `city`.
+- La liste `features` est vide loin de toute adresse, en mer par exemple.
+
+Tous les types peuvent sortir, pas seulement un numéro de rue.
 
 ### Autocomplétion dédiée (à éviter pour l'instant)
 
