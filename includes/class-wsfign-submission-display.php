@@ -26,8 +26,9 @@ class WSFIGN_Submission_Display {
 	/**
 	 * Formate une valeur pour la liste des soumissions.
 	 *
-	 * Le cœur y passe esc_html avant ce filtre : il faut décoder pour lire le JSON,
-	 * puis ré-échapper, car la valeur vient du visiteur et s'affiche dans l'admin.
+	 * Le cœur échappe chaque ligne avant ce filtre, puis les joint avec un vrai <br /> dans
+	 * une section répétable. On ne ré-échappe donc pas la chaîne, ce séparateur s'afficherait
+	 * en toutes lettres : seul le JSON est remplacé, par des coordonnées purement numériques.
 	 *
 	 * @param mixed      $value      Valeur déjà échappée par le cœur.
 	 * @param int|string $field_id   Identifiant du champ.
@@ -39,7 +40,7 @@ class WSFIGN_Submission_Display {
 			return $value;
 		}
 
-		return esc_html( self::replace_json_values( wp_specialchars_decode( $value, ENT_QUOTES ) ) );
+		return preg_replace_callback( '/\{[^{}]*\}/', array( __CLASS__, 'format_escaped_json_match' ), $value );
 	}
 
 	/**
@@ -107,6 +108,16 @@ class WSFIGN_Submission_Display {
 	 */
 	private static function format_json_match( $matches ) {
 		return self::format_coordinates( $matches[0] );
+	}
+
+	/**
+	 * Formate un objet JSON échappé, trouvé par format_for_list().
+	 *
+	 * @param string[] $matches Résultat de la recherche.
+	 * @return string
+	 */
+	private static function format_escaped_json_match( $matches ) {
+		return self::format_coordinates( wp_specialchars_decode( $matches[0], ENT_QUOTES ) );
 	}
 
 	/**
