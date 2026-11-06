@@ -115,7 +115,8 @@
 				layer: layer.layer,
 				format: layer.format,
 				maxZoom: MAX_ZOOM,
-				// La Licence Ouverte demande la source et la date : la fiche liée donne les deux.
+				// La Licence Ouverte demande la source et la date de mise à jour, et accepte un lien
+				// vers la source : la fiche liée indique le producteur, la licence et le rythme de mise à jour.
 				attribution: $( '<a target="_blank" rel="noopener"></a>' )
 					.attr( 'href', layer.source )
 					.text( 'IGN, ' + layer.label )
