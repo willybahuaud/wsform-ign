@@ -63,10 +63,17 @@ Les règles du répertoire WordPress.org interdisent à un plugin de se mettre �
 
 ## Critères d'acceptation
 
-- [x] Avec des réponses simulées, une version plus récente apparaît dans l'admin et la mise à jour s'installe dans le bon dossier. L'essai réel sur un dépôt public reste à faire.
+- [x] Une version plus récente apparaît dans l'admin et la mise à jour s'installe dans le bon dossier. Vérifié avec des réponses simulées, puis en réel de v0.1.0 vers v0.1.1 le 2026-11-06.
 - [x] Le plugin reste actif après la mise à jour, sans perte de réglages.
 - [x] Un 404, un 403 de limite ou un délai dépassé ne produisent ni erreur visible ni ralentissement de l'admin.
 - [x] L'archive installée ne contient ni `docs/` ni `tests/`.
 - [x] Une release sans archive ne propose pas de mise à jour.
 - [x] Aucun jeton n'est présent dans le code.
 - [x] Le workflow refuse un tag différent de la version du plugin. Vérifié sur GitHub Actions le 2026-11-06 : la vérification échoue, le build et la publication sont sautés, et aucune release n'est créée.
+
+## Défauts connus de la fenêtre « Voir les détails »
+
+Relevés sur la mise à jour réelle, sans effet sur l'installation :
+
+- **Fausse alerte :** `Tested up to: 7.1` déclenche « n'a pas été testée » sur WordPress 7.1.4, car le cœur compare `7.1.4` à `7.1` avec `version_compare`.
+- **Notes de version :** le corps de la release s'affiche en Markdown brut.
