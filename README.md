@@ -30,7 +30,7 @@ Leaflet et les scripts du plugin ne se chargent que si le formulaire contient l'
 - **Adresses :** seules les adresses françaises sont suggérées.
 - **Sections répétables :** LITE n'en a pas, il faut donc PRO pour y placer ces champs.
 - **Format de la valeur :** la carte enregistre un JSON. Il s'affiche en `latitude,longitude` dans la liste des soumissions, l'export CSV et les e-mails. Il reste en JSON dans `#field(ID)` hors e-mail et dans le détail d'une soumission, car WS Form n'y offre aucun filtre.
-- **Mapping :** le mapping vers ACF, Meta Box et Post Management n'a pas encore été testé.
+- **Mapping :** le mapping fonctionne vers une méta simple, ACF et Meta Box avec Post Management, y compris pour préremplir le formulaire. Les autres passerelles (JetEngine, Toolset, ACPT) n'ont pas été testées.
 
 ## Confidentialité
 

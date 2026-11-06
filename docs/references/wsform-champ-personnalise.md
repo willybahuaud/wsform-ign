@@ -100,7 +100,24 @@ Il faut donc vérifier, pour le nouveau champ : l'affichage dans la liste des so
 - **Répéteur de réglages :** une clé de type `select` dotée de `'key' => 'ws_form_field'` range sa valeur sous cette clé dans chaque ligne.
 - **Création par code :** ne passe pas de `label` à `WS_Form_Field::db_create()`. Le cœur saute alors le chargement de la config, et le champ perd ses valeurs par défaut.
 
-Non vérifié : le mapping vers ACF, Meta Box et Post Management.
+## Mapping vers les contenus (vérifié le 2026-11-06)
+
+Testé avec WS Form Post 1.6.13, ACF PRO 6.8.11 et Meta Box 5.15.4, dans les deux sens : création d'un contenu et préremplissage du formulaire.
+
+| Cible | Sans correctif | Solution |
+|---|---|---|
+| Méta simple | Chaîne JSON complète | Rien à faire |
+| ACF `google_map` | `update_value` décode le JSON | Rien à faire à l'écriture |
+| Meta Box `map` | **`0,0,5` écrit en silence** : la passerelle attend un tableau | `WSFIGN_Post_Mapping` présente un tableau pendant le filtre `wsf_action_post_field_mapping`, puis restaure la chaîne pour le mapping de méta simple, qui passe juste après |
+| Préremplissage ACF et Meta Box | Un tableau, que le cœur n'encode qu'en `googlemap` | `wsf_action_post_get`, en priorité 11, encode en JSON |
+
+## Geo Query
+
+Le plugin lit `coordonnees_gps` en JSON ou en tableau, avec les clés `lat` et `lng`.
+
+- **Méta simple `coordonnees_gps`, sans champ ACF de ce nom :** fonctionne de bout en bout, car `wp_insert_post` écrit `meta_input` avant `save_post`.
+- **Champ ACF :** la valeur arrive bien, mais la table miroir de Geo Query reste vide. Post Management écrit le champ après le premier `save_post` : Geo Query ne trouve rien, marque le contenu comme synchronisé et ignore le second `save_post`. Le champ Google aurait le même problème. Retirer `mark_synced()` de la branche « pas de coordonnées » de `CoordinateSyncService::sync_post()` corrige le cas (essai sur une copie de test).
+- **Ne mappe pas une méta simple sur le nom d'un champ ACF existant :** ACF lirait la chaîne JSON avec `wp_parse_args`.
 
 ## Réglages de `googlemap` à reprendre
 

@@ -61,7 +61,7 @@ Le plugin se met à jour depuis les releases GitHub, sur le modèle de `wboard-c
 
 ## Risques à lever en premier, dans cet ordre
 
-1. **Type de champ tiers :** le cœur traite `googlemap` à part dans une dizaine de fichiers. Vérifie la liste des soumissions, les e-mails, l'export CSV, `#field(ID)` et le mapping ACF, Meta Box et Post Management. **Le mapping reste à tester.**
+1. **Type de champ tiers :** le cœur traite `googlemap` à part dans une dizaine de fichiers. Vérifie la liste des soumissions, les e-mails, l'export CSV, `#field(ID)` et le mapping ACF, Meta Box et Post Management. Mapping vérifié : voir `docs/references/wsform-champ-personnalise.md`.
 2. **WS Form LITE :** le filtre semble partagé, mais rien n'a été essayé. Si le champ marche sur LITE, tout le monde peut l'essayer sans licence. Dis clairement ce qui marche ou non sur chaque édition.
 3. **Éditeur visuel :** le rendu et les réglages du champ dans le constructeur.
 4. **Sections répétables :** une carte ajoutée à la volée.

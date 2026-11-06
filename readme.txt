@@ -43,7 +43,7 @@ Both fields work with WS Form LITE and PRO. Repeatable sections are not availabl
 
 * Addresses outside France are not suggested. They can still be typed by hand.
 * The map value is stored as JSON. It is shown as `latitude,longitude` in the submissions list, the CSV export and emails. It stays as JSON in `#field(ID)` outside emails and in the submission detail sidebar, because WS Form offers no filter there.
-* In a submission, the zoom and layer are kept in the JSON value. Mapping to ACF, Meta Box or Post Management has not been tested yet.
+* The zoom and layer are kept in the JSON value. With Post Management, mapping works with a plain custom field, ACF and Meta Box, including to populate the form. Other integrations (JetEngine, Toolset, ACPT) have not been tested.
 
 == Privacy ==
 
