@@ -94,6 +94,7 @@ Il faut donc vérifier, pour le nouveau champ : l'affichage dans la liste des so
 
 - **Chargement à la demande :** `wsf_form_pre_process_field` reçoit chaque champ d'un formulaire rendu. C'est le bon crochet pour savoir si le formulaire contient le champ.
 - **Touche Entrée :** le cœur l'annule sur tous les `:input` du formulaire, par délégation sur `keydown`. Un bouton ajouté au champ doit arrêter la propagation de cet événement.
+- **Types ACF mappables :** `WS_Form_ACF::acf_field_mappable()` est une liste fermée, et aucun filtre n'a été trouvé. Un champ ACF tiers n'est donc pas proposé au mapping. Vérifié avec ACF OpenStreetMap Field et ACF: Leaflet Map Field. Un bloc ACF n'est alimenté que s'il est en `usePostMeta`.
 - **Style :** pour suivre le Styler, réutilise les classes du cœur (`wsf-button`, `wsf-help`) ou ses variables (`--wsf-field-color`, `--wsf-form-font-family`), avec une valeur de repli. Le cœur ne charge le CSS des boutons que pour ses propres types de champ : force-le avec le filtre `wsf_enqueue_css_button`. Vérifié sur PRO et LITE avec un style publié.
 - **Inputs tiers :** tout `input` nommé dans le formulaire part dans le POST, y compris ceux d'une bibliothèque comme les radios de Leaflet.
 - **Sections répétables :** elles sont absentes de LITE. Le suffixe d'une ligne vient de `get_section_repeatable_suffix()`, et une ligne ajoutée déclenche `wsf-section-repeatable`.

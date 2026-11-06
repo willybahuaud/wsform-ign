@@ -4,7 +4,7 @@ Tags: ws form, map, address, ign, autocomplete
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.0
+Stable tag: 0.3.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,18 @@ Both fields work with WS Form LITE and PRO. Repeatable sections are not availabl
 * The map value is stored as JSON. It is shown as `latitude,longitude` in the submissions list, the CSV export and emails. It stays as JSON in `#field(ID)` outside emails and in the submission detail sidebar, because WS Form offers no filter there.
 * The zoom and layer are kept in the JSON value. With Post Management, mapping works with a plain custom field, ACF and Meta Box, including to populate the form. Other integrations (JetEngine, Toolset, ACPT) have not been tested.
 
+= Showing the point on your site =
+
+This plugin does not render a map on the front end. With Post Management, the point is stored as post meta, and your theme or block displays it.
+
+* Plain custom field: works. The value is JSON, so read it with `json_decode()`. This is the option that avoids Google everywhere.
+* ACF Google Map field: works. `get_field()` returns `lat`, `lng`, `zoom` and `address` when known. It loads nothing from Google on your site if you display the point another way, but its edit screen loads the Google API in the admin, even without a key.
+* ACF block using `usePostMeta`: works, its fields are stored as post meta.
+* Standard ACF block: does not work, it reads its data from the post content.
+* ACF OpenStreetMap Field and other third-party ACF map fields: not supported, because WS Form does not offer these field types for mapping.
+
+The README on GitHub includes a Leaflet example with IGN tiles. Pages showing these tiles also contact `data.geopf.fr`, so mention it in your privacy policy.
+
 == Privacy ==
 
 This plugin adds no tracking and no telemetry. It has no settings page and no ads.
@@ -66,6 +78,9 @@ The plugin bundles Leaflet 1.9.4 (BSD-2-Clause), see `assets/vendor/leaflet/LICE
 Updates come from the GitHub releases of the plugin, not from WordPress.org.
 
 == Changelog ==
+
+= 0.3.0 =
+* Documentation: how to show the point on your site, which ACF targets work, and a Leaflet example. No change to the fields.
 
 = 0.2.0 =
 * Map: a short hint explains how to place the point.
