@@ -1,0 +1,40 @@
+/* La hauteur passe par padding-bottom pour accepter un pourcentage de la largeur. */
+.wsfign-map {
+	height: 0;
+	overflow: hidden;
+	padding-bottom: 56.25%;
+	position: relative;
+}
+
+.wsfign-map-canvas {
+	inset: 0;
+	position: absolute;
+	/* Empêche les panneaux de Leaflet de passer au-dessus du reste de la page. */
+	z-index: 0;
+}
+
+/* Les thèmes qui limitent la largeur des images déforment les tuiles. */
+.wsfign-map-canvas img {
+	max-width: none;
+}
+
+/* La taille de l'icône est inconnue : la pointe, en bas au centre, doit tomber sur le point. */
+.wsfign-map-marker img {
+	display: block;
+	transform: translate(-50%, -100%);
+}
+
+.wsfign-map-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	margin-top: 0.5em;
+}
+
+.wsfign-map-notice:empty {
+	display: none;
+}
+
+.wsfign-map-notice {
+	margin-top: 0.5em;
+}
