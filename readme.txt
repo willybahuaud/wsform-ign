@@ -4,7 +4,7 @@ Tags: ws form, map, address, ign, autocomplete
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.2
+Stable tag: 0.1.3
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,10 @@ The plugin bundles Leaflet 1.9.4 (BSD-2-Clause), see `assets/vendor/leaflet/LICE
 Updates come from the GitHub releases of the plugin, not from WordPress.org.
 
 == Changelog ==
+
+= 0.1.3 =
+* Submissions list: repeatable map values are shown on separate lines, without a visible `<br />`.
+* CSV export: repeatable map coordinates are separated by a semicolon.
 
 = 0.1.2 =
 * Update details: no more false "not tested" warning on minor WordPress versions.
