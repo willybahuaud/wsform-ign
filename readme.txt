@@ -56,7 +56,7 @@ To avoid Google everywhere, use a plain custom field. The README on GitHub has a
 * Only French addresses are suggested.
 * LITE has no repeatable sections, so using these fields in one requires PRO.
 * The map value is stored as JSON. It shows as `latitude,longitude` in the submissions list, the CSV export and emails. It stays as JSON in `#field(ID)` outside emails and in the submission detail, because WS Form offers no filter there.
-* JetEngine, Toolset and ACPT have not been tested.
+* Mapping was only tested with ACF and Meta Box. WS Form can also write to JetEngine, Toolset and ACPT, but none of them has been tried.
 
 == Installation ==
 

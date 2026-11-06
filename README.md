@@ -101,7 +101,7 @@ La licence des tuiles demande de citer la source : garde l'attribution.
 - **Adresses :** seules les adresses françaises sont suggérées.
 - **Sections répétables :** LITE n'en a pas, il te faut donc PRO pour y placer ces champs.
 - **Format de la valeur :** la carte enregistre un JSON. Il s'affiche en `latitude,longitude` dans la liste des soumissions, l'export CSV et les e-mails. Il reste en JSON dans `#field(ID)` hors e-mail et dans le détail d'une soumission, car WS Form n'y offre aucun filtre.
-- **Passerelles :** JetEngine, Toolset et ACPT n'ont pas été testés.
+- **Autres extensions de champs :** le mapping n'a été testé qu'avec ACF et Meta Box. WS Form sait aussi écrire vers JetEngine, Toolset et ACPT, mais rien n'a été essayé avec ces trois-là.
 
 ## Confidentialité
 
