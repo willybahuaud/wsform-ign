@@ -29,6 +29,7 @@ require_once WSFIGN_DIR . 'includes/class-wsfign-submission-display.php';
 require_once WSFIGN_DIR . 'includes/class-wsfign-submission-validation.php';
 require_once WSFIGN_DIR . 'includes/class-wsfign-post-mapping.php';
 require_once WSFIGN_DIR . 'includes/class-wsfign-github-release.php';
+require_once WSFIGN_DIR . 'includes/class-wsfign-release-notes.php';
 require_once WSFIGN_DIR . 'includes/class-wsfign-updater.php';
 
 /**
