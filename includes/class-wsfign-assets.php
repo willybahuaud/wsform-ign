@@ -127,6 +127,7 @@ class WSFIGN_Assets {
 				'locateError'       => __( 'Your location could not be determined.', 'wsform-ign' ),
 				'tilesError'        => __( 'The map background is unavailable right now. You can still send this form.', 'wsform-ign' ),
 				'markerPlaced'      => __( 'Point placed.', 'wsform-ign' ),
+				'markerUpdated'     => __( 'Point updated.', 'wsform-ign' ),
 				/* translators: 1: latitude, 2: longitude. */
 				'markerCoordinates' => __( 'Latitude %1$s, longitude %2$s.', 'wsform-ign' ),
 				'markerCleared'     => __( 'Point removed.', 'wsform-ign' ),

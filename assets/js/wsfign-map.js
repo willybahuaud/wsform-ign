@@ -11,7 +11,8 @@
 		'https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER={layer}&STYLE=normal&FORMAT={format}&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}';
 	const MAX_ZOOM = 19;
 	const LOCATED_ZOOM = 15;
-	const COORDINATE_DECIMALS = 7;
+	// Environ un mètre : la valeur enregistrée garde toute sa précision.
+	const COORDINATE_DECIMALS = 5;
 	const DEFAULT_LAT = 46.6;
 	const DEFAULT_LNG = 2.4;
 	const DEFAULT_ZOOM = 6;
@@ -395,9 +396,11 @@
 		 */
 		onShowRequest( showEvent, location ) {
 			const latLng = L.latLng( location.lat, location.lng );
+			const isUpdate = null !== this.marker;
 
 			this.address = location.address;
 			this.showMarker( latLng );
+			this.announcePlacement( latLng, isUpdate );
 
 			// Sans animation, le zoom est à jour tout de suite pour l'écriture de la valeur.
 			this.map.setView( latLng, location.zoom, { animate: false } );
@@ -424,24 +427,33 @@
 		 * @param {L.LatLng} latLng Position.
 		 */
 		placeMarker( latLng ) {
+			const isUpdate = null !== this.marker;
+
 			this.address = '';
 			this.showMarker( latLng );
 			this.writeValue( latLng );
-			this.announcePlacement( latLng );
+			this.announcePlacement( latLng, isUpdate );
 			this.$input.triggerHandler( 'wsfign-map-placed', [ { lat: latLng.lat, lng: latLng.lng } ] );
 		}
 
 		/**
-		 * Confirme la pose. Les coordonnées ne servent qu'à qui ne voit pas la carte.
+		 * Confirme la pose ou le déplacement du point.
 		 *
-		 * @param {L.LatLng} latLng Position.
+		 * Masquées par réglage, les coordonnées restent annoncées aux lecteurs d'écran :
+		 * sans voir la carte, elles sont la seule confirmation de la position.
+		 *
+		 * @param {L.LatLng} latLng   Position.
+		 * @param {boolean}  isUpdate Vrai si le point existait déjà.
 		 */
-		announcePlacement( latLng ) {
+		announcePlacement( latLng, isUpdate ) {
+			const showCoordinates = 'on' === this.formInstance.get_object_meta_value( this.field, 'wsfign_map_show_coordinates', 'on' );
 			const coordinates = settings.i18n.markerCoordinates
 				.replace( '%1$s', latLng.lat.toFixed( COORDINATE_DECIMALS ) )
 				.replace( '%2$s', latLng.lng.toFixed( COORDINATE_DECIMALS ) );
 
-			this.$notice.text( settings.i18n.markerPlaced + ' ' ).append( $( '<span class="wsfign-map-sr-only"></span>' ).text( coordinates ) );
+			this.$notice
+				.text( ( isUpdate ? settings.i18n.markerUpdated : settings.i18n.markerPlaced ) + ' ' )
+				.append( $( '<span></span>' ).toggleClass( 'wsfign-map-sr-only', ! showCoordinates ).text( coordinates ) );
 		}
 
 		/**

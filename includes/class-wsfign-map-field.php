@@ -122,7 +122,7 @@ class WSFIGN_Map_Field {
 					),
 					array(
 						'label'     => __( 'Marker', 'wsform-ign' ),
-						'meta_keys' => array( 'wsfign_map_marker_title', 'wsfign_map_marker_icon_url' ),
+						'meta_keys' => array( 'wsfign_map_marker_title', 'wsfign_map_marker_icon_url', 'wsfign_map_show_coordinates' ),
 					),
 					array(
 						'label'     => __( 'Accessibility', 'wsform-ign' ),
@@ -192,21 +192,21 @@ class WSFIGN_Map_Field {
 	 */
 	private static function get_map_meta_keys() {
 		return array(
-			'wsfign_map_lat'            => array(
+			'wsfign_map_lat'              => array(
 				'label'           => __( 'Latitude', 'wsform-ign' ),
 				'type'            => 'text',
 				'variable_helper' => true,
 				'default'         => '46.6',
 				'help'            => __( 'Initial latitude of the map.', 'wsform-ign' ),
 			),
-			'wsfign_map_lng'            => array(
+			'wsfign_map_lng'              => array(
 				'label'           => __( 'Longitude', 'wsform-ign' ),
 				'type'            => 'text',
 				'variable_helper' => true,
 				'default'         => '2.4',
 				'help'            => __( 'Initial longitude of the map.', 'wsform-ign' ),
 			),
-			'wsfign_map_zoom'           => array(
+			'wsfign_map_zoom'             => array(
 				'label'           => __( 'Zoom', 'wsform-ign' ),
 				'type'            => 'text',
 				'variable_helper' => true,
@@ -214,7 +214,7 @@ class WSFIGN_Map_Field {
 				'placeholder'     => '6',
 				'help'            => __( 'Initial zoom of the map (0 = world, 19 = building).', 'wsform-ign' ),
 			),
-			'wsfign_map_height'         => array(
+			'wsfign_map_height'           => array(
 				'label'           => __( 'Height', 'wsform-ign' ),
 				'type'            => 'text',
 				'variable_helper' => true,
@@ -222,7 +222,7 @@ class WSFIGN_Map_Field {
 				'placeholder'     => '56.25%',
 				'help'            => __( 'Height of the map: a percentage of its width (56.25% for 16:9) or a value in pixels (400px).', 'wsform-ign' ),
 			),
-			'wsfign_map_layer'          => array(
+			'wsfign_map_layer'            => array(
 				'label'   => __( 'Base layer', 'wsform-ign' ),
 				'type'    => 'select',
 				'options' => array(
@@ -237,7 +237,7 @@ class WSFIGN_Map_Field {
 				),
 				'default' => 'plan',
 			),
-			'wsfign_map_center'         => array(
+			'wsfign_map_center'           => array(
 				'label'   => __( 'Visitor location', 'wsform-ign' ),
 				'type'    => 'select',
 				'options' => array(
@@ -253,15 +253,21 @@ class WSFIGN_Map_Field {
 				'default' => '',
 				'help'    => __( 'The browser only asks for the location after the visitor clicks the button.', 'wsform-ign' ),
 			),
-			'wsfign_map_control_layers' => array(
+			'wsfign_map_control_layers'   => array(
 				'label'   => __( 'Layer switcher', 'wsform-ign' ),
 				'type'    => 'checkbox',
 				'default' => 'on',
 			),
-			'wsfign_map_control_zoom'   => array(
+			'wsfign_map_control_zoom'     => array(
 				'label'   => __( 'Zoom buttons', 'wsform-ign' ),
 				'type'    => 'checkbox',
 				'default' => 'on',
+			),
+			'wsfign_map_show_coordinates' => array(
+				'label'   => __( 'Show coordinates', 'wsform-ign' ),
+				'type'    => 'checkbox',
+				'default' => 'on',
+				'help'    => __( 'Shows the latitude and longitude once the point is placed. Screen readers announce them either way.', 'wsform-ign' ),
 			),
 		);
 	}
