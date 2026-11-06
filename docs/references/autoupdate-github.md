@@ -25,7 +25,9 @@ La version vient de `GET https://api.github.com/repos/{owner}/{repo}/releases/la
 
 La compatibilité vient d'un manifeste `<slug>-X.Y.Z.json` joint à la release, généré par `bin/build-release.sh`.
 
-## Limite bloquante : le dépôt privé
+## Condition : un dépôt public
+
+Le dépôt est public depuis le 2026-11-06. La limite ci-dessous reste valable si d'autres plugins reprennent ce mécanisme.
 
 **L'updater du modèle appelle l'API sans authentification. Sur un dépôt privé, GitHub répond 404 et le plugin ne propose jamais de mise à jour, sans aucune erreur.** Le modèle fonctionne parce que son dépôt est public.
 

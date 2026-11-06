@@ -1,6 +1,6 @@
 # Brief : carte IGN et adresses BAN pour WS Form
 
-Rédigé le 2026-11-06. Dépôt GitHub privé : `willybahuaud/wsform-ign`. Les critères cochés ci-dessous ont été vérifiés sur WS Form PRO et LITE 1.12.19.
+Rédigé le 2026-11-06. Dépôt GitHub public : `willybahuaud/wsform-ign`. Les critères cochés ci-dessous ont été vérifiés sur WS Form PRO et LITE 1.12.19.
 
 ## Pourquoi
 
@@ -57,7 +57,7 @@ Willy ne cherche pas à le vendre. Le plugin sert sa notoriété et fait découv
 
 Le plugin se met à jour depuis les releases GitHub, sur le modèle de `wboard-connector`. Tout est dans `docs/references/autoupdate-github.md`, critères d'acceptation compris.
 
-**Le mécanisme ne peut pas fonctionner tant que le dépôt est privé**, et aucun jeton ne doit être ajouté au plugin. Teste-le avec des réponses simulées.
+Le dépôt est public depuis le 2026-11-06, condition du mécanisme. Aucun jeton ne doit être ajouté au plugin.
 
 ## Risques à lever en premier, dans cet ordre
 
@@ -93,9 +93,7 @@ Le scénario visé : un formulaire crée un contenu avec Post Management, les co
 
 ## À demander à Willy
 
-1. Le passage du dépôt en public, indispensable pour que les utilisateurs reçoivent les mises à jour.
-2. Les chaînes source : français avec une traduction anglaise, ou anglais avec une traduction française. Par défaut, anglais et `fr_FR` fourni, comme l'attend WordPress.org.
-3. La licence WS Form PRO pour l'environnement de test.
+1. La licence WS Form PRO pour l'environnement de test, à ne jamais versionner.
 
 ## Pour commencer
 
