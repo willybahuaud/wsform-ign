@@ -1,0 +1,13 @@
+.DS_Store
+node_modules/
+vendor/
+*.log
+.env
+.env.local
+*.local.php
+
+# Copie locale de WS Form PRO (code payant, ne jamais versionner)
+ws-form-pro/
+
+# Chemins locaux, jamais versionnes
+LOCAL.md
