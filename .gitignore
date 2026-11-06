@@ -11,3 +11,6 @@ ws-form-pro/
 
 # Chemins locaux, jamais versionnes
 LOCAL.md
+
+# Archives de release
+/dist/
