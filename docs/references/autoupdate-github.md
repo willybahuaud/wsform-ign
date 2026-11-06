@@ -69,4 +69,4 @@ Les règles du répertoire WordPress.org interdisent à un plugin de se mettre �
 - [x] L'archive installée ne contient ni `docs/` ni `tests/`.
 - [x] Une release sans archive ne propose pas de mise à jour.
 - [x] Aucun jeton n'est présent dans le code.
-- [ ] Le workflow refuse un tag différent de la version du plugin. Script `bin/check-tag.sh` vérifié en local : le workflow lui-même n'a jamais tourné sur GitHub Actions.
+- [x] Le workflow refuse un tag différent de la version du plugin. Vérifié sur GitHub Actions le 2026-11-06 : la vérification échoue, le build et la publication sont sautés, et aucune release n'est créée.
