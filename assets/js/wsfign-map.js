@@ -125,7 +125,9 @@
 			} );
 
 			tileLayer.layerKey = layerKey;
-			tileLayer.on( 'tileerror', this.onTileError, this );
+			window.wsfignTileRetry.watch( tileLayer );
+			tileLayer.on( window.wsfignTileRetry.UNAVAILABLE_EVENT, this.onTilesUnavailable, this );
+			tileLayer.on( 'tileload', this.onTileLoad, this );
 
 			return tileLayer;
 		}
@@ -327,12 +329,27 @@
 		}
 
 		/**
-		 * Affiche un seul message si les tuiles échouent : le formulaire reste envoyable.
+		 * Signale l'indisponibilité du fond de carte : le formulaire reste envoyable.
 		 */
-		onTileError() {
+		onTilesUnavailable() {
+			this.tilesFailed = true;
+			this.$notice.text( settings.i18n.tilesError );
+		}
+
+		/**
+		 * Retire le message d'indisponibilité dès que le fond de carte revient.
+		 *
+		 * Le texte est comparé pour ne pas effacer un message posé depuis, sur le marqueur par exemple.
+		 */
+		onTileLoad() {
 			if ( ! this.tilesFailed ) {
-				this.tilesFailed = true;
-				this.$notice.text( settings.i18n.tilesError );
+				return;
+			}
+
+			this.tilesFailed = false;
+
+			if ( settings.i18n.tilesError === this.$notice.text() ) {
+				this.$notice.text( '' );
 			}
 		}
 
