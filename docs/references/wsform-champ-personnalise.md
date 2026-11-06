@@ -84,8 +84,8 @@ Il faut donc vérifier, pour le nouveau champ : l'affichage dans la liste des so
 
 | Sortie | Comportement d'un type tiers | Solution |
 |---|---|---|
-| Liste des soumissions | JSON brut, déjà passé dans `esc_html` | Filtre `wsf_table_submit_field_type_list` : décoder, formater, ré-échapper |
-| Export CSV | JSON brut | Filtre `wsf_submit_field_type_csv` |
+| Liste des soumissions | JSON brut, déjà passé dans `esc_html`, lignes répétées jointes par un vrai `<br />` | Filtre `wsf_table_submit_field_type_list` : remplacer le JSON sans ré-échapper la chaîne |
+| Export CSV | JSON brut, lignes répétées jointes par une virgule | Filtre `wsf_submit_field_type_csv`, avec `;` entre les paires de coordonnées |
 | E-mail (`#email_submission`, `#field(ID)`) | JSON brut, aucun filtre sur la valeur | Filtre `wsf_action_email_message`, sur le message composé |
 | `#field(ID)` hors e-mail | JSON brut | Aucun filtre trouvé : limite à documenter |
 | Détail d'une soumission (barre latérale) | JSON brut, rendu par le JS admin | Aucun filtre trouvé : limite à documenter |
