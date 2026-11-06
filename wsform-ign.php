@@ -28,6 +28,18 @@ require_once WSFIGN_DIR . 'includes/class-wsfign-assets.php';
 require_once WSFIGN_DIR . 'includes/class-wsfign-submission-display.php';
 require_once WSFIGN_DIR . 'includes/class-wsfign-submission-validation.php';
 
+/**
+ * Charge les traductions embarquées.
+ *
+ * Le plugin n'est pas sur WordPress.org : aucun paquet de langue ne viendrait les fournir.
+ *
+ * @return void
+ */
+function wsfign_load_textdomain() {
+	load_plugin_textdomain( 'wsform-ign', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+}
+add_action( 'init', 'wsfign_load_textdomain', 0 );
+
 WSFIGN_Map_Field::register_hooks();
 WSFIGN_Address_Field::register_hooks();
 WSFIGN_Assets::register_hooks();
