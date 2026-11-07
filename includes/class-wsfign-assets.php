@@ -137,6 +137,7 @@ class WSFIGN_Assets {
 					'markerLabel'       => __( 'Point on the map', 'wsform-ign' ),
 					'hintTouch'         => __( 'Tap the map to place the point. Use two fingers to move the map.', 'wsform-ign' ),
 					'locateMe'          => __( 'Center on my location', 'wsform-ign' ),
+					'locatePlace'       => __( 'Place the point on my location', 'wsform-ign' ),
 					/* translators: 1: latitude, 2: longitude. */
 					'markerCoordinates' => __( 'Latitude %1$s, longitude %2$s.', 'wsform-ign' ),
 				)

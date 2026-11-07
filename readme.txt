@@ -21,7 +21,7 @@ This plugin does the same job with French public services: IGN map backgrounds a
 * IGN map or aerial photos
 * Place the point by clicking or from the keyboard, then move it, clear it, or make it required
 * Custom marker icon and title
-* Optional button to center on the visitor, who is only asked for their location after clicking it
+* Optional button to center the map on the visitor, or to place the point there directly. The visitor is only asked for their location after clicking it
 * On mobile, one finger scrolls the page and two fingers move the map
 
 = BAN Address field =
@@ -83,6 +83,9 @@ This plugin is not affiliated with or endorsed by IGN or WS Form.
 Updates come from the GitHub releases of the plugin, not from WordPress.org.
 
 == Changelog ==
+
+= Unreleased =
+* Map: the location button can now place the point on the visitor, not only center the map. Choose it in Basic > Map > Visitor location.
 
 = 0.3.1 =
 * Security: stricter validation of the map value on the server. HTML, nested values, invalid zoom or layer and oversized values are now refused.

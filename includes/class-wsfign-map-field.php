@@ -198,6 +198,10 @@ class WSFIGN_Map_Field {
 						'value' => 'browser',
 						'text'  => __( 'Offer a button to center on the visitor', 'wsform-ign' ),
 					),
+					array(
+						'value' => 'browser_place',
+						'text'  => __( 'Offer a button to place the point on the visitor', 'wsform-ign' ),
+					),
 				),
 				'default' => '',
 				'help'    => __( 'The browser only asks for the location after the visitor clicks the button.', 'wsform-ign' ),
