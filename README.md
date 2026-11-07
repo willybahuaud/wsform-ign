@@ -23,7 +23,7 @@ Les mises à jour arrivent ensuite dans l'admin, depuis les releases GitHub.
 - Plan IGN, ou photos aériennes
 - Point placé au clic ou au clavier, déplaçable, effaçable, obligatoire si besoin
 - Icône et titre du marqueur au choix
-- Bouton optionnel pour centrer sur le visiteur : le navigateur ne demande sa position qu'après ce clic
+- Bouton optionnel pour centrer la carte sur le visiteur, ou y placer directement le point : le navigateur ne demande sa position qu'après ce clic
 - Sur mobile, un doigt fait défiler la page et deux doigts déplacent la carte
 
 **Adresse BAN**

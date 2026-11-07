@@ -219,7 +219,10 @@
 			this.$map.after( $( '<div class="wsfign-map-actions"></div>' ).append( this.$placeButton ), this.$notice );
 			this.$map.find( '.wsfign-map-canvas' ).attr( 'aria-describedby', hintId );
 
-			if ( 'browser' === this.formInstance.get_object_meta_value( this.field, 'wsfign_map_center', '' ) && navigator.geolocation ) {
+			const locateMode = this.formInstance.get_object_meta_value( this.field, 'wsfign_map_center', '' );
+			this.placeOnLocate = 'browser_place' === locateMode;
+
+			if ( ( 'browser' === locateMode || this.placeOnLocate ) && navigator.geolocation ) {
 				this.addMapControl( this.createLocateButton(), 'topleft' );
 			}
 		}
@@ -230,8 +233,10 @@
 		 * @return {jQuery} Bouton.
 		 */
 		createLocateButton() {
+			const label = this.placeOnLocate ? settings.i18n.locatePlace : settings.i18n.locateMe;
+
 			return this.createButton( '', this.onLocateClick, 'wsfign-map-locate' )
-				.attr( { 'aria-label': settings.i18n.locateMe, title: settings.i18n.locateMe } )
+				.attr( { 'aria-label': label, title: label } )
 				.html( LOCATE_ICON );
 		}
 
@@ -316,12 +321,21 @@
 		}
 
 		/**
-		 * Centre la carte sur la position du visiteur, sans poser de marqueur.
+		 * Centre la carte sur la position du visiteur, et y pose le point si le réglage le demande.
+		 *
+		 * Le centrage seul reste proposé : en intérieur, la position peut être fausse
+		 * de plusieurs dizaines de mètres, et le visiteur préfère alors la corriger avant de poser.
 		 *
 		 * @param {GeolocationPosition} position Position du navigateur.
 		 */
 		onLocated( position ) {
-			this.map.setView( [ position.coords.latitude, position.coords.longitude ], LOCATED_ZOOM );
+			const latLng = L.latLng( position.coords.latitude, position.coords.longitude );
+
+			this.map.setView( latLng, LOCATED_ZOOM );
+
+			if ( this.placeOnLocate ) {
+				this.placeMarker( latLng );
+			}
 		}
 
 		/**
