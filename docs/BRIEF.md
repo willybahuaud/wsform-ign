@@ -15,7 +15,8 @@ Les champs Google de WS Form exigent un projet Google Cloud avec facturation et 
 - Clic sur la carte qui pose le marqueur, marqueur déplaçable
 - Réinitialisation du marqueur
 - Marqueur obligatoire possible
-- Option de centrage sur le navigateur du visiteur, sur demande de sa part
+- Option de géolocalisation du visiteur, sur demande de sa part : placer le point sur lui, ou seulement centrer la carte
+- Hiérarchie des actions : on pose le point sur la carte. Sous la carte, seul le bouton de géolocalisation est visible, et « Placer le point au centre » n'apparaît qu'au focus clavier
 - Icône et titre de marqueur personnalisables
 
 ### Champ « Adresse BAN »
