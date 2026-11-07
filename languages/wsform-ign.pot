@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-07T00:44:53+01:00\n"
+"POT-Creation-Date: 2026-11-07T12:08:43+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wsform-ign\n"
@@ -208,8 +208,12 @@ msgstr ""
 msgid "Center on my location"
 msgstr ""
 
+#: includes/class-wsfign-assets.php:140
+msgid "Place the point on my location"
+msgstr ""
+
 #. translators: 1: latitude, 2: longitude.
-#: includes/class-wsfign-assets.php:141
+#: includes/class-wsfign-assets.php:142
 #, php-format
 msgid "Latitude %1$s, longitude %2$s."
 msgstr ""
@@ -311,94 +315,98 @@ msgid "Offer a button to center on the visitor"
 msgstr ""
 
 #: includes/class-wsfign-map-field.php:203
+msgid "Offer a button to place the point on the visitor"
+msgstr ""
+
+#: includes/class-wsfign-map-field.php:207
 msgid "The browser only asks for the location after the visitor clicks the button."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:206
+#: includes/class-wsfign-map-field.php:210
 msgid "Layer switcher"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:211
+#: includes/class-wsfign-map-field.php:215
 msgid "Zoom buttons"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:216
+#: includes/class-wsfign-map-field.php:220
 msgid "Show coordinates"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:219
+#: includes/class-wsfign-map-field.php:223
 msgid "Shows the latitude and longitude once the point is placed. Screen readers announce them either way."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:231
+#: includes/class-wsfign-map-field.php:235
 msgid "Click the map to place the point."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:232
+#: includes/class-wsfign-map-field.php:236
 msgid "Place the point at the center"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:233
+#: includes/class-wsfign-map-field.php:237
 msgid "Point placed."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:234
+#: includes/class-wsfign-map-field.php:238
 msgid "Point updated."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:235
+#: includes/class-wsfign-map-field.php:239
 msgid "Point removed."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:236
+#: includes/class-wsfign-map-field.php:240
 msgid "The map background is unavailable right now. You can still send this form."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:237
+#: includes/class-wsfign-map-field.php:241
 msgid "Your location could not be determined."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:250
+#: includes/class-wsfign-map-field.php:254
 msgid "Help above the map"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:251
+#: includes/class-wsfign-map-field.php:255
 msgid "Place button"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:252
+#: includes/class-wsfign-map-field.php:256
 msgid "Point placed"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:253
+#: includes/class-wsfign-map-field.php:257
 msgid "Point updated"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:254
+#: includes/class-wsfign-map-field.php:258
 msgid "Point removed"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:255
+#: includes/class-wsfign-map-field.php:259
 msgid "Map unavailable"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:256
+#: includes/class-wsfign-map-field.php:260
 msgid "Location error"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:268
+#: includes/class-wsfign-map-field.php:272
 msgid "Title"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:272
+#: includes/class-wsfign-map-field.php:276
 msgid "Text shown when hovering the marker."
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:275
+#: includes/class-wsfign-map-field.php:279
 msgid "Icon URL"
 msgstr ""
 
-#: includes/class-wsfign-map-field.php:279
+#: includes/class-wsfign-map-field.php:283
 msgid "URL of an image to replace the default marker."
 msgstr ""
 
