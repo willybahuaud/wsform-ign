@@ -21,9 +21,10 @@ Les mises à jour arrivent ensuite dans l'admin, depuis les releases GitHub.
 **Carte IGN**
 
 - Plan IGN, ou photos aériennes
-- Point placé au clic ou au clavier, déplaçable, effaçable, obligatoire si besoin
+- Point placé au clic ou au toucher, déplaçable, effaçable, obligatoire si besoin
+- Au clavier, un bouton « Placer le point au centre » apparaît quand on l'atteint avec Tab : à la souris, il ne servirait à rien
 - Icône et titre du marqueur au choix
-- Bouton optionnel pour centrer la carte sur le visiteur, ou y placer directement le point : le navigateur ne demande sa position qu'après ce clic
+- Bouton optionnel sous la carte pour placer le point sur le visiteur, ou seulement centrer la carte sur lui : le navigateur ne demande sa position qu'après ce clic
 - Sur mobile, un doigt fait défiler la page et deux doigts déplacent la carte
 
 **Adresse BAN**

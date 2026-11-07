@@ -19,9 +19,10 @@ This plugin does the same job with French public services: IGN map backgrounds a
 = IGN Map field =
 
 * IGN map or aerial photos
-* Place the point by clicking or from the keyboard, then move it, clear it, or make it required
+* Place the point by clicking or tapping, then move it, clear it, or make it required
+* From the keyboard, a "place the point at the center" button shows when reached with Tab. With a mouse it would be useless
 * Custom marker icon and title
-* Optional button to center the map on the visitor, or to place the point there directly. The visitor is only asked for their location after clicking it
+* Optional button under the map to place the point on the visitor, or only center the map on them. The visitor is only asked for their location after clicking it
 * On mobile, one finger scrolls the page and two fingers move the map
 
 = BAN Address field =
