@@ -203,41 +203,41 @@
 		/**
 		 * Ajoute l'aide, les boutons et la zone de message autour de la carte.
 		 *
-		 * Sans le bouton de pose, un marqueur ne pourrait être placé qu'à la souris.
+		 * Seule la géolocalisation est visible sous la carte : à la souris ou au doigt,
+		 * on pose le point sur la carte. Le bouton de pose au centre sert au clavier,
+		 * sans lequel aucun point ne pourrait être placé : il n'apparaît qu'au focus.
 		 */
 		createInterface() {
 			const hintId = this.$input.attr( 'id' ) + '-hint';
 			const $hint = $( '<div class="wsf-help wsf-help-pre wsfign-map-hint"></div>' )
 				.attr( 'id', hintId )
 				.text( this.getSetting( 'wsfign_map_text_hint', L.Browser.mobile ? settings.i18n.hintTouch : settings.i18n.hintMouse ) );
+			const $actions = $( '<div class="wsfign-map-actions"></div>' );
+			const locateMode = this.formInstance.get_object_meta_value( this.field, 'wsfign_map_center', '' );
 
-			this.$placeButton = this.createButton( this.getSetting( 'wsfign_map_text_place_button', settings.i18n.placeAtCenter ), this.onPlaceAtCenterClick, 'wsf-button wsf-button-secondary' );
+			this.placeOnLocate = 'browser_place' === locateMode;
+			this.$placeButton = this.createButton( this.getSetting( 'wsfign_map_text_place_button', settings.i18n.placeAtCenter ), this.onPlaceAtCenterClick, 'wsf-button wsf-button-secondary wsfign-map-place' );
 			this.$notice = $( '<div class="wsf-help wsfign-map-notice" role="status"></div>' );
 			this.$clear = this.$input.parent().find( '.wsfign-map-clear' );
 
-			this.$map.before( $hint );
-			this.$map.after( $( '<div class="wsfign-map-actions"></div>' ).append( this.$placeButton ), this.$notice );
-			this.$map.find( '.wsfign-map-canvas' ).attr( 'aria-describedby', hintId );
-
-			const locateMode = this.formInstance.get_object_meta_value( this.field, 'wsfign_map_center', '' );
-			this.placeOnLocate = 'browser_place' === locateMode;
-
 			if ( ( 'browser' === locateMode || this.placeOnLocate ) && navigator.geolocation ) {
-				this.addMapControl( this.createLocateButton(), 'topleft' );
+				$actions.append( this.createLocateButton() );
 			}
+
+			this.$map.before( $hint );
+			this.$map.after( $actions.append( this.$placeButton ), this.$notice );
+			this.$map.find( '.wsfign-map-canvas' ).attr( 'aria-describedby', hintId );
 		}
 
 		/**
-		 * Crée le bouton de géolocalisation, une icône nommée pour les lecteurs d'écran.
+		 * Crée le bouton de géolocalisation, avec l'icône et le texte de son action.
 		 *
 		 * @return {jQuery} Bouton.
 		 */
 		createLocateButton() {
 			const label = this.placeOnLocate ? settings.i18n.locatePlace : settings.i18n.locateMe;
 
-			return this.createButton( '', this.onLocateClick, 'wsfign-map-locate' )
-				.attr( { 'aria-label': label, title: label } )
-				.html( LOCATE_ICON );
+			return this.createButton( label, this.onLocateClick, 'wsf-button wsf-button-secondary wsfign-map-locate' ).prepend( LOCATE_ICON );
 		}
 
 		/**
