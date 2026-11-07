@@ -4,7 +4,7 @@ Tags: ws form, map, address, ign, autocomplete
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.3.2
+Stable tag: 0.3.3
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -83,6 +83,10 @@ This plugin is not affiliated with or endorsed by IGN or WS Form.
 Updates come from the GitHub releases of the plugin, not from WordPress.org.
 
 == Changelog ==
+
+= 0.3.3 =
+* Map: the location button now sits under the map, with its icon and a text, instead of a small icon inside the map.
+* Map: the "place the point at the center" button only shows when reached with the keyboard. With a mouse or a finger, you place the point on the map.
 
 = 0.3.2 =
 * Map: the location button can now place the point on the visitor, not only center the map. Choose it in Basic > Map > Visitor location.
