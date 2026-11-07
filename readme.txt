@@ -4,7 +4,7 @@ Tags: ws form, map, address, ign, autocomplete
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.3.1
+Stable tag: 0.3.2
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -84,7 +84,7 @@ Updates come from the GitHub releases of the plugin, not from WordPress.org.
 
 == Changelog ==
 
-= Unreleased =
+= 0.3.2 =
 * Map: the location button can now place the point on the visitor, not only center the map. Choose it in Basic > Map > Visitor location.
 
 = 0.3.1 =
