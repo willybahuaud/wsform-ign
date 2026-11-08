@@ -97,6 +97,36 @@ document.querySelectorAll( '.carte-ign' ).forEach( initIgnMap );
 
 La licence des tuiles demande de citer la source : garde l'attribution.
 
+## Piloter la carte depuis un autre script
+
+La carte écoute deux événements jQuery sur son input masqué, et en déclenche un. Le champ Adresse BAN s'en sert, [Recherche SIRET pour WS Form](https://github.com/willybahuaud/wsform-siret) aussi : c'est un contrat, il ne changera pas sans être annoncé dans le changelog.
+
+| Événement | Sens | Données | Effet |
+|---|---|---|---|
+| `wsfign-map-show` | Vers la carte | `{ lat, lng, zoom, address }` | Place le point, centre la carte au zoom donné et écrit la valeur, adresse comprise |
+| `wsfign-map-address` | Vers la carte | Adresse, en texte | Ajoute l'adresse à la valeur, sans déplacer le point |
+| `wsfign-map-placed` | Depuis la carte | `{ lat, lng }` | Déclenché quand le visiteur place ou déplace le point : clic, glisser, bouton du centre ou de sa position |
+
+L'input se trouve par l'identifiant que WS Form lui donne. Dans une section répétable, ajoute le suffixe de la ligne, que donne `get_section_repeatable_suffix()`.
+
+```js
+/**
+ * Centre une carte IGN sur un point et y écrit une adresse.
+ *
+ * @param {Object} formInstance Instance WS Form du formulaire.
+ * @param {number} mapFieldId   Identifiant du champ Carte IGN.
+ */
+function showOnIgnMap( formInstance, mapFieldId ) {
+	const mapInput = document.getElementById( formInstance.form_id_prefix + 'field-' + mapFieldId );
+
+	jQuery( mapInput ).triggerHandler( 'wsfign-map-show', [
+		{ lat: 48.8686, lng: 2.3334, zoom: 17, address: '34 avenue de l’Opéra 75002 Paris' },
+	] );
+}
+```
+
+Passe par `triggerHandler()` plutôt que `trigger()` : l'événement reste sur l'input et ne remonte pas dans le formulaire.
+
 ## Les limites
 
 - **Adresses :** seules les adresses françaises sont suggérées.
