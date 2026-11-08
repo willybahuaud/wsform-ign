@@ -4,7 +4,7 @@ Tags: ws form, map, address, ign, autocomplete
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.3.3
+Stable tag: 0.3.4
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -84,6 +84,10 @@ This plugin is not affiliated with or endorsed by IGN or WS Form.
 Updates come from the GitHub releases of the plugin, not from WordPress.org.
 
 == Changelog ==
+
+= 0.3.4 =
+* Updates: on a multisite network, the GitHub release is now checked once for the whole network instead of once per site.
+* Release packaging: the archive is built from the files known to git, and coding standards are checked before publishing.
 
 = 0.3.3 =
 * Map: the location button now sits under the map, with its icon and a text, instead of a small icon inside the map.
