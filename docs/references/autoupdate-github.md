@@ -19,11 +19,15 @@ La version vient de `GET /repos/{owner}/{repo}/releases/latest`. La compatibilit
 - **Classe préfixée :** `WSFIGN_Updater`. Une classe au nom générique entrerait en conflit avec un autre plugin.
 - **Archive jointe obligatoire :** sans `<slug>-X.Y.Z.zip`, pas de mise à jour. Le zipball de GitHub contient tout le dépôt.
 - **Hôte vérifié :** l'archive doit venir de `github.com` en HTTPS. Les champs de la réponse sont lus sans présumer de leur type.
-- **Cache :** 12 h après un succès, 1 h après un échec. L'API anonyme est limitée à 60 requêtes par heure et par IP, vite atteintes sur un mutualisé.
+- **Cache :** 12 h après un succès, 1 h après un échec. L'API anonyme est limitée à 60 requêtes par heure et par IP, vite atteintes sur un mutualisé. C'est un transient de site (`get_site_transient`), comme `update_plugins` : sur un multisite, un seul appel sert tout le réseau.
 
 ## Publier une version
 
-Sur un tag `v*`, le workflow vérifie que le tag égale la version du plugin, construit l'archive en respectant `.distignore`, contrôle son contenu et publie la release. Il refuse un tag qui ne correspond pas.
+Sur un tag `v*`, le workflow vérifie que le tag égale la version du plugin, lance PHPCS, construit l'archive, contrôle son contenu et publie la release avec `--verify-tag`. Il refuse un tag qui ne correspond pas.
+
+L'archive part des fichiers connus de git (`git ls-files --cached --others --exclude-standard`), puis `.distignore` retire les fichiers de développement. Un fichier ignoré par git n'y entre jamais, même en build local. Un fichier nouveau mais non ignoré y entre : ajoute-le à `.gitignore` s'il ne doit pas partir.
+
+`actions/checkout` est épinglé sur le commit de v7.0.1, avec `persist-credentials: false`.
 
 Tester une vraie mise à jour : voir `docs/dev-ddev.md`, car le lab monte le dépôt lui-même.
 
@@ -42,3 +46,4 @@ Ses règles interdisent à un plugin de se mettre à jour depuis une autre sourc
 - Un 404, un 403 de limite ou un délai dépassé ne produisent ni erreur visible ni ralentissement.
 - Une release sans archive ne propose pas de mise à jour.
 - Des réponses GitHub malformées ou une archive hors de github.com sont ignorées sans erreur.
+- Cache, avec des réponses simulées par `pre_http_request` : trois lectures déclenchent un seul passage chez GitHub (la release et son manifeste), et un échec reste en cache 1 h. Vérifié sur un site simple, pas sur un vrai multisite.

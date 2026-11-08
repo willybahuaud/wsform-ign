@@ -13,13 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Recuperer le code
-        # Epingle sur le commit de v4 : un tag peut etre deplace, et ce job peut publier.
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        # Epingle sur le commit de v7.0.1 (Node 24) : un tag peut etre deplace, et ce job peut publier.
+        # Le jeton d'ecriture ne reste pas dans .git/config pendant l'execution de Composer.
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
 
       - name: Verifier que le tag correspond a la version du plugin
         run: bash bin/check-tag.sh "$GITHUB_REF_NAME"
+
+      - name: Installer les outils de developpement
+        run: composer install --no-interaction --no-progress
+
+      - name: Verifier les standards de code
+        run: vendor/bin/phpcs -q
 
       - name: Construire l'archive et le manifeste
         run: bash bin/build-release.sh "$GITHUB_WORKSPACE/dist"
@@ -34,4 +41,4 @@ jobs:
       - name: Publier la release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" dist/* --title "$GITHUB_REF_NAME" --generate-notes
+        run: gh release create "$GITHUB_REF_NAME" dist/* --title "$GITHUB_REF_NAME" --generate-notes --verify-tag

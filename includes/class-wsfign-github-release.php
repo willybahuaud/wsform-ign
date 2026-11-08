@@ -87,11 +87,14 @@ class WSFIGN_GitHub_Release {
 	 * Un échec reste en cache : l'API anonyme est limitée à 60 requêtes par heure et
 	 * par IP, vite atteintes sur un mutualisé, et chaque appel raté ralentirait l'admin.
 	 *
+	 * Le cache est celui du réseau, comme update_plugins : sur un multisite, un seul
+	 * appel sert tous les sites, au lieu d'un appel par site.
+	 *
 	 * @return array|string Release, ou le marqueur d'échec.
 	 */
 	private function load() {
 		$cache_key = $this->slug . '_github_release';
-		$cached    = get_transient( $cache_key );
+		$cached    = get_site_transient( $cache_key );
 
 		if ( false !== $cached ) {
 			return $cached;
@@ -100,11 +103,11 @@ class WSFIGN_GitHub_Release {
 		$release = $this->fetch();
 
 		if ( null === $release ) {
-			set_transient( $cache_key, self::FAILURE_SENTINEL, self::FAILURE_CACHE );
+			set_site_transient( $cache_key, self::FAILURE_SENTINEL, self::FAILURE_CACHE );
 			return self::FAILURE_SENTINEL;
 		}
 
-		set_transient( $cache_key, $release, self::SUCCESS_CACHE );
+		set_site_transient( $cache_key, $release, self::SUCCESS_CACHE );
 
 		return $release;
 	}
